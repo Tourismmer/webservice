@@ -1,26 +1,49 @@
 package com.tourismmer.app.model;
 
-import java.util.Date;
+import java.util.Calendar;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.tourismmer.app.util.ViewConstants;
 
-
+@Entity
+@Table
 public class User extends Model {
 	
+	@Id
+	@GeneratedValue
+	@Column(name = "us_id")
+	public Long id = null;
+	
+	@Column(name = "us_name")
 	public String name = ViewConstants.VAZIO;
 	
+	@Column(name = "us_city")
 	public String city = ViewConstants.VAZIO;
 	
-	private Date birthday = null;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "us_birthday")
+	private Calendar birthday = null;
 	
+	@Column(name = "us_email")
 	public String email = ViewConstants.VAZIO;
 	
+	@Column(name = "us_pass")
 	public String pass = ViewConstants.VAZIO;
 	
+	@Column(name = "us_gender")
 	public String gender = ViewConstants.VAZIO;
 	
+	@Column(name = "us_relationship_status")
 	public String relationshipStatus = ViewConstants.VAZIO;
 	
+	@Column(name = "us_facebook_id")
 	public String facebookId = ViewConstants.VAZIO;
 	
     public User() {
@@ -42,11 +65,11 @@ public class User extends Model {
 		this.city = city;
 	}
 
-	public Date getBirthday() {
+	public Calendar getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(Calendar birthday) {
 		this.birthday = birthday;
 	}
 
@@ -88,6 +111,14 @@ public class User extends Model {
 
 	public void setFacebookId(String facebookId) {
 		this.facebookId = facebookId;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
     
 }

@@ -5,12 +5,12 @@
 	<artifactId>tourismmer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	
-	 <properties>
-	    <com.google.code.gson.version>2.2.4</com.google.code.gson.version>
-	    <com.sun.jersey.version>1.18</com.sun.jersey.version>
-	    <org.glassfish.jersey.media.version>2.11</org.glassfish.jersey.media.version>
-	  </properties>
+
+	<properties>
+		<com.google.code.gson.version>2.2.4</com.google.code.gson.version>
+		<com.sun.jersey.version>1.18</com.sun.jersey.version>
+		<org.glassfish.jersey.media.version>2.11</org.glassfish.jersey.media.version>
+	</properties>
 
 	<dependencies>
 
@@ -27,11 +27,13 @@
 			<artifactId>jersey-server</artifactId>
 			<version>${com.sun.jersey.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-core</artifactId>
 			<version>${com.sun.jersey.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-servlet</artifactId>
@@ -48,6 +50,54 @@
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson1</artifactId>
 			<version>${org.glassfish.jersey.media.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.0.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-osgi</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-envers</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-proxool</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-infinispan</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>4.3.5.Final</version>
 		</dependency>
 
 	</dependencies>
