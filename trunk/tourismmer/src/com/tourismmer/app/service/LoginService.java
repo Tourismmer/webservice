@@ -3,6 +3,7 @@ package com.tourismmer.app.service;
 import java.util.Date;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -13,10 +14,15 @@ import com.tourismmer.app.model.User;
 @Path("/loginService")
 public class LoginService {
 	
-	@GET
+	@POST
 	@Path("/register")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User register() {
+	public User register(User userParam) {
+		
+		
+		
+		
+		
 
 		User user = new User();
 		user.setStatusCode("1");
