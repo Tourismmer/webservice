@@ -1,94 +1,30 @@
 package com.tourismmer.app.model;
 
 import java.util.Date;
-import java.util.List;
 
-import com.tourismmer.app.util.Util;
+import com.tourismmer.app.util.ViewConstants;
 
-public class User {
+
+public class User extends Model {
 	
-	private Long id;
-
-    private Long fbID;
-
-    private int type;
-
-    private String name;
-
-    private String email;
-
-    private String password;
-
-    private Long numberJoins;
-
-    private String level;
-
-    private String address;
-    
-    private List<Trip> luggage;
-    
-    private Long situation;
-
-    private Date birthDate;
-    
-    private String location;
-
-    private String gender;
-
-    private String relStatus;
-
-    private String latitute;
-
-    private String longitute;
-    
-    private List<Chat> chats;
-    
+	public String name = ViewConstants.VAZIO;
+	
+	public String city = ViewConstants.VAZIO;
+	
+	private Date birthday = null;
+	
+	public String email = ViewConstants.VAZIO;
+	
+	public String pass = ViewConstants.VAZIO;
+	
+	public String gender = ViewConstants.VAZIO;
+	
+	public String relationshipStatus = ViewConstants.VAZIO;
+	
+	public String facebookId = ViewConstants.VAZIO;
+	
     public User() {
     }
-    
-	public Trip lateTrip() {
-		if (luggage == null || luggage.size() == 0)
-          {
-              return null;
-          }
-          else
-          {
-              return luggage.get(0);
-          }
-	}
-	
-	public String getBirthDateFormatate() {
-		return Util.formatDate(birthDate);
-	}
-	
-	public String getUrlIdEncrypted() {
-		 return "/Profile?profile=" /* + Util.Encrypt(id.toString(), Constants.ENCRYPT_KEY) */;
-	}
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getFbID() {
-		return fbID;
-	}
-
-	public void setFbID(Long fbID) {
-		this.fbID = fbID;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
 
 	public String getName() {
 		return name;
@@ -96,6 +32,22 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
 	public String getEmail() {
@@ -106,68 +58,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPass() {
+		return pass;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Long getNumberJoins() {
-		return numberJoins;
-	}
-
-	public void setNumberJoins(Long numberJoins) {
-		this.numberJoins = numberJoins;
-	}
-
-	public String getLevel() {
-		return level;
-	}
-
-	public void setLevel(String level) {
-		this.level = level;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public List<Trip> getLuggage() {
-		return luggage;
-	}
-
-	public void setLuggage(List<Trip> luggage) {
-		this.luggage = luggage;
-	}
-
-	public Long getSituation() {
-		return situation;
-	}
-
-	public void setSituation(Long situation) {
-		this.situation = situation;
-	}
-
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
 	public String getGender() {
@@ -178,37 +74,20 @@ public class User {
 		this.gender = gender;
 	}
 
-	public String getRelStatus() {
-		return relStatus;
+	public String getRelationshipStatus() {
+		return relationshipStatus;
 	}
 
-	public void setRelStatus(String relStatus) {
-		this.relStatus = relStatus;
+	public void setRelationshipStatus(String relationshipStatus) {
+		this.relationshipStatus = relationshipStatus;
 	}
 
-	public String getLatitute() {
-		return latitute;
+	public String getFacebookId() {
+		return facebookId;
 	}
 
-	public void setLatitute(String latitute) {
-		this.latitute = latitute;
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
 	}
-
-	public String getLongitute() {
-		return longitute;
-	}
-
-	public void setLongitute(String longitute) {
-		this.longitute = longitute;
-	}
-
-	public List<Chat> getChats() {
-		return chats;
-	}
-
-	public void setChats(List<Chat> chats) {
-		this.chats = chats;
-	}
-
     
 }

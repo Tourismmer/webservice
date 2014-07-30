@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
 <meta charset="utf-8">
 <title>data demo</title>
@@ -15,18 +16,16 @@ span {
 </head>
 <body>
 
-	<span id="banda"> Banda: </span> <br />
-	<span id="titulo"> Titulo: </span> <br />
+	<span id="retorno"> </span>
 
 	<script>
 	$.ajax({
-		  url: "http://localhost:8080/tourismmer/service/json/metallica/getTrackInJSON",
+		  url: "http://localhost:8080/tourismmer/service/loginService/register",
 		  data: {
 		    
 		  },
 		  success: function( data ) {
-		    $( "#banda" ).html( "<strong>" + data.singer + "</strong>" );
-		    $( "#titulo" ).html( "<strong>" + data.title + "</strong>" );
+		    $( "#retorno" ).html(data);
 		  }
 		});
 	</script>
