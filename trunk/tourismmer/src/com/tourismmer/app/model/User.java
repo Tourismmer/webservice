@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.tourismmer.app.util.ViewConstants;
+import com.tourismmer.app.constants.Constants;
 
 @Entity
 @Table
@@ -22,29 +22,29 @@ public class User extends Model {
 	public Long id = null;
 	
 	@Column(name = "us_name")
-	public String name = ViewConstants.VAZIO;
+	public String name = Constants.VAZIO;
 	
 	@Column(name = "us_city")
-	public String city = ViewConstants.VAZIO;
+	public String city = Constants.VAZIO;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "us_birthday")
 	private Calendar birthday = null;
 	
 	@Column(name = "us_email")
-	public String email = ViewConstants.VAZIO;
+	public String email = Constants.VAZIO;
 	
 	@Column(name = "us_pass")
-	public String pass = ViewConstants.VAZIO;
+	public String pass = Constants.VAZIO;
 	
 	@Column(name = "us_gender")
-	public String gender = ViewConstants.VAZIO;
+	public String gender = Constants.VAZIO;
 	
 	@Column(name = "us_relationship_status")
-	public String relationshipStatus = ViewConstants.VAZIO;
+	public String relationshipStatus = Constants.VAZIO;
 	
 	@Column(name = "us_facebook_id")
-	public String facebookId = ViewConstants.VAZIO;
+	public String facebookId = Constants.VAZIO;
 	
     public User() {
     }

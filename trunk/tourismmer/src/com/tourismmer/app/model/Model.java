@@ -1,12 +1,12 @@
 package com.tourismmer.app.model;
 
-import com.tourismmer.app.util.ViewConstants;
+import com.tourismmer.app.constants.Constants;
 
 public abstract class Model {
 	
-	public String statusCode = ViewConstants.VAZIO;
+	public String statusCode = Constants.VAZIO;
 	
-	public String statusText = ViewConstants.VAZIO;
+	public String statusText = Constants.VAZIO;
 	
 	public String getStatusCode() {
 		return statusCode;

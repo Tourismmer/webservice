@@ -11,6 +11,9 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.constants.Numeros;
+
 public class Util {
 
 	public static final String FORMATO_DATA = "dd/MM/yyyy";
@@ -164,7 +167,7 @@ public class Util {
 
 	}
 
-	public static boolean validarCamposRequeridos(Object[] campos) {
+	public static boolean validateParametersRequired(Object[] campos) {
 		if (isNotNull(campos) && (campos.length > 0)) {
 			for (int i = 0; i < campos.length; i++) {
 				if (isEmptyOrNull(campos[i])
@@ -185,7 +188,7 @@ public class Util {
 	public static String removerFormatacao(String param) {
 
 		if (isEmptyOrNull(param)) {
-			return ViewConstants.VAZIO;
+			return Constants.VAZIO;
 		}
 		param = getString(param);
 
@@ -224,7 +227,7 @@ public class Util {
 		try {
 			return format.format(date);
 		} catch (Exception e) {
-			return ViewConstants.VAZIO;
+			return Constants.VAZIO;
 		}
 	}
 	
@@ -233,7 +236,7 @@ public class Util {
 		try {
 			return format.format(date);
 		} catch (Exception e) {
-			return ViewConstants.VAZIO;
+			return Constants.VAZIO;
 		}
 	}
 
@@ -261,7 +264,7 @@ public class Util {
 
 		// Testa Strings vazias
 		else if (object instanceof String) {
-			retorno = object.toString().trim().equals(ViewConstants.VAZIO);
+			retorno = object.toString().trim().equals(Constants.VAZIO);
 		}
 
 		// Testa Vetores vazios
