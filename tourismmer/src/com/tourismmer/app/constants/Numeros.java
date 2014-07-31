@@ -1,4 +1,4 @@
-package com.tourismmer.app.util;
+package com.tourismmer.app.constants;
 
 public class Numeros {
 	
