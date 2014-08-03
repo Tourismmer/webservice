@@ -10,9 +10,9 @@
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/tourismmer" />
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="root" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://tourismmer.cjvmtyuing6f.sa-east-1.rds.amazonaws.com/tourismmerDB" />
+			<property name="javax.persistence.jdbc.user" value="tourismmer" />
+			<property name="javax.persistence.jdbc.password" value="ffbola2013" />
 		</properties>
 	</persistence-unit>
 </persistence>
