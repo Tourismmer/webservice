@@ -52,7 +52,7 @@ public class UserDAO {
 			
 			Query query = manager.createQuery("select u from User as u where u.name = ?");
 			
-			query.setParameter(1, Util.getString(userParam.getName()));
+			query.setParameter(1, Util.getString(userParam.getName())); 
 			
 			List<User> list = query.getResultList();
 			
