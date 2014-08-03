@@ -1,11 +1,15 @@
 package com.tourismmer.app.dao;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.User;
@@ -37,6 +41,8 @@ public class UserDAO {
 		} catch (Exception e) {
 			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
 			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
 		}
 		
 		return userParam;
