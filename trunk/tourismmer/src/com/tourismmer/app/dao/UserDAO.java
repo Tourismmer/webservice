@@ -1,7 +1,6 @@
 package com.tourismmer.app.dao;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -60,12 +59,13 @@ public class UserDAO {
 			
 			query.setParameter(1, Util.getString(userParam.getName())); 
 			
+			@SuppressWarnings("unchecked")
 			List<User> list = query.getResultList();
 			
 			if(list.size()>0) {
+				userParam = list.get(0);
 				userParam.setStatusCode(Messages.USER_LOGGED.getStatusCode());
 				userParam.setStatusText(Messages.USER_LOGGED.getStatusText());
-				userParam = list.get(0);
 			} else {
 				userParam.setStatusCode(Messages.USER_PASS_INVALID.getStatusCode());
 				userParam.setStatusText(Messages.USER_PASS_INVALID.getStatusText());

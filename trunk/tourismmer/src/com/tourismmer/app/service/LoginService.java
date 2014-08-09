@@ -6,8 +6,10 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,14 +46,13 @@ public class LoginService {
 		user = dao.register(user);
 
 		return user;
-	
 	}
 	
 	@POST
 	@Path("/register")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User register(User userParam) {
+	public Response register(User userParam) {
 		
 		try {
 		
@@ -61,8 +62,15 @@ public class LoginService {
 			if(Util.validateParametersRequired(campos)) {
 				userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
 				userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
-				return userParam;
+				
+			} else {
+				UserDAO dao = new UserDAO();
+				userParam = dao.register(userParam);
 			}
+			
+		} catch (Exception e) {
+			userParam.setStatusText(e.getMessage() + " - " + e.getStackTrace().toString());
+		}
 
 //		User user = new User();
 //		user.setStatusCode("1");
@@ -75,35 +83,33 @@ public class LoginService {
 //		user.setGender("male");
 //		user.setPass("123");
 //		user.setRelationshipStatus("In a relationship");
-		
-			UserDAO dao = new UserDAO();
-			userParam = dao.register(userParam);
-		} catch (Exception e) {
-			userParam.setStatusText(e.getMessage() + " - " + e.getStackTrace().toString());
-		}
 
-		return userParam;
+		return Response.status(200).entity(userParam).build();
 	
 	}
 	
-	@POST
-	@Path("/login")
+	@GET
+	@Path("/login/{name}/{email}/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User login(User userParam) {
+	public User login(@PathParam("name") String name, @PathParam("email") String email) {
 		
-		Object[] campos = {userParam, userParam.getName(), userParam.getEmail()};
+		User user = new User();
+		user.setName(name);
+		user.setEmail(email);
+		
+		Object[] campos = {user.getName(), user.getEmail()};
 		
 		if(Util.validateParametersRequired(campos)) {
-			userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
-			return userParam;
+			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
+			return user;
 		}
 		
 		UserDAO dao = new UserDAO();
-		userParam = dao.login(userParam);
+		user = dao.login(user);
 
-		return userParam;
+		return user;
 	
 	}
 
