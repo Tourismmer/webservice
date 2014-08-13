@@ -55,9 +55,10 @@ public class UserDAO {
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
 			EntityManager manager = factory.createEntityManager();
 			
-			Query query = manager.createQuery("select u from User as u where u.name = ?");
+			Query query = manager.createQuery("select u from User as u where u.email = ? and u.pass = ?");
 			
-			query.setParameter(1, Util.getString(userParam.getName())); 
+			query.setParameter(1, Util.getString(userParam.getEmail()));
+			query.setParameter(2, Util.getString(userParam.getPass())); 
 			
 			@SuppressWarnings("unchecked")
 			List<User> list = query.getResultList();

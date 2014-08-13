@@ -89,16 +89,16 @@ public class LoginService {
 	}
 	
 	@GET
-	@Path("/login/{name}/{email}/")
+	@Path("/login/{email}/{pass}/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User login(@PathParam("name") String name, @PathParam("email") String email) {
+	public User login(@PathParam("email") String email, @PathParam("pass") String pass) {
 		
 		User user = new User();
-		user.setName(name);
 		user.setEmail(email);
+		user.setPass(pass);
 		
-		Object[] campos = {user.getName(), user.getEmail()};
+		Object[] campos = {user.getEmail(), user.getPass()};
 		
 		if(Util.validateParametersRequired(campos)) {
 			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
