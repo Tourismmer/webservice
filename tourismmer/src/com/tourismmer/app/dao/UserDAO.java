@@ -28,8 +28,33 @@ public class UserDAO {
 			
 			manager.getTransaction().begin();    
 			manager.persist(userParam);
-			userParam.getId();
+			manager.getTransaction().commit(); 
 			
+			userParam.setStatusCode(Messages.REGISTER_SUCCESS.getStatusCode());
+			userParam.setStatusText(Messages.REGISTER_SUCCESS.getStatusText());
+			
+			manager.close();
+		
+		} catch (Exception e) {
+			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
+		}
+		
+		return userParam;
+		
+	}
+	
+	public User update(User userParam) {
+		
+		try {
+		
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
+			EntityManager manager = factory.createEntityManager();
+			
+			manager.getTransaction().begin();    
+			manager.merge(userParam);
 			manager.getTransaction().commit(); 
 			
 			userParam.setStatusCode(Messages.REGISTER_SUCCESS.getStatusCode());
@@ -55,21 +80,28 @@ public class UserDAO {
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
 			EntityManager manager = factory.createEntityManager();
 			
-			Query query = manager.createQuery("select u from User as u where u.email = ? and u.pass = ?");
+			Query query = manager.createQuery("select u from User as u where u.email = ?");
 			
 			query.setParameter(1, Util.getString(userParam.getEmail()));
-			query.setParameter(2, Util.getString(userParam.getPass())); 
 			
 			@SuppressWarnings("unchecked")
 			List<User> list = query.getResultList();
 			
 			if(list.size()>0) {
-				userParam = list.get(0);
-				userParam.setStatusCode(Messages.USER_LOGGED.getStatusCode());
-				userParam.setStatusText(Messages.USER_LOGGED.getStatusText());
+				
+				if(userParam.getPass().equals(list.get(0).getPass())) {
+					userParam = list.get(0);
+					userParam.setStatusCode(Messages.USER_LOGGED.getStatusCode());
+					userParam.setStatusText(Messages.USER_LOGGED.getStatusText());
+					
+				} else {
+					userParam.setStatusCode(Messages.USER_PASS_INVALID.getStatusCode());
+					userParam.setStatusText(Messages.USER_PASS_INVALID.getStatusText());
+				}
+				
 			} else {
-				userParam.setStatusCode(Messages.USER_PASS_INVALID.getStatusCode());
-				userParam.setStatusText(Messages.USER_PASS_INVALID.getStatusText());
+				userParam.setStatusCode(Messages.USER_NOT_REGISTERED.getStatusCode());
+				userParam.setStatusText(Messages.USER_NOT_REGISTERED.getStatusText());
 			}
 			
 			manager.close();

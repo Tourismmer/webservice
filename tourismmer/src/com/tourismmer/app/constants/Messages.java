@@ -6,7 +6,8 @@ public enum Messages {
 	USER_LOGGED ("002","User Logged"),
 	USER_PASS_INVALID ("003","User or Pass Invalid"),
 	PARAMETERS_REQUIRED ("004","Parameters Required"),
-	ERROR_QUERYING_DATABASE ("005","Error Querying the Database");
+	ERROR_QUERYING_DATABASE ("005","Error Querying the Database"),
+	USER_NOT_REGISTERED ("006","User not Registered");
 	
 	private final String statusCode;
 	
