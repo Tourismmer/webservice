@@ -19,9 +19,10 @@ span {
 
 	<script>
 	$.ajax({
-		  type: "GET",
+		  type: "PUT",
+		  data: '{"id":"13","name":"Teste 3","city":"Teste","birthday":1406689915530,"email":"flavioso16@gmail.co,","pass":"123","gender":"male","relationshipStatus":"In a relationship","facebookId":"1"}',
 		  contentType: "application/json; charset=utf-8",
-		  url: "http://localhost:8080/tourismmer/service/loginService/login/flavioso16@gmail.com/123",
+		  url: "http://localhost:8080/tourismmer/resources/users",
 		  success: function( data ) {
 			  document.write(data.statusText);
 		  },
