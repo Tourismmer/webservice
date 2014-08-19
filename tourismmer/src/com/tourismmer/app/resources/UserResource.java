@@ -10,12 +10,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.constants.Labels;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.dao.UserDAO;
 import com.tourismmer.app.model.User;
 import com.tourismmer.app.util.Util;
 
-@Path("/users")
+@Path("/user")
 public class UserResource {
 	
 	@POST
@@ -24,17 +26,31 @@ public class UserResource {
 	public Response create(User userParam) {
 		
 		try {
-		
-			Object[] campos = {userParam, userParam.getName(), userParam.getCity(), userParam.getEmail(),
-					userParam.getPass(), userParam.getFacebookId(), userParam.getBirthday()};
 			
-			if(Util.validateParametersRequired(campos)) {
-				userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-				userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
+			String invalidFields = null;
+			Object[] fields = null;
+			String[] labels = null;
+			
+			if(Util.isEmptyOrNullOrZero(userParam.getFacebookId())) {
+				fields = new Object[]{userParam.getName(), userParam.getCity(), userParam.getEmail(),
+						userParam.getPass(), userParam.getBirthday()};
+				labels = new String[]{Labels.NAME, Labels.CITY, Labels.EMAIL, Labels.PASS, Labels.BIRTHDAY};
 				
 			} else {
+				fields = new Object[]{userParam.getName(), userParam.getCity(), userParam.getEmail(),
+						userParam.getFacebookId(), userParam.getBirthday()};
+				labels = new String[]{Labels.NAME, Labels.CITY, Labels.EMAIL, Labels.FACEBOOKID, Labels.BIRTHDAY};
+			}
+			
+			invalidFields = Util.validateParametersRequired(fields, labels);
+			
+			if(Util.isEmptyOrNull(invalidFields)) {
 				UserDAO dao = new UserDAO();
-				userParam = dao.register(userParam);
+				userParam = dao.create(userParam);
+				
+			} else {
+				userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+				userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + Constants.COLON_SPACE + invalidFields);
 			}
 			
 		} catch (Exception e) {
@@ -42,24 +58,68 @@ public class UserResource {
 		}
 
 		return Response.status(200).entity(userParam).build();
+	}
 	
+	@GET
+	@Path("/facebook/{facebookId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User getUserFacebook(@PathParam(Labels.FACEBOOKID) String facebookId) {
+		
+		User user = new User();
+		user.setFacebookId(facebookId);
+		
+		if(Util.isEmptyOrNull(facebookId)) {
+			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  Constants.COLON_SPACE + Labels.FACEBOOKID);
+			return user;
+		}
+		
+		UserDAO dao = new UserDAO();
+		user = dao.loginFacebook(user);
+
+		return user;
+	}
+	
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User getUser(@PathParam(Labels.ID) Long id) {
+		
+		User user = new User();
+		user.setId(id);
+		
+		if(Util.isEmptyOrNull(id)) {
+			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  Constants.COLON_SPACE + Labels.ID);
+			return user;
+		}
+		
+		UserDAO dao = new UserDAO();
+		user = dao.getUser(user);
+
+		return user;
 	}
 	
 	@GET
 	@Path("/{email}/{pass}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User read(@PathParam("email") String email, @PathParam("pass") String pass) {
+	public User read(@PathParam(Labels.EMAIL) String email, @PathParam(Labels.PASS) String pass) {
 		
 		User user = new User();
 		user.setEmail(email);
 		user.setPass(pass);
 		
-		Object[] campos = {user.getEmail(), user.getPass()};
+		Object[] fields = {user.getEmail(), user.getPass()};
+		String[] labels = {Labels.EMAIL, Labels.PASS};
 		
-		if(Util.validateParametersRequired(campos)) {
+		String invalidFields = Util.validateParametersRequired(fields, labels);
+		
+		if(!Util.isEmptyOrNull(invalidFields)) {
 			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
+			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + Constants.COLON_SPACE + invalidFields);
 			return user;
 		}
 		
