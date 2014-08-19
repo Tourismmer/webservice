@@ -43,7 +43,7 @@ public class LoginService {
 		log.info("teste");
 		
 		UserDAO dao = new UserDAO();
-		user = dao.register(user);
+		user = dao.create(user);
 
 		return user;
 	}
@@ -65,7 +65,7 @@ public class LoginService {
 				
 			} else {
 				UserDAO dao = new UserDAO();
-				userParam = dao.register(userParam);
+				userParam = dao.create(userParam);
 			}
 			
 		} catch (Exception e) {

@@ -6,14 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.tourismmer.app.constants.Constants;
 
 @Entity
-@Table
 public class User extends Model {
 	
 	@Id
@@ -22,29 +20,29 @@ public class User extends Model {
 	public Long id = null;
 	
 	@Column(name = "us_name")
-	public String name = Constants.VAZIO;
+	public String name = Constants.EMPYT;
 	
 	@Column(name = "us_city")
-	public String city = Constants.VAZIO;
+	public String city = Constants.EMPYT;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "us_birthday")
 	private Calendar birthday = null;
 	
 	@Column(name = "us_email")
-	public String email = Constants.VAZIO;
+	public String email = Constants.EMPYT;
 	
 	@Column(name = "us_pass")
-	public String pass = Constants.VAZIO;
+	public String pass = Constants.EMPYT;
 	
 	@Column(name = "us_gender")
-	public String gender = Constants.VAZIO;
+	public String gender = Constants.EMPYT;
 	
 	@Column(name = "us_relationship_status")
-	public String relationshipStatus = Constants.VAZIO;
+	public String relationshipStatus = Constants.EMPYT;
 	
 	@Column(name = "us_facebook_id")
-	public String facebookId = Constants.VAZIO;
+	public String facebookId = Constants.EMPYT;
 	
     public User() {
     }

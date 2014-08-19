@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.TreeMap;
@@ -20,11 +19,11 @@ public class Util {
 
 	public static final String FORMATO_DATA_MYSQL = "yyyy-MM-dd";
 
-	public static Boolean validEmail(String email) {
-		Boolean emailInvalido = Boolean.FALSE;
+	public static Boolean validateEmail(String email) {
+		Boolean invalidEmail = Boolean.FALSE;
 
 		if (isEmptyOrNull(email)) {
-			emailInvalido = Boolean.TRUE;
+			invalidEmail = Boolean.TRUE;
 
 		} else {
 
@@ -33,15 +32,15 @@ public class Util {
 			Matcher m = p.matcher(email);
 
 			if (!m.find()) {
-				emailInvalido = Boolean.TRUE;
+				invalidEmail = Boolean.TRUE;
 			}
 
 		}
 
-		return emailInvalido;
+		return invalidEmail;
 	}
 
-	public static Boolean validaCPF(String strCpf) {
+	public static Boolean validateCPF(String strCpf) {
 		int iDigito1Aux = 0, iDigito2Aux = 0, iDigitoCPF;
 		int iDigito1 = 0, iDigito2 = 0, iRestoDivisao = 0;
 		String strDigitoVerificador, strDigitoResultado;
@@ -88,7 +87,7 @@ public class Util {
 		return cpfInvalido;
 	}
 
-	public static Boolean validaCNPJ(String strCNPJ) {
+	public static Boolean validateCNPJ(String strCNPJ) {
 		int iSoma = 0, iDigito;
 		char[] chCaracteresCNPJ;
 		String strCNPJ_Calculado;
@@ -149,46 +148,46 @@ public class Util {
 			return false;
 	}
 
-	public static Boolean validarMaiorIdade(Date dataUsuario) {
-		Boolean usuarioMenor = Boolean.FALSE;
-		if (isNull(dataUsuario)) {
-			return Boolean.TRUE;
-
-		}
-
-		Calendar dataMaxima = Calendar.getInstance();
-		dataMaxima.add(Calendar.YEAR, -18);
-
-		if (dataMaxima.getTime().after(dataUsuario)) {
-			usuarioMenor = Boolean.TRUE;
-		}
-
-		return usuarioMenor;
-
-	}
-
-	public static boolean validateParametersRequired(Object[] campos) {
-		if (isNotNull(campos) && (campos.length > 0)) {
-			for (int i = 0; i < campos.length; i++) {
-				if (isEmptyOrNull(campos[i])
-						|| campos[i].toString().equals(
+	public static boolean validateParametersRequired(Object[] fields) {
+		if (isNotNull(fields) && (fields.length > 0)) {
+			for (int i = 0; i < fields.length; i++) {
+				if (isEmptyOrNull(fields[i])
+						|| fields[i].toString().equals(
 								String.valueOf(Numeros.ZERO))
-						|| campos[i].toString().equals("0.0")) {
+						|| fields[i].toString().equals("0.0")) {
 					return Boolean.TRUE;
 				}
 			}
 		}
 		return Boolean.FALSE;
 	}
+	
+	public static String validateParametersRequired(Object[] fields, String[] labels) {
+		String invalidFields = Constants.EMPYT;
+		Boolean isInvalid = Boolean.FALSE;
+		if (isNotNull(fields) && (fields.length > 0)) {
+			for (int i = 0; i < fields.length; i++) {
+				if (isEmptyOrNull(fields[i])
+						|| fields[i].toString().equals(
+								String.valueOf(Numeros.ZERO))
+						|| fields[i].toString().equals("0.0")) {
+					invalidFields += labels[i] + ", ";
+					isInvalid = Boolean.TRUE;
+				}
+			}
+		}
+		if(isInvalid) invalidFields = invalidFields.substring(0,invalidFields.length()-2);
+		return invalidFields;
+	}
 
 	public static boolean isNotNull(Object object) {
 		return object != null;
 	}
 
-	public static String removerFormatacao(String param) {
+	public static String removeFormatting(String param) {
 
 		if (isEmptyOrNull(param)) {
-			return Constants.VAZIO;
+			return Constants.EMPYT;
 		}
 		param = getString(param);
 
@@ -227,7 +226,7 @@ public class Util {
 		try {
 			return format.format(date);
 		} catch (Exception e) {
-			return Constants.VAZIO;
+			return Constants.EMPYT;
 		}
 	}
 	
@@ -236,7 +235,7 @@ public class Util {
 		try {
 			return format.format(date);
 		} catch (Exception e) {
-			return Constants.VAZIO;
+			return Constants.EMPYT;
 		}
 	}
 
@@ -264,7 +263,7 @@ public class Util {
 
 		// Testa Strings vazias
 		else if (object instanceof String) {
-			retorno = object.toString().trim().equals(Constants.VAZIO);
+			retorno = object.toString().trim().equals(Constants.EMPYT);
 		}
 
 		// Testa Vetores vazios

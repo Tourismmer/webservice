@@ -19,7 +19,7 @@ public class UserDAO {
 	public UserDAO() {
 	}
 	
-	public User register(User userParam) {
+	public User create(User userParam) {
 		
 		try {
 		
@@ -57,8 +57,8 @@ public class UserDAO {
 			manager.merge(userParam);
 			manager.getTransaction().commit(); 
 			
-			userParam.setStatusCode(Messages.REGISTER_SUCCESS.getStatusCode());
-			userParam.setStatusText(Messages.REGISTER_SUCCESS.getStatusText());
+			userParam.setStatusCode(Messages.UPDATE_SUCCESS.getStatusCode());
+			userParam.setStatusText(Messages.UPDATE_SUCCESS.getStatusText());
 			
 			manager.close();
 		
@@ -102,6 +102,76 @@ public class UserDAO {
 			} else {
 				userParam.setStatusCode(Messages.USER_NOT_REGISTERED.getStatusCode());
 				userParam.setStatusText(Messages.USER_NOT_REGISTERED.getStatusText());
+			}
+			
+			manager.close();
+		
+		} catch (Exception e) {
+			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+		}
+		
+		return userParam;
+		
+	}
+	
+	public User loginFacebook(User userParam) {
+		
+		try {
+		
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
+			EntityManager manager = factory.createEntityManager();
+			
+			Query query = manager.createQuery("select u from User as u where u.facebookId = ?");
+			query.setParameter(1, Util.getString(userParam.getFacebookId()));
+			
+			@SuppressWarnings("unchecked")
+			List<User> list = query.getResultList();
+			
+			if(list.size()>0) {
+				
+				userParam = list.get(0);
+				userParam.setStatusCode(Messages.USER_LOGGED.getStatusCode());
+				userParam.setStatusText(Messages.USER_LOGGED.getStatusText());
+					
+			} else {
+				userParam.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+				userParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
+			}
+			
+			manager.close();
+		
+		} catch (Exception e) {
+			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+		}
+		
+		return userParam;
+		
+	}
+	
+	public User getUser(User userParam) {
+		
+		try {
+		
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
+			EntityManager manager = factory.createEntityManager();
+			
+			Query query = manager.createQuery("select u from User as u where u.id = ?");
+			query.setParameter(1, Util.getLong(userParam.getId()));
+			
+			@SuppressWarnings("unchecked")
+			List<User> list = query.getResultList();
+			
+			if(list.size()>0) {
+				
+				userParam = list.get(0);
+				userParam.setStatusCode(Messages.QUERY_SUCCESS.getStatusCode());
+				userParam.setStatusText(Messages.QUERY_SUCCESS.getStatusText());
+					
+			} else {
+				userParam.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+				userParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
 			manager.close();

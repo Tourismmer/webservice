@@ -4,9 +4,9 @@ import com.tourismmer.app.constants.Constants;
 
 public abstract class Model {
 	
-	public String statusCode = Constants.VAZIO;
+	public String statusCode = Constants.EMPYT;
 	
-	public String statusText = Constants.VAZIO;
+	public String statusText = Constants.EMPYT;
 	
 	public String getStatusCode() {
 		return statusCode;
