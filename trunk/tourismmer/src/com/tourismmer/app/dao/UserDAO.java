@@ -109,6 +109,8 @@ public class UserDAO {
 		} catch (Exception e) {
 			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
 			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
 		}
 		
 		return userParam;
@@ -144,6 +146,8 @@ public class UserDAO {
 		} catch (Exception e) {
 			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
 			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
 		}
 		
 		return userParam;
@@ -153,7 +157,7 @@ public class UserDAO {
 	public User getUser(User userParam) {
 		
 		try {
-		
+			
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
 			EntityManager manager = factory.createEntityManager();
 			
@@ -179,6 +183,8 @@ public class UserDAO {
 		} catch (Exception e) {
 			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
 			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
 		}
 		
 		return userParam;
