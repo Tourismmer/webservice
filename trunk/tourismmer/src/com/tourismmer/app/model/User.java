@@ -9,7 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.json.CalendarDeserializer;
+import com.tourismmer.app.json.CalendarSerializer;
 
 @Entity
 public class User extends Model {
@@ -27,6 +32,8 @@ public class User extends Model {
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "us_birthday")
+	@JsonDeserialize(using=CalendarDeserializer.class)
+	@JsonSerialize(using=CalendarSerializer.class)
 	private Calendar birthday = null;
 	
 	@Column(name = "us_email")
