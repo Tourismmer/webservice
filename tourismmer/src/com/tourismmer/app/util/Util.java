@@ -16,6 +16,8 @@ import com.tourismmer.app.constants.Numeros;
 public class Util {
 
 	public static final String FORMATO_DATA = "dd/MM/yyyy";
+	
+	public static final String FORMATO_DATA_JSON = "dd-MM-yyyy";
 
 	public static final String FORMATO_DATA_MYSQL = "yyyy-MM-dd";
 
