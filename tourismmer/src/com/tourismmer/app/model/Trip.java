@@ -1,10 +1,15 @@
 package com.tourismmer.app.model;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.tourismmer.app.constants.Constants;
@@ -15,7 +20,7 @@ public class Trip extends Model {
 	@Id
 	@GeneratedValue
 	@Column(name = "tr_id")
-	public Long id = null;
+	private Long id = null;
 	
 	@Column(name = "tr_destination")
 	private String destination = Constants.EMPYT;
@@ -27,6 +32,11 @@ public class Trip extends Model {
 	@JoinColumn(name = "tr_us_id")
 	private User user = new User();
 	
+	@ManyToMany
+	@JoinTable( name = "TripUser", 
+		joinColumns = @JoinColumn(name = "tu_tr_id"), inverseJoinColumns = @JoinColumn(name = "tu_us_id") )
+	private Collection<User> userList;
+
 	public Trip() {
 	}
 
@@ -60,6 +70,14 @@ public class Trip extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Collection<User> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(Collection<User> userList) {
+		this.userList = userList;
 	}
 
 }

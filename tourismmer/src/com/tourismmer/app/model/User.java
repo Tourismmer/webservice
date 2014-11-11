@@ -22,13 +22,13 @@ public class User extends Model {
 	@Id
 	@GeneratedValue
 	@Column(name = "us_id")
-	public Long id = null;
+	private Long id = null;
 	
 	@Column(name = "us_name")
-	public String name = Constants.EMPYT;
+	private String name = Constants.EMPYT;
 	
 	@Column(name = "us_city")
-	public String city = Constants.EMPYT;
+	private String city = Constants.EMPYT;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "us_birthday")
@@ -37,19 +37,19 @@ public class User extends Model {
 	private Calendar birthday = null;
 	
 	@Column(name = "us_email")
-	public String email = Constants.EMPYT;
+	private String email = Constants.EMPYT;
 	
 	@Column(name = "us_pass")
-	public String pass = Constants.EMPYT;
+	private String pass = Constants.EMPYT;
 	
 	@Column(name = "us_gender")
-	public String gender = Constants.EMPYT;
+	private String gender = Constants.EMPYT;
 	
 	@Column(name = "us_relationship_status")
-	public String relationshipStatus = Constants.EMPYT;
+	private String relationshipStatus = Constants.EMPYT;
 	
 	@Column(name = "us_facebook_id")
-	public String facebookId = Constants.EMPYT;
+	private String facebookId = Constants.EMPYT;
 	
     public User() {
     }
