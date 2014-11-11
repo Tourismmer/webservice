@@ -8,14 +8,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.tourismmer.app.constants.Messages;
-import com.tourismmer.app.model.Trip;
+import com.tourismmer.app.model.Group;
 
-public class TripDAO {
+public class GroupDAO {
 	
-	public TripDAO() {
+	public GroupDAO() {
 	}
 	
-	public Trip create(Trip tripParam) {
+	public Group create(Group tripParam) {
 		
 		try {
 		
