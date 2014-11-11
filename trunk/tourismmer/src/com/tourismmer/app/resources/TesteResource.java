@@ -10,8 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.tourismmer.app.constants.Labels;
-import com.tourismmer.app.dao.TripDAO;
-import com.tourismmer.app.model.Trip;
+import com.tourismmer.app.dao.GroupDAO;
+import com.tourismmer.app.model.Group;
 import com.tourismmer.app.model.User;
 
 @Path("/teste")
@@ -38,12 +38,12 @@ public class TesteResource {
 		User user = new User();
 		user.setId(1L);
 		
-		Trip trip = new Trip();
+		Group trip = new Group();
 		trip.setUser(user);
 		trip.setUserList(new ArrayList<User>());
 		trip.getUserList().add(user);
 		
-		TripDAO dao = new TripDAO();
+		GroupDAO dao = new GroupDAO();
 		dao.create(trip);
 
 		return "Creou";

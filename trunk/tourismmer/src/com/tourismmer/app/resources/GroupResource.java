@@ -5,11 +5,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.tourismmer.app.dao.TripDAO;
-import com.tourismmer.app.model.Trip;
+import com.tourismmer.app.dao.GroupDAO;
+import com.tourismmer.app.model.Group;
 
 @Path("/trip")
-public class TripResource {
+public class GroupResource {
 	
 //	@POST
 //	@Consumes(MediaType.APPLICATION_JSON)
@@ -45,14 +45,14 @@ public class TripResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Trip get() {
+	public Group get() {
 		
-		Trip trip = new Trip();
+		Group trip = new Group();
 		trip.setDestination("Orlando");
 		trip.setPurpose("Tour");
 		trip.getUser().setId(2L);
 		
-		TripDAO dao = new TripDAO();
+		GroupDAO dao = new GroupDAO();
 		dao.create(trip);
 
 		return trip;

@@ -2,7 +2,6 @@ package com.tourismmer.app.model;
 
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,29 +14,29 @@ import javax.persistence.ManyToOne;
 import com.tourismmer.app.constants.Constants;
 
 @Entity
-public class Trip extends Model {
+public class Group extends Model {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "tr_id")
+	@Column(name = "gr_id")
 	private Long id = null;
 	
-	@Column(name = "tr_destination")
+	@Column(name = "gr_destination")
 	private String destination = Constants.EMPYT;
 	
-	@Column(name = "tr_purpose")
+	@Column(name = "gr_purpose")
 	private String purpose = Constants.EMPYT;
 	
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "tr_us_id")
+	@JoinColumn(name = "gr_us_id")
 	private User user = new User();
 	
 	@ManyToMany
-	@JoinTable( name = "TripUser", 
-		joinColumns = @JoinColumn(name = "tu_tr_id"), inverseJoinColumns = @JoinColumn(name = "tu_us_id") )
+	@JoinTable( name = "group_user", 
+		joinColumns = @JoinColumn(name = "gu_gr_id"), inverseJoinColumns = @JoinColumn(name = "gu_us_id") )
 	private Collection<User> userList;
 
-	public Trip() {
+	public Group() {
 	}
 
 	public String getDestination() {
