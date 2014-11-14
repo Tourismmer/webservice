@@ -4,18 +4,32 @@ import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import com.tourismmer.app.constants.Constants;
 import com.tourismmer.app.constants.Labels;
+import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.dao.GroupDAO;
+import com.tourismmer.app.dao.UserDAO;
 import com.tourismmer.app.model.Group;
 import com.tourismmer.app.model.User;
+import com.tourismmer.app.util.Util;
 
 @Path("/teste")
 public class TesteResource {
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response create(String param) {
+		System.out.println("teste");
+		return Response.status(200).entity("teste").build();
+	}
 	
 	@GET
 	@Path("/{id}")
