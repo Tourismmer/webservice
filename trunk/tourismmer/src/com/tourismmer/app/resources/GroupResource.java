@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import com.tourismmer.app.dao.GroupDAO;
 import com.tourismmer.app.model.Group;
 
-@Path("/trip")
+@Path("/group")
 public class GroupResource {
 	
 //	@POST
