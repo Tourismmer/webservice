@@ -10,10 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.tourismmer.app.constants.Constants;
 
 @Entity
+@Table (name = "group")
 public class Group extends Model {
 	
 	@Id

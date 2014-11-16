@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -17,6 +18,7 @@ import com.tourismmer.app.json.CalendarDeserializer;
 import com.tourismmer.app.json.CalendarSerializer;
 
 @Entity
+@Table(name = "user")
 public class User extends Model {
 	
 	@Id
