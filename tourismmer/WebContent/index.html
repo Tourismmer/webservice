@@ -20,14 +20,14 @@ span {
 	<script>
 	$.ajax({
 		  type: "POST",
-		  data: '{"name":"Teste 3","city":"Teste","birthday":1406689915530,"email":"teste3@teste.com","gender":"male","relationshipStatus":"In a relationship","facebookId":"3"}',
+		  data: '{"city":"","email":"","facebookId":"","gender":"","name":"flavio teste","pass":"","relationshipStatus":"","statusCode":"000","statusText":""}',
 		  contentType: "application/json; charset=utf-8",
 		  url: "http://localhost:8080/tourismmer/resources/user",
 		  success: function( data ) {
 			  document.write(data.statusText);
 		  },
 		  error: function( data ) {
-			  document.write("ocorreu um erro: " + data);
+			  document.write("ocorreu um erro: " + data.statusText);
 		  }
 		});
 	</script>
