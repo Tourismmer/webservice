@@ -22,7 +22,7 @@ public class CalendarDeserializer extends JsonDeserializer<Calendar> {
         JsonNode node = oc.readTree(jsonParser);
         
         Calendar cal = Calendar.getInstance();
-        cal.setTime(Util.stringToDate(node.get("birthday").getTextValue(), Util.FORMATO_DATA_JSON));
+        cal.setTime(Util.stringToDate(node.getTextValue(), Util.FORMAT_DATE_JSON));
         
 		return cal;
 		

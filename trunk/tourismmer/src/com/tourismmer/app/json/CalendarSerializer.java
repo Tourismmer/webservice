@@ -16,7 +16,7 @@ public class CalendarSerializer extends JsonSerializer<Calendar> {
 	public void serialize(Calendar c, JsonGenerator jgen, SerializerProvider sp)
 			throws IOException, JsonProcessingException {
 		
-		jgen.writeString(Util.dateToString(c.getTime(), Util.FORMATO_DATA_JSON));
+		jgen.writeString(Util.dateToString(c.getTime(), Util.FORMAT_DATE_JSON));
 		
 	}
 
