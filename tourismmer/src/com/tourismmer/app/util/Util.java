@@ -15,11 +15,11 @@ import com.tourismmer.app.constants.Numeros;
 
 public class Util {
 
-	public static final String FORMATO_DATA = "dd/MM/yyyy";
+	public static final String FORMAT_DATE = "dd/MM/yyyy";
 	
-	public static final String FORMATO_DATA_JSON = "dd-MM-yyyy";
+	public static final String FORMAT_DATE_JSON = "dd-MM-yyyy";
 
-	public static final String FORMATO_DATA_MYSQL = "yyyy-MM-dd";
+	public static final String FORMAT_DATE_MYSQL = "yyyy-MM-dd";
 
 	public static Boolean validateEmail(String email) {
 		Boolean invalidEmail = Boolean.FALSE;
@@ -233,7 +233,7 @@ public class Util {
 	}
 	
 	public static String formatDate(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat(FORMATO_DATA);
+		SimpleDateFormat format = new SimpleDateFormat(FORMAT_DATE);
 		try {
 			return format.format(date);
 		} catch (Exception e) {
@@ -242,7 +242,7 @@ public class Util {
 	}
 
 	public static String dateToMysql(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat(FORMATO_DATA_MYSQL);
+		SimpleDateFormat format = new SimpleDateFormat(FORMAT_DATE_MYSQL);
 		try {
 			return format.format(date);
 		} catch (Exception e) {
