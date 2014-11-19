@@ -29,9 +29,6 @@ public class User extends Model {
 	@Column(name = "us_name")
 	private String name = Constants.EMPYT;
 	
-	@Column(name = "us_city")
-	private String city = Constants.EMPYT;
-	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "us_birthday")
 	@JsonDeserialize(using=CalendarDeserializer.class)
@@ -47,9 +44,6 @@ public class User extends Model {
 	@Column(name = "us_gender")
 	private String gender = Constants.EMPYT;
 	
-	@Column(name = "us_relationship_status")
-	private String relationshipStatus = Constants.EMPYT;
-	
 	@Column(name = "us_facebook_id")
 	private String facebookId = Constants.EMPYT;
 	
@@ -62,14 +56,6 @@ public class User extends Model {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
 	}
 
 	public Calendar getBirthday() {
@@ -102,14 +88,6 @@ public class User extends Model {
 
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-
-	public String getRelationshipStatus() {
-		return relationshipStatus;
-	}
-
-	public void setRelationshipStatus(String relationshipStatus) {
-		this.relationshipStatus = relationshipStatus;
 	}
 
 	public String getFacebookId() {

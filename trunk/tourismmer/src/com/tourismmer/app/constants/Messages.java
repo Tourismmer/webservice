@@ -10,7 +10,8 @@ public enum Messages {
 	USER_NOT_REGISTERED ("006","User not Registered"),
 	UPDATE_SUCCESS ("007","Update Success"),
 	QUERY_SUCCESS ("008","Query Success"),
-	QUERY_NOT_FOUND ("009","Record not Found");
+	QUERY_NOT_FOUND ("009","Record not Found"),
+	CONSTRAINT_VIOLATION_EXCEPTION ("010","Constraint Violation Exception");
 	
 	private final String statusCode;
 	

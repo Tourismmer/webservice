@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.User;
@@ -28,7 +29,7 @@ public class UserDAO {
 			
 			manager.getTransaction().begin();    
 			manager.persist(userParam);
-			manager.getTransaction().commit(); 
+			manager.getTransaction().commit();
 			
 			userParam.setStatusCode(Messages.REGISTER_SUCCESS.getStatusCode());
 			userParam.setStatusText(Messages.REGISTER_SUCCESS.getStatusText());
@@ -36,8 +37,17 @@ public class UserDAO {
 			manager.close();
 		
 		} catch (Exception e) {
-			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				userParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				userParam.setStatusText(msg);
+			
+			} else {
+				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				userParam.setStatusText(e.getMessage());
+			}
+			
 			Log log = LogFactory.getLog(UserDAO.class);
 			log.error(e);
 		}
@@ -63,8 +73,17 @@ public class UserDAO {
 			manager.close();
 		
 		} catch (Exception e) {
-			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				userParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				userParam.setStatusText(msg);
+			
+			} else {
+				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				userParam.setStatusText(e.getMessage());
+			}
+			
 			Log log = LogFactory.getLog(UserDAO.class);
 			log.error(e);
 		}
@@ -107,8 +126,17 @@ public class UserDAO {
 			manager.close();
 		
 		} catch (Exception e) {
-			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				userParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				userParam.setStatusText(msg);
+			
+			} else {
+				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				userParam.setStatusText(e.getMessage());
+			}
+			
 			Log log = LogFactory.getLog(UserDAO.class);
 			log.error(e);
 		}
@@ -144,8 +172,17 @@ public class UserDAO {
 			manager.close();
 		
 		} catch (Exception e) {
-			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				userParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				userParam.setStatusText(msg);
+			
+			} else {
+				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				userParam.setStatusText(e.getMessage());
+			}
+			
 			Log log = LogFactory.getLog(UserDAO.class);
 			log.error(e);
 		}
@@ -181,8 +218,17 @@ public class UserDAO {
 			manager.close();
 		
 		} catch (Exception e) {
-			userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-			userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				userParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				userParam.setStatusText(msg);
+			
+			} else {
+				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				userParam.setStatusText(e.getMessage());
+			}
+			
 			Log log = LogFactory.getLog(UserDAO.class);
 			log.error(e);
 		}

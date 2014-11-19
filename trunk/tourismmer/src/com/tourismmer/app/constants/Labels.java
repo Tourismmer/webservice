@@ -4,8 +4,6 @@ public class Labels {
 	
 	public static final String NAME = "name";
 	
-	public static final String CITY = "city";
-	
 	public static final String EMAIL = "email";
 	
 	public static final String PASS = "pass";
