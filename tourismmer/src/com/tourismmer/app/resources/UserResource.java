@@ -32,14 +32,14 @@ public class UserResource {
 			String[] labels = null;
 			
 			if(Util.isEmptyOrNullOrZero(userParam.getFacebookId())) {
-				fields = new Object[]{userParam.getName(), userParam.getCity(), userParam.getEmail(),
+				fields = new Object[]{userParam.getName(), userParam.getEmail(),
 						userParam.getPass(), userParam.getBirthday()};
-				labels = new String[]{Labels.NAME, Labels.CITY, Labels.EMAIL, Labels.PASS, Labels.BIRTHDAY};
+				labels = new String[]{Labels.NAME, Labels.EMAIL, Labels.PASS, Labels.BIRTHDAY};
 				
 			} else {
-				fields = new Object[]{userParam.getName(), userParam.getCity(), userParam.getEmail(),
+				fields = new Object[]{userParam.getName(), userParam.getEmail(),
 						userParam.getFacebookId(), userParam.getBirthday()};
-				labels = new String[]{Labels.NAME, Labels.CITY, Labels.EMAIL, Labels.FACEBOOKID, Labels.BIRTHDAY};
+				labels = new String[]{Labels.NAME, Labels.EMAIL, Labels.FACEBOOKID, Labels.BIRTHDAY};
 			}
 			
 			invalidFields = Util.validateParametersRequired(fields, labels);
@@ -134,7 +134,7 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User update(User userParam) {
 
-		Object[] campos = {userParam, userParam.getId(), userParam.getName(), userParam.getCity(), userParam.getEmail(),
+		Object[] campos = {userParam, userParam.getId(), userParam.getName(), userParam.getEmail(),
 				userParam.getPass(), userParam.getFacebookId(), userParam.getBirthday()};
 		
 		if(Util.validateParametersRequired(campos)) {

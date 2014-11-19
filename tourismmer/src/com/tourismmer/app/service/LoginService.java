@@ -31,13 +31,11 @@ public class LoginService {
 		user.setStatusCode("1");
 		user.setStatusText("Cadastro efetuado com sucesso!");
 		user.setName("12345");
-		user.setCity("Carapicuiba");
 		user.setBirthday(Calendar.getInstance());
 		user.setEmail("flavioso16@gmail.com");
 		user.setFacebookId("1");
 		user.setGender("male");
 		user.setPass("123");
-		user.setRelationshipStatus("In a relationship");
 		
 		Log log = LogFactory.getLog(LoginService.class);
 		log.info("teste");
@@ -56,7 +54,7 @@ public class LoginService {
 		
 		try {
 		
-			Object[] campos = {userParam, userParam.getName(), userParam.getCity(), userParam.getEmail(),
+			Object[] campos = {userParam, userParam.getName(), userParam.getEmail(),
 					userParam.getPass(), userParam.getFacebookId(), userParam.getBirthday()};
 			
 			if(Util.validateParametersRequired(campos)) {
