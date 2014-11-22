@@ -1,5 +1,6 @@
 package com.tourismmer.app.util;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -9,6 +10,9 @@ import java.util.Date;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.tourismmer.app.constants.Constants;
 import com.tourismmer.app.constants.Numeros;
@@ -48,10 +52,10 @@ public class Util {
 		String strDigitoVerificador, strDigitoResultado;
 		Boolean cpfInvalido = Boolean.FALSE;
 
-		if (!strCpf.substring(0, 1).equals("")) {
+		if (!strCpf.substring(0, 1).equals(Constants.EMPYT)) {
 			strCpf = strCpf.replace('.', ' ');
 			strCpf = strCpf.replace('-', ' ');
-			strCpf = strCpf.replaceAll(" ", "");
+			strCpf = strCpf.replaceAll(" ", Constants.EMPYT);
 			for (int iCont = 1; iCont < strCpf.length() - 1; iCont++) {
 				iDigitoCPF = Integer
 						.valueOf(strCpf.substring(iCont - 1, iCont)).intValue();
@@ -94,12 +98,12 @@ public class Util {
 		char[] chCaracteresCNPJ;
 		String strCNPJ_Calculado;
 
-		if (!strCNPJ.substring(0, 1).equals("")) {
+		if (!strCNPJ.substring(0, 1).equals(Constants.EMPYT)) {
 			try {
 				strCNPJ = strCNPJ.replace('.', ' ');
 				strCNPJ = strCNPJ.replace('/', ' ');
 				strCNPJ = strCNPJ.replace('-', ' ');
-				strCNPJ = strCNPJ.replaceAll(" ", "");
+				strCNPJ = strCNPJ.replaceAll(" ", Constants.EMPYT);
 				strCNPJ_Calculado = strCNPJ.substring(0, 12);
 				if (strCNPJ.length() != 14)
 					return false;
@@ -193,13 +197,13 @@ public class Util {
 		}
 		param = getString(param);
 
-		param = param.replace(" ", "");
-		param = param.replace("-", "");
-		param = param.replace("/", "");
-		param = param.replace(".", "");
-		param = param.replace(",", "");
-		param = param.replace("(", "");
-		param = param.replace(")", "");
+		param = param.replace(" ", Constants.EMPYT);
+		param = param.replace("-", Constants.EMPYT);
+		param = param.replace("/", Constants.EMPYT);
+		param = param.replace(".", Constants.EMPYT);
+		param = param.replace(",", Constants.EMPYT);
+		param = param.replace("(", Constants.EMPYT);
+		param = param.replace(")", Constants.EMPYT);
 
 		return param;
 
@@ -356,30 +360,40 @@ public class Util {
 
 	public static String getString(final String valor) {
 		if (valor == null) {
-			return "";
+			return Constants.EMPYT;
 		}
 		return valor;
 	}
 
 	public static String getString(final Object valor) {
 		if (valor == null) {
-			return "";
+			return Constants.EMPYT;
 		}
 		return valor.toString();
 	}
 
 	public static String getString(final Double valor) {
 		if (valor == null) {
-			return "";
+			return Constants.EMPYT;
 		}
 		return valor.toString();
 	}
 
 	public static String getString(final Integer valor) {
 		if (valor == null) {
-			return "";
+			return Constants.EMPYT;
 		}
 		return String.valueOf(valor);
+	}
+	
+	public static byte[] getByte(final String valor) {
+		try {
+			return valor.getBytes("ISO-8859-1");
+		} catch (Exception e) {
+			Log log = LogFactory.getLog(Util.class);
+			log.error(e);
+		}
+		return Constants.EMPYT.getBytes();
 	}
 
 	public static boolean isNotEmptyOrNullOrZero(Object valor) {
@@ -392,5 +406,7 @@ public class Util {
 				|| valor.toString().equals(
 						String.valueOf(Numeros.ZERO_PONTO_ZERO));
 	}
+	
+	
 
 }

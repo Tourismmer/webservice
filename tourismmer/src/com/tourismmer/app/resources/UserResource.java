@@ -15,6 +15,7 @@ import com.tourismmer.app.constants.Labels;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.dao.UserDAO;
 import com.tourismmer.app.model.User;
+import com.tourismmer.app.util.EncryptDecryptRSA;
 import com.tourismmer.app.util.Util;
 
 @Path("/user")
@@ -46,6 +47,7 @@ public class UserResource {
 			
 			if(Util.isEmptyOrNull(invalidFields)) {
 				UserDAO dao = new UserDAO();
+				userParam.setPass(EncryptDecryptRSA.encrypt(userParam.getPass()));
 				userParam = dao.create(userParam);
 				
 			} else {
@@ -56,6 +58,8 @@ public class UserResource {
 		} catch (Exception e) {
 			userParam.setStatusText(e.getMessage() + " - " + e.getStackTrace().toString());
 		}
+		
+		userParam.setPass(EncryptDecryptRSA.decrypt(userParam.getPass()));
 
 		return Response.status(200).entity(userParam).build();
 	}
