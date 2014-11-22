@@ -30,7 +30,7 @@ public class Group extends Model {
 	private String purpose = Constants.EMPYT;
 	
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "gr_us_id")
+	@JoinColumn(name = "gr_us_id_owner")
 	private User user = new User();
 	
 	@ManyToMany

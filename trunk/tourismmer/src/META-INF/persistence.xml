@@ -10,21 +10,21 @@
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://tourismmer.cjvmtyuing6f.sa-east-1.rds.amazonaws.com/tourismmerDB" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://tourismmer.cjvmtyuing6f.sa-east-1.rds.amazonaws.com/tour" />
 			<property name="javax.persistence.jdbc.user" value="tourismmer" />
 			<property name="javax.persistence.jdbc.password" value="ffbola2013" />
 		</properties>
 	</persistence-unit>
-	<persistence-unit name="Trip">
+	<persistence-unit name="Group">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>com.tourismmer.app.model.Trip</class>
+		<class>com.tourismmer.app.model.Group</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://tourismmer.cjvmtyuing6f.sa-east-1.rds.amazonaws.com/tourismmerDB" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://tourismmer.cjvmtyuing6f.sa-east-1.rds.amazonaws.com/tour" />
 			<property name="javax.persistence.jdbc.user" value="tourismmer" />
 			<property name="javax.persistence.jdbc.password" value="ffbola2013" />
 		</properties>
