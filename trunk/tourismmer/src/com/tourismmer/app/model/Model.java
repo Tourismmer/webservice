@@ -1,12 +1,12 @@
 package com.tourismmer.app.model;
 
-import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.constants.ViewConstants;
 
 public abstract class Model {
 	
-	public String statusCode = Constants.EMPYT;
+	public String statusCode = ViewConstants.EMPYT;
 	
-	public String statusText = Constants.EMPYT;
+	public String statusText = ViewConstants.EMPYT;
 	
 	public String getStatusCode() {
 		return statusCode;

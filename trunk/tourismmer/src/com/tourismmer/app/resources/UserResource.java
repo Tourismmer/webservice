@@ -10,11 +10,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.tourismmer.app.constants.Constants;
+import org.apache.commons.mail.EmailException;
+
+import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.constants.Labels;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.dao.UserDAO;
+import com.tourismmer.app.model.Message;
 import com.tourismmer.app.model.User;
+import com.tourismmer.app.util.EmailService;
 import com.tourismmer.app.util.EncryptDecryptRSA;
 import com.tourismmer.app.util.Util;
 
@@ -52,7 +56,7 @@ public class UserResource {
 				
 			} else {
 				userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-				userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + Constants.COLON_SPACE + invalidFields);
+				userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
 			}
 			
 		} catch (Exception e) {
@@ -75,7 +79,7 @@ public class UserResource {
 		
 		if(Util.isEmptyOrNull(facebookId)) {
 			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  Constants.COLON_SPACE + Labels.FACEBOOKID);
+			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  ViewConstants.COLON_SPACE + Labels.FACEBOOKID);
 			return user;
 		}
 		
@@ -96,7 +100,7 @@ public class UserResource {
 		
 		if(Util.isEmptyOrNull(id)) {
 			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  Constants.COLON_SPACE + Labels.ID);
+			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  ViewConstants.COLON_SPACE + Labels.ID);
 			return user;
 		}
 		
@@ -123,7 +127,7 @@ public class UserResource {
 		
 		if(!Util.isEmptyOrNull(invalidFields)) {
 			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + Constants.COLON_SPACE + invalidFields);
+			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
 			return user;
 		}
 		
@@ -151,6 +155,58 @@ public class UserResource {
 		userParam = dao.update(userParam);
 
 		return userParam;
+	}
+	
+	@GET
+	@Path("/passRecover/{email}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Message passRecover(@PathParam(Labels.EMAIL) String email) {
+		
+		Message messageReturn = new Message();
+		UserDAO dao = new UserDAO();
+		User user = dao.getUserByEmail(email);
+		
+		if(Messages.QUERY_SUCCESS.getStatusCode().equals(user.getStatusCode())) {
+			
+			try {
+				EmailService.sendEmailPassRecover(user);
+				messageReturn.setStatusCode(Messages.LINK_RECOVER_PASS_SENDED.getStatusCode());
+				messageReturn.setStatusCode(Messages.LINK_RECOVER_PASS_SENDED.getStatusCode());
+				
+			} catch (EmailException e) {
+				messageReturn.setStatusCode(Messages.ERROR_SEND_EMAIL.getStatusCode());
+				messageReturn.setStatusCode(e.getMessage());
+			}
+			
+		} else {
+			messageReturn.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+			messageReturn.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+		}
+		return messageReturn;
+	}
+	
+	@PUT
+	@Path("/changePass/{id}/{pass}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Message changePass(@PathParam(Labels.ID) String id, @PathParam(Labels.PASS) String pass) {
+		
+		Message messageReturn = new Message();
+		User user = getUser(Util.getLong(EncryptDecryptRSA.decrypt(id)));
+		
+		if(Messages.QUERY_SUCCESS.getStatusCode().equals(user.getStatusCode())) {
+			
+			UserDAO dao = new UserDAO();
+			user.setPass(EncryptDecryptRSA.encrypt(pass));
+			dao.update(user);
+			messageReturn.setStatusCode(Messages.PASS_CHANGED.getStatusCode());
+			messageReturn.setStatusCode(Messages.PASS_CHANGED.getStatusCode());
+				
+		} else {
+			messageReturn.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+			messageReturn.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+		}
+		return messageReturn;
 	}
 	
 }

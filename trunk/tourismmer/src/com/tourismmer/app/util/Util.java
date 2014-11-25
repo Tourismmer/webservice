@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.constants.Numeros;
 
 public class Util {
@@ -52,10 +52,10 @@ public class Util {
 		String strDigitoVerificador, strDigitoResultado;
 		Boolean cpfInvalido = Boolean.FALSE;
 
-		if (!strCpf.substring(0, 1).equals(Constants.EMPYT)) {
+		if (!strCpf.substring(0, 1).equals(ViewConstants.EMPYT)) {
 			strCpf = strCpf.replace('.', ' ');
 			strCpf = strCpf.replace('-', ' ');
-			strCpf = strCpf.replaceAll(" ", Constants.EMPYT);
+			strCpf = strCpf.replaceAll(" ", ViewConstants.EMPYT);
 			for (int iCont = 1; iCont < strCpf.length() - 1; iCont++) {
 				iDigitoCPF = Integer
 						.valueOf(strCpf.substring(iCont - 1, iCont)).intValue();
@@ -98,12 +98,12 @@ public class Util {
 		char[] chCaracteresCNPJ;
 		String strCNPJ_Calculado;
 
-		if (!strCNPJ.substring(0, 1).equals(Constants.EMPYT)) {
+		if (!strCNPJ.substring(0, 1).equals(ViewConstants.EMPYT)) {
 			try {
 				strCNPJ = strCNPJ.replace('.', ' ');
 				strCNPJ = strCNPJ.replace('/', ' ');
 				strCNPJ = strCNPJ.replace('-', ' ');
-				strCNPJ = strCNPJ.replaceAll(" ", Constants.EMPYT);
+				strCNPJ = strCNPJ.replaceAll(" ", ViewConstants.EMPYT);
 				strCNPJ_Calculado = strCNPJ.substring(0, 12);
 				if (strCNPJ.length() != 14)
 					return false;
@@ -169,7 +169,7 @@ public class Util {
 	}
 	
 	public static String validateParametersRequired(Object[] fields, String[] labels) {
-		String invalidFields = Constants.EMPYT;
+		String invalidFields = ViewConstants.EMPYT;
 		Boolean isInvalid = Boolean.FALSE;
 		if (isNotNull(fields) && (fields.length > 0)) {
 			for (int i = 0; i < fields.length; i++) {
@@ -193,17 +193,17 @@ public class Util {
 	public static String removeFormatting(String param) {
 
 		if (isEmptyOrNull(param)) {
-			return Constants.EMPYT;
+			return ViewConstants.EMPYT;
 		}
 		param = getString(param);
 
-		param = param.replace(" ", Constants.EMPYT);
-		param = param.replace("-", Constants.EMPYT);
-		param = param.replace("/", Constants.EMPYT);
-		param = param.replace(".", Constants.EMPYT);
-		param = param.replace(",", Constants.EMPYT);
-		param = param.replace("(", Constants.EMPYT);
-		param = param.replace(")", Constants.EMPYT);
+		param = param.replace(" ", ViewConstants.EMPYT);
+		param = param.replace("-", ViewConstants.EMPYT);
+		param = param.replace("/", ViewConstants.EMPYT);
+		param = param.replace(".", ViewConstants.EMPYT);
+		param = param.replace(",", ViewConstants.EMPYT);
+		param = param.replace("(", ViewConstants.EMPYT);
+		param = param.replace(")", ViewConstants.EMPYT);
 
 		return param;
 
@@ -232,7 +232,7 @@ public class Util {
 		try {
 			return format.format(date);
 		} catch (Exception e) {
-			return Constants.EMPYT;
+			return ViewConstants.EMPYT;
 		}
 	}
 	
@@ -241,7 +241,7 @@ public class Util {
 		try {
 			return format.format(date);
 		} catch (Exception e) {
-			return Constants.EMPYT;
+			return ViewConstants.EMPYT;
 		}
 	}
 
@@ -269,7 +269,7 @@ public class Util {
 
 		// Testa Strings vazias
 		else if (object instanceof String) {
-			retorno = object.toString().trim().equals(Constants.EMPYT);
+			retorno = object.toString().trim().equals(ViewConstants.EMPYT);
 		}
 
 		// Testa Vetores vazios
@@ -360,28 +360,28 @@ public class Util {
 
 	public static String getString(final String valor) {
 		if (valor == null) {
-			return Constants.EMPYT;
+			return ViewConstants.EMPYT;
 		}
 		return valor;
 	}
 
 	public static String getString(final Object valor) {
 		if (valor == null) {
-			return Constants.EMPYT;
+			return ViewConstants.EMPYT;
 		}
 		return valor.toString();
 	}
 
 	public static String getString(final Double valor) {
 		if (valor == null) {
-			return Constants.EMPYT;
+			return ViewConstants.EMPYT;
 		}
 		return valor.toString();
 	}
 
 	public static String getString(final Integer valor) {
 		if (valor == null) {
-			return Constants.EMPYT;
+			return ViewConstants.EMPYT;
 		}
 		return String.valueOf(valor);
 	}
@@ -393,7 +393,7 @@ public class Util {
 			Log log = LogFactory.getLog(Util.class);
 			log.error(e);
 		}
-		return Constants.EMPYT.getBytes();
+		return ViewConstants.EMPYT.getBytes();
 	}
 
 	public static boolean isNotEmptyOrNullOrZero(Object valor) {

@@ -236,5 +236,52 @@ public class UserDAO {
 		return userParam;
 		
 	}
+	
+	public User getUserByEmail(String email) {
+		User userParam = new User();
+		
+		try {
+			
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
+			EntityManager manager = factory.createEntityManager();
+			
+			Query query = manager.createQuery("select u from User as u where u.email = ?");
+			query.setParameter(1, Util.getString(email));
+			
+			@SuppressWarnings("unchecked")
+			List<User> list = query.getResultList();
+			
+			if(list.size()>0) {
+				
+				userParam = list.get(0);
+				userParam.setStatusCode(Messages.QUERY_SUCCESS.getStatusCode());
+				userParam.setStatusText(Messages.QUERY_SUCCESS.getStatusText());
+					
+			} else {
+				userParam.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+				userParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
+			}
+			
+			manager.close();
+		
+		} catch (Exception e) {
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				userParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				userParam.setStatusText(msg);
+			
+			} else {
+				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				userParam.setStatusText(e.getMessage());
+			}
+			
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
+		}
+		
+		return userParam;
+		
+	}
 
 }

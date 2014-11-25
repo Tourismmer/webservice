@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.json.CalendarDeserializer;
 import com.tourismmer.app.json.CalendarSerializer;
 
@@ -27,7 +27,7 @@ public class User extends Model {
 	private Long id = null;
 	
 	@Column(name = "us_name")
-	private String name = Constants.EMPYT;
+	private String name = ViewConstants.EMPYT;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "us_birthday")
@@ -36,16 +36,16 @@ public class User extends Model {
 	private Calendar birthday = null;
 	
 	@Column(name = "us_email")
-	private String email = Constants.EMPYT;
+	private String email = ViewConstants.EMPYT;
 	
 	@Column(name = "us_pass")
-	private String pass = Constants.EMPYT;
+	private String pass = ViewConstants.EMPYT;
 	
 	@Column(name = "us_gender")
-	private String gender = Constants.EMPYT;
+	private String gender = ViewConstants.EMPYT;
 	
 	@Column(name = "us_facebook_id")
-	private String facebookId = Constants.EMPYT;
+	private String facebookId = ViewConstants.EMPYT;
 	
     public User() {
     }

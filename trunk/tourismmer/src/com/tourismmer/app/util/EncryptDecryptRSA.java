@@ -16,7 +16,7 @@ import javax.crypto.Cipher;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.constants.ViewConstants;
 
 public class EncryptDecryptRSA {
 	
@@ -91,7 +91,7 @@ public class EncryptDecryptRSA {
 			log.error(e);
 		} 
 		
-		return Constants.EMPYT;
+		return ViewConstants.EMPYT;
 	} 
 	
 	/** 
@@ -111,7 +111,7 @@ public class EncryptDecryptRSA {
 			Log log = LogFactory.getLog(EncryptDecryptRSA.class);
 			log.error(e);
 		} 
-		return Constants.EMPYT;
+		return ViewConstants.EMPYT;
 	}
 	
 	private static PublicKey getPublicKey() {
