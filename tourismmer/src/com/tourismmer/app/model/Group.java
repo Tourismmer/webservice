@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.tourismmer.app.constants.Constants;
+import com.tourismmer.app.constants.ViewConstants;
 
 @Entity
 @Table (name = "group")
@@ -24,10 +24,10 @@ public class Group extends Model {
 	private Long id = null;
 	
 	@Column(name = "gr_destination")
-	private String destination = Constants.EMPYT;
+	private String destination = ViewConstants.EMPYT;
 	
 	@Column(name = "gr_purpose")
-	private String purpose = Constants.EMPYT;
+	private String purpose = ViewConstants.EMPYT;
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "gr_us_id_owner")

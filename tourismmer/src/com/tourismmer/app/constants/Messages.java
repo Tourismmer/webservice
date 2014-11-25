@@ -11,7 +11,10 @@ public enum Messages {
 	UPDATE_SUCCESS ("007","Update Success"),
 	QUERY_SUCCESS ("008","Query Success"),
 	QUERY_NOT_FOUND ("009","Record not Found"),
-	CONSTRAINT_VIOLATION_EXCEPTION ("010","Constraint Violation Exception");
+	CONSTRAINT_VIOLATION_EXCEPTION ("010","Constraint Violation Exception"),
+	LINK_RECOVER_PASS_SENDED ("011","Link Recover Pass Sended"), 
+	ERROR_SEND_EMAIL ("012","Error Send Email"),
+	PASS_CHANGED ("013","Changed password");
 	
 	private final String statusCode;
 	

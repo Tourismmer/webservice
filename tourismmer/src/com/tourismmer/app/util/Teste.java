@@ -1,5 +1,9 @@
 package com.tourismmer.app.util;
 
+import org.apache.commons.mail.EmailException;
+
+import com.tourismmer.app.model.User;
+
 
 
 public class Teste {
@@ -7,11 +11,11 @@ public class Teste {
 	public static void main(String[] args) {
 
 		// Teste EncryptDecryptRSA
-//		String teste = "a";
-//		String s1 = EncryptDecryptRSA.encrypt(teste);
-//		System.out.println(s1);
-//		String s2 = EncryptDecryptRSA.decrypt(s1);
-//		System.out.println(s2);
+		String teste = "1";
+		String s1 = EncryptDecryptRSA.encrypt(teste);
+		System.out.println(s1);
+		String s2 = EncryptDecryptRSA.decrypt(s1);
+		System.out.println(s2);
 
 //		String seuTexto = "taylsonmartinez.com";
 //		
@@ -26,9 +30,18 @@ public class Teste {
 //        String seuTextoNovamenteDescriptografado = bte.decrypt(seuTextoCriptografado);
 //        System.out.println("Texto descriptografado  = " + seuTextoNovamenteDescriptografado);
 		
+		User user = new User();
 		
+		user.setName("Flavio");
+		user.setEmail("flavioso16@gmail.com");
+		user.setId(1L);
 		
-		
+		try {
+			EmailService.sendEmailPassRecover(user);
+		} catch (EmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 
 	}

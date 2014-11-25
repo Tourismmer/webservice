@@ -2,9 +2,150 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Tourismmer - Recuperar Senha</title>
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+<style type="text/css">
+.buttonBlue {
+	background-color: #4286E8;
+	margin-top: 5px !important;
+	margin: 2px;
+	display: inline-block;
+	color: #ffffff;
+	font-family: arial, helvetica;
+	font-size: 14px;
+	padding: 8px 14px;
+	text-decoration: none;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-ms-border-radius: 2px;
+	-o-border-radius: 2px;
+	border: none;
+}
+
+.buttonBlue:hover {
+	background-color: #1DB4F1;
+}
+
+.required {
+	border: 1px solid red;
+}
+
+.loader {
+	display: none;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('img/loader.gif') 50% 50% no-repeat;
+	background-color:  rgb(249, 249, 249) opacity:0.30 -moz-opacity:0.3;
+}
+
+.divBackground {
+	display: none;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background-color:  rgb(249, 249, 249);
+	opacity:0.30;
+	filter: alpha(opacity=10);
+	-moz-opacity:0.3;
+}
+</style>
+
 </head>
 <body>
+	<div class="divBackground"></div>
+	<div class="loader"></div>
+
+	<div style="width: 200px; margin-left: auto; margin-right: auto">
+		<img width="200px" alt="tourismmer" src="img\image.jpg">
+		<div style="margin-top: 20px; margin-left: 10px">
+			<span>Senha: </span> <input id="pass" type="password"
+				style="width: 180px;" />
+		</div>
+		<div style="margin-top: 10px; margin-left: 10px">
+			<span>Confirme a Senha: </span> <input id="confirmationPass"
+				type="password" style="width: 180px;" />
+		</div>
+		<div style="margin-top: 10px; margin-left: 10px;">
+			<input id="confirmation" onclick="validate();" style="width: 180px;"
+				type="button" value="Alterar Senha" class="buttonBlue" />
+			<div id="divMessage"
+				style="width: 180px; text-align: center; margin-left: 5px;"></div>
+		</div>
+	</div>
+
+	<script>
+	
+	$(document).ajaxStart(function() {
+           
+	});
+	
+	function validate() {
+		$("#pass").removeClass("required");
+		$("#confirmationPass").removeClass("required");
+		$("#divMessage").empty();
+		
+		var pass = document.getElementById("pass");
+		var confirmationPass = document.getElementById("confirmationPass");
+		
+		if(pass.value.trim()=="") {
+			$("#pass").addClass("required");
+			$("#divMessage").append("<span style='color:red'>Favor informar senha.</span><br />");
+			
+		} else if(confirmationPass.value.trim()=="") {
+			$("#confirmationPass").addClass("required");
+			$("#divMessage").append("<span style='color:red'>Favor confirmar senha.</span><br />");
+		
+		} else if(pass.value.trim() != confirmationPass.value.trim()) {
+			$("#pass").addClass("required");
+			$("#confirmationPass").addClass("required");
+			$("#divMessage").append("<span style='color:red'>Senhas não coincidem.</span><br />");
+		
+		} else {
+			confirmation();
+		}
+	}
+	
+	function confirmation() {
+		var id = getParameterByName('id');
+		var pass = document.getElementById("pass").value.trim();
+		$.ajax({
+			  type: "PUT",
+			  url: "http://localhost:8080/tourismmer/resources/user/changePass/"+id+"/"+pass,
+			  beforeSend: function( xhr ) {
+				  	$(".loader").show();
+				  	$(".divBackground").show();
+				  },
+			  success: function( data ) {
+				  $(".loader").fadeIn();
+				  $(".divBackground").fadeIn();
+				  window.open("http://localhost:8080/tourismmer/passChanged.html", "_self");
+			  },
+			  error: function( data ) {
+				  $(".loader").fadeIn();
+				  $(".divBackground").fadeIn();
+				  document.write("ocorreu um erro: " + data.statusText);
+			  }
+		})
+	}
+	
+	function getParameterByName(name) {
+	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	        results = regex.exec(location.search);
+	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+</script>
 
 </body>
 </html>
