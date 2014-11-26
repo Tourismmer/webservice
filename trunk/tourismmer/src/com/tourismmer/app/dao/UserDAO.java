@@ -31,8 +31,8 @@ public class UserDAO {
 			manager.persist(userParam);
 			manager.getTransaction().commit();
 			
-			userParam.setStatusCode(Messages.REGISTER_SUCCESS.getStatusCode());
-			userParam.setStatusText(Messages.REGISTER_SUCCESS.getStatusText());
+			userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			userParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			manager.close();
 		
@@ -67,8 +67,8 @@ public class UserDAO {
 			manager.merge(userParam);
 			manager.getTransaction().commit(); 
 			
-			userParam.setStatusCode(Messages.UPDATE_SUCCESS.getStatusCode());
-			userParam.setStatusText(Messages.UPDATE_SUCCESS.getStatusText());
+			userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			userParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			manager.close();
 		
@@ -110,8 +110,8 @@ public class UserDAO {
 				
 				if(userParam.getPass().equals(list.get(0).getPass())) {
 					userParam = list.get(0);
-					userParam.setStatusCode(Messages.USER_LOGGED.getStatusCode());
-					userParam.setStatusText(Messages.USER_LOGGED.getStatusText());
+					userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+					userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
 				} else {
 					userParam.setStatusCode(Messages.USER_PASS_INVALID.getStatusCode());
@@ -161,8 +161,8 @@ public class UserDAO {
 			if(list.size()>0) {
 				
 				userParam = list.get(0);
-				userParam.setStatusCode(Messages.USER_LOGGED.getStatusCode());
-				userParam.setStatusText(Messages.USER_LOGGED.getStatusText());
+				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+				userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
 			} else {
 				userParam.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
@@ -207,8 +207,8 @@ public class UserDAO {
 			if(list.size()>0) {
 				
 				userParam = list.get(0);
-				userParam.setStatusCode(Messages.QUERY_SUCCESS.getStatusCode());
-				userParam.setStatusText(Messages.QUERY_SUCCESS.getStatusText());
+				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+				userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
 			} else {
 				userParam.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
@@ -254,8 +254,8 @@ public class UserDAO {
 			if(list.size()>0) {
 				
 				userParam = list.get(0);
-				userParam.setStatusCode(Messages.QUERY_SUCCESS.getStatusCode());
-				userParam.setStatusText(Messages.QUERY_SUCCESS.getStatusText());
+				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+				userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
 			} else {
 				userParam.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());

@@ -26,8 +26,8 @@ public class GroupDAO {
 			manager.persist(tripParam);
 			manager.getTransaction().commit(); 
 			
-			tripParam.setStatusCode(Messages.QUERY_SUCCESS.getStatusCode());
-			tripParam.setStatusText(Messages.QUERY_SUCCESS.getStatusText());
+			tripParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			tripParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			manager.close();
 		

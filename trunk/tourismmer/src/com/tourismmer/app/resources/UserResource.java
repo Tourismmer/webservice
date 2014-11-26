@@ -167,12 +167,12 @@ public class UserResource {
 		UserDAO dao = new UserDAO();
 		User user = dao.getUserByEmail(email);
 		
-		if(Messages.QUERY_SUCCESS.getStatusCode().equals(user.getStatusCode())) {
+		if(Messages.SUCCESS.getStatusCode().equals(user.getStatusCode())) {
 			
 			try {
 				EmailService.sendEmailPassRecover(user);
-				messageReturn.setStatusCode(Messages.LINK_RECOVER_PASS_SENDED.getStatusCode());
-				messageReturn.setStatusCode(Messages.LINK_RECOVER_PASS_SENDED.getStatusCode());
+				messageReturn.setStatusCode(Messages.SUCCESS.getStatusCode());
+				messageReturn.setStatusCode(Messages.SUCCESS.getStatusCode());
 				
 			} catch (EmailException e) {
 				messageReturn.setStatusCode(Messages.ERROR_SEND_EMAIL.getStatusCode());
@@ -194,13 +194,13 @@ public class UserResource {
 		Message messageReturn = new Message();
 		User user = getUser(Util.getLong(EncryptDecryptRSA.decrypt(id)));
 		
-		if(Messages.QUERY_SUCCESS.getStatusCode().equals(user.getStatusCode())) {
+		if(Messages.SUCCESS.getStatusCode().equals(user.getStatusCode())) {
 			
 			UserDAO dao = new UserDAO();
 			user.setPass(EncryptDecryptRSA.encrypt(pass));
 			dao.update(user);
-			messageReturn.setStatusCode(Messages.PASS_CHANGED.getStatusCode());
-			messageReturn.setStatusCode(Messages.PASS_CHANGED.getStatusCode());
+			messageReturn.setStatusCode(Messages.SUCCESS.getStatusCode());
+			messageReturn.setStatusCode(Messages.SUCCESS.getStatusCode());
 				
 		} else {
 			messageReturn.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());

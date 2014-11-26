@@ -1,6 +1,5 @@
 package com.tourismmer.app.util;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -14,8 +13,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.constants.Numeros;
+import com.tourismmer.app.constants.ViewConstants;
 
 public class Util {
 
