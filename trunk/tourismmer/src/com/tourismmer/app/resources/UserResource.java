@@ -98,7 +98,7 @@ public class UserResource {
 		User user = new User();
 		user.setId(id);
 		
-		if(Util.isEmptyOrNull(id)) {
+		if(Util.isEmptyOrNullOrZero(id)) {
 			user.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
 			user.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  ViewConstants.COLON_SPACE + Labels.ID);
 			return user;
