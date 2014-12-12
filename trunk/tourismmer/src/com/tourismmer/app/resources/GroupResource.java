@@ -30,13 +30,14 @@ public class GroupResource {
 			Object[] fields = null;
 			String[] labels = null;
 			
-			fields = new Object[]{groupParam.getDestination(), groupParam.getPurpose(), groupParam.getUser().getId()};
+			fields = new Object[]{groupParam.getDestination(), groupParam.getPurpose(), groupParam.getOwner().getId()};
 			labels = new String[]{Labels.DESTINATION, Labels.PURPOSE, Labels.ID_USER};
 			
 			invalidFields = Util.validateParametersRequired(fields, labels);
 			
 			if(Util.isEmptyOrNull(invalidFields)) {
 				GroupDAO dao = new GroupDAO();
+				groupParam.setImage(dao.getImageGroup());
 				groupParam = dao.create(groupParam);
 				
 			} else {
@@ -55,7 +56,7 @@ public class GroupResource {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Group get(@PathParam(Labels.ID) Long id) {
+	public Group getGroup(@PathParam(Labels.ID) Long id) {
 		
 		Group group = new Group();
 		group.setId(id);

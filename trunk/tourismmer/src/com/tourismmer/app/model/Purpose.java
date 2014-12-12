@@ -8,24 +8,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "purpose")
-public enum Purpose {
-	
-	TRAVEL (1,"Travel"),
-	VACATION (3,"Vacation"),;
+public class Purpose {
 	
 	@Id
 	@GeneratedValue
 	@Column(name = "pu_id")
-	private final Integer id;
+	private Integer id;
 
 	@Column(name = "pu_description")
-	private final String description;
+	private String description;
 	
-	Purpose(Integer idParam, String descriptionParam) {
-		this.id = idParam;
-		this.description = descriptionParam;
+	public Purpose() {
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -33,17 +28,13 @@ public enum Purpose {
 	public String getDescription() {
 		return description;
 	}
-	
-	public static Purpose getPurpose(Integer id) {
-		
-		if(Purpose.TRAVEL.getId().equals(id)) {
-			return Purpose.TRAVEL;
-			
-		} else if(Purpose.VACATION.getId().equals(id)) {
-			return Purpose.VACATION;
-		}
-		
-		return null;
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

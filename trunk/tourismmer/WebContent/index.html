@@ -20,9 +20,9 @@ span {
 	<script>
 	$.ajax({
 		  type: "POST",
-		  data: '{"birthday":"16-11-2014","email":"flavio3@teste","gender":"","name":"flavio3","pass":"a","statusCode":"000","statusText":""}',
+		  data: '{"destination":"Santa Catarina","purpose":{"id":1},"owner":{"id":3}}',
 		  contentType: "application/json; charset=utf-8",
-		  url: "http://localhost:8080/tourismmer/resources/user",
+		  url: "http://localhost:8080/tourismmer/resources/group",
 		  success: function( data ) {
 			  document.write(data.statusText);
 		  },

@@ -1,11 +1,11 @@
 package com.tourismmer.app.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,12 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 import com.tourismmer.app.constants.ViewConstants;
-import com.tourismmer.app.json.PurposeDeserializer;
-import com.tourismmer.app.json.PurposeSerializer;
 
 @Entity
 @Table (name = "trip")
@@ -36,19 +31,16 @@ public class Group extends Model {
 	
 	@OneToOne
 	@JoinColumn(name = "tr_pu_id")
-	@Enumerated(EnumType.STRING)
-	@JsonDeserialize(using=PurposeDeserializer.class)
-	@JsonSerialize(using=PurposeSerializer.class)
 	private Purpose purpose;
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "tr_us_id_owner")
-	private User user = new User();
+	private User owner = new User();
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable( name = "trip_user", 
 		joinColumns = @JoinColumn(name = "tu_tr_id"), inverseJoinColumns = @JoinColumn(name = "tu_us_id") )
-	private Collection<User> userList;
+	private Collection<User> userList = new ArrayList <User>();
 	
 	@OneToOne
 	@JoinColumn(name = "tr_im_id")
@@ -73,14 +65,6 @@ public class Group extends Model {
 		this.purpose = purpose;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -103,6 +87,14 @@ public class Group extends Model {
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 }
