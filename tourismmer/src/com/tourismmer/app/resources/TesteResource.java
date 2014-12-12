@@ -49,7 +49,7 @@ public class TesteResource {
 		user.setId(1L);
 		
 		Group trip = new Group();
-		trip.setUser(user);
+		trip.setOwner(user);
 		trip.setUserList(new ArrayList<User>());
 		trip.getUserList().add(user);
 		
