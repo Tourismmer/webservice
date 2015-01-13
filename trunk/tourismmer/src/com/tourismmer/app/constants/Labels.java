@@ -19,5 +19,9 @@ public class Labels {
 	public static final String PURPOSE = "purpose";
 	
 	public static final String ID_USER = "id user";
+	
+	public static final String AMOUNT = "amount";
+	
+	public static final String FIRST_RESULT = "firstResult";
 
 }

@@ -14,6 +14,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Group;
 import com.tourismmer.app.model.Image;
+import com.tourismmer.app.model.ListGroup;
 import com.tourismmer.app.util.Util;
 
 public class GroupDAO {
@@ -146,11 +147,19 @@ public class GroupDAO {
 		
 		try {
 		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
 			EntityManager manager = factory.createEntityManager();
 			
-			manager.getTransaction().begin();    
-			manager.merge(groupParam);
+			manager.getTransaction().begin();
+			
+			Query query = manager.createQuery("UPDATE Group g SET g.destination = :destination, g.purpose.id = :purpose WHERE g.id = :id");
+			
+			query.setParameter("id", groupParam.getId());
+			query.setParameter("destination", groupParam.getDestination());
+			query.setParameter("purpose", groupParam.getPurpose().getId());
+			
+			query.executeUpdate();
+			
 			manager.getTransaction().commit(); 
 			
 			groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
@@ -176,6 +185,109 @@ public class GroupDAO {
 		
 		return groupParam;
 		
+	}
+	
+	public ListGroup getTopTrips(Integer amount) {
+		
+		ListGroup listGroup = new ListGroup();
+		
+		try {
+			
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
+			EntityManager manager = factory.createEntityManager();
+			
+			Query query = manager.createQuery("Select g from Group g");
+			query.setMaxResults(amount);
+			
+			@SuppressWarnings("unchecked")
+			List<Group> list = query.getResultList();
+			
+			if(Util.isEmptyOrNull(list)) {
+				listGroup.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+				listGroup.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
+				return listGroup;
+			}
+				
+			for (Group group : list) {
+				listGroup.getListGroup().add(group);
+			}
+			
+			listGroup.setStatusCode(Messages.SUCCESS.getStatusCode());
+			listGroup.setStatusText(Messages.SUCCESS.getStatusText());
+				
+			
+			manager.close();
+		
+		} catch (Exception e) {
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				listGroup.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				listGroup.setStatusText(msg);
+			
+			} else {
+				listGroup.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				listGroup.setStatusText(e.getMessage());
+			}
+			
+			Log log = LogFactory.getLog(GroupDAO.class);
+			log.error(e);
+		}
+		
+		return listGroup;
+	}
+	
+	public ListGroup getUserGroups(Long idUser, Integer amount, Integer firstResult) {
+		
+		ListGroup listGroup = new ListGroup();
+		
+		try {
+			
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
+			EntityManager manager = factory.createEntityManager();
+			
+			
+			Query query = manager.createQuery("Select g from Group g where g.owner.id = ?");
+			query.setParameter(1, Util.getLong(idUser));
+			query.setFirstResult(firstResult);
+			query.setMaxResults(amount);
+			
+			@SuppressWarnings("unchecked")
+			List<Group> list = query.getResultList();
+			
+			if(Util.isEmptyOrNull(list)) {
+				listGroup.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
+				listGroup.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
+				return listGroup;
+			}
+				
+			for (Group group : list) {
+				listGroup.getListGroup().add(group);
+			}
+			
+			listGroup.setStatusCode(Messages.SUCCESS.getStatusCode());
+			listGroup.setStatusText(Messages.SUCCESS.getStatusText());
+				
+			
+			manager.close();
+		
+		} catch (Exception e) {
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				listGroup.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				listGroup.setStatusText(msg);
+			
+			} else {
+				listGroup.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				listGroup.setStatusText(e.getMessage());
+			}
+			
+			Log log = LogFactory.getLog(GroupDAO.class);
+			log.error(e);
+		}
+		
+		return listGroup;
 	}
 
 }

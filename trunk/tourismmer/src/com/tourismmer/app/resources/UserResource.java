@@ -141,11 +141,25 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User update(User userParam) {
-
-		Object[] campos = {userParam, userParam.getId(), userParam.getName(), userParam.getEmail(),
-				userParam.getPass(), userParam.getFacebookId(), userParam.getBirthday()};
 		
-		if(Util.validateParametersRequired(campos)) {
+		String invalidFields = null;
+		Object[] fields = null;
+		String[] labels = null;
+		
+		if(Util.isEmptyOrNullOrZero(userParam.getFacebookId())) {
+			fields = new Object[]{userParam.getName(), userParam.getEmail(),
+					userParam.getPass(), userParam.getBirthday()};
+			labels = new String[]{Labels.NAME, Labels.EMAIL, Labels.PASS, Labels.BIRTHDAY};
+			
+		} else {
+			fields = new Object[]{userParam.getName(), userParam.getEmail(),
+					userParam.getFacebookId(), userParam.getBirthday()};
+			labels = new String[]{Labels.NAME, Labels.EMAIL, Labels.FACEBOOKID, Labels.BIRTHDAY};
+		}
+		
+		invalidFields = Util.validateParametersRequired(fields, labels);
+
+		if(Util.isNotEmptyOrNull(invalidFields)) {
 			userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
 			userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
 			return userParam;
