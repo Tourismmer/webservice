@@ -49,6 +49,10 @@ public class User extends Model {
 	
     public User() {
     }
+    
+    public User(Long idParam) {
+    	this.id = idParam;
+    }
 
 	public String getName() {
 		return name;

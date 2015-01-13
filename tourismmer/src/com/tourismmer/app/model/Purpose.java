@@ -21,6 +21,11 @@ public class Purpose {
 	public Purpose() {
 	}
 	
+	public Purpose(Integer idParam, String descriptionParam) {
+		this.id = idParam;
+		this.description = descriptionParam;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

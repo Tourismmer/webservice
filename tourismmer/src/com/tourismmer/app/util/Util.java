@@ -176,7 +176,7 @@ public class Util {
 						|| fields[i].toString().equals(
 								String.valueOf(Numeros.ZERO))
 						|| fields[i].toString().equals("0.0")) {
-					invalidFields += labels[i] + ", ";
+					invalidFields += labels[i] + ViewConstants.COMMA_SPACE;
 					isInvalid = Boolean.TRUE;
 				}
 			}
