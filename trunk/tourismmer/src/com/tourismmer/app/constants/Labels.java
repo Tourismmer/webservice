@@ -23,5 +23,19 @@ public class Labels {
 	public static final String AMOUNT = "amount";
 	
 	public static final String FIRST_RESULT = "firstResult";
+	
+	public static final String DESCRIPTION = "description";
+
+	public static final String AUTHOR = "author";
+
+	public static final String GROUP = "group";
+
+	public static final String POST = "post";
+	
+	public static final String ID_AUTHOR = "id author";
+
+	public static final String ID_GROUP = "id group";
+
+	public static final String ID_POST = "id post";
 
 }
