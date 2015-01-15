@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.tourismmer.app.constants.ViewConstants;
 
 @Entity
-@Table (name = "trip")
+@Table (name = "tr_trip")
 public class Group extends Model {
 	
 	@Id
@@ -30,7 +30,7 @@ public class Group extends Model {
 	private String destination = ViewConstants.EMPYT;
 	
 	@OneToOne
-	@JoinColumn(name = "tr_pu_id")
+	@JoinColumn(name = "tr_pu_id_purpose")
 	private Purpose purpose;
 	
 	@ManyToOne(optional=false)
@@ -38,12 +38,12 @@ public class Group extends Model {
 	private User owner = new User();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable( name = "trip_user", 
-		joinColumns = @JoinColumn(name = "tu_tr_id"), inverseJoinColumns = @JoinColumn(name = "tu_us_id") )
+	@JoinTable( name = "gt_group", 
+		joinColumns = @JoinColumn(name = "gt_tr_id_trip"), inverseJoinColumns = @JoinColumn(name = "gt_us_id_user") )
 	private Collection<User> userList = new ArrayList <User>();
 	
 	@OneToOne
-	@JoinColumn(name = "tr_im_id")
+	@JoinColumn(name = "tr_im_id_image")
 	private Image image;
 
 	public Group() {

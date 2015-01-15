@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import com.tourismmer.app.constants.ViewConstants;
 
 @Entity
-@Table (name = "image")
+@Table (name = "im_image")
 public class Image extends Model {
 	
 	@Id

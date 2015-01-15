@@ -18,7 +18,7 @@ import com.tourismmer.app.json.CalendarDeserializer;
 import com.tourismmer.app.json.CalendarSerializer;
 
 @Entity
-@Table(name = "user")
+@Table(name = "us_user")
 public class User extends Model {
 	
 	@Id
