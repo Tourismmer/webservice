@@ -13,6 +13,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.User;
+import com.tourismmer.app.util.EncryptDecryptRSA;
 import com.tourismmer.app.util.Util;
 
 public class UserDAO {
@@ -56,15 +57,57 @@ public class UserDAO {
 		
 	}
 	
-	public User update(User userParam) {
+//	public User update(User userParam) {
+//		
+//		try {
+//		
+//			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
+//			EntityManager manager = factory.createEntityManager();
+//			
+//			manager.getTransaction().begin();    
+//			manager.merge(userParam);
+//			manager.getTransaction().commit(); 
+//			
+//			userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+//			userParam.setStatusText(Messages.SUCCESS.getStatusText());
+//			
+//			manager.close();
+//		
+//		} catch (Exception e) {
+//			
+//			if(e.getCause() instanceof ConstraintViolationException) {
+//				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+//				userParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+//				userParam.setStatusText(msg);
+//			
+//			} else {
+//				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+//				userParam.setStatusText(e.getMessage());
+//			}
+//			
+//			Log log = LogFactory.getLog(UserDAO.class);
+//			log.error(e);
+//		}
+//		
+//		return userParam;
+//		
+//	}
+	
+	public User changePass(User userParam) {
 		
 		try {
 		
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
 			EntityManager manager = factory.createEntityManager();
 			
-			manager.getTransaction().begin();    
-			manager.merge(userParam);
+			manager.getTransaction().begin();
+			
+			Query query = manager.createQuery("UPDATE User u SET u.pass = :pass WHERE u.id = :id");
+			
+			query.setParameter("id", userParam.getId());
+			query.setParameter("pass", userParam.getPass());
+			
+			query.executeUpdate();
 			manager.getTransaction().commit(); 
 			
 			userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
@@ -81,7 +124,7 @@ public class UserDAO {
 			
 			} else {
 				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-				userParam.setStatusText(e.getMessage());
+				userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
 			}
 			
 			Log log = LogFactory.getLog(UserDAO.class);
@@ -108,7 +151,7 @@ public class UserDAO {
 			
 			if(list.size()>0) {
 				
-				if(userParam.getPass().equals(list.get(0).getPass())) {
+				if(userParam.getPass().equals(EncryptDecryptRSA.decrypt(list.get(0).getPass()))) {
 					userParam = list.get(0);
 					userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 					userParam.setStatusText(Messages.SUCCESS.getStatusText());
@@ -134,7 +177,7 @@ public class UserDAO {
 			
 			} else {
 				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-				userParam.setStatusText(e.getMessage());
+				userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
 			}
 			
 			Log log = LogFactory.getLog(UserDAO.class);
@@ -180,7 +223,7 @@ public class UserDAO {
 			
 			} else {
 				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-				userParam.setStatusText(e.getMessage());
+				userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
 			}
 			
 			Log log = LogFactory.getLog(UserDAO.class);
@@ -226,7 +269,7 @@ public class UserDAO {
 			
 			} else {
 				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-				userParam.setStatusText(e.getMessage());
+				userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
 			}
 			
 			Log log = LogFactory.getLog(UserDAO.class);
@@ -273,7 +316,7 @@ public class UserDAO {
 			
 			} else {
 				userParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-				userParam.setStatusText(e.getMessage());
+				userParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
 			}
 			
 			Log log = LogFactory.getLog(UserDAO.class);
