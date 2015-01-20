@@ -41,7 +41,7 @@ public class GroupDAO {
 		} catch (Exception e) {
 			groupParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
 			groupParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
-			Log log = LogFactory.getLog(UserDAO.class);
+			Log log = LogFactory.getLog(GroupDAO.class);
 			log.error(e);
 		}
 		
@@ -56,7 +56,7 @@ public class GroupDAO {
 			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
 			EntityManager manager = factory.createEntityManager();
 			
-			Query query = manager.createQuery("select u from Group as u where u.id = ?");
+			Query query = manager.createQuery("select g from Group as g where g.id = ?");
 			query.setParameter(1, Util.getLong(groupParam.getId()));
 			
 			@SuppressWarnings("unchecked")
@@ -179,7 +179,7 @@ public class GroupDAO {
 				groupParam.setStatusText(e.getMessage());
 			}
 			
-			Log log = LogFactory.getLog(UserDAO.class);
+			Log log = LogFactory.getLog(GroupDAO.class);
 			log.error(e);
 		}
 		
@@ -289,5 +289,5 @@ public class GroupDAO {
 		
 		return listGroup;
 	}
-
+	
 }

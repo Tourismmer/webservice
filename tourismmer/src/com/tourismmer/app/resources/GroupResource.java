@@ -3,7 +3,6 @@ package com.tourismmer.app.resources;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,6 +38,7 @@ public class GroupResource {
 		if(Util.isEmptyOrNull(invalidFields)) {
 			GroupDAO dao = new GroupDAO();
 			groupParam.setImage(dao.getImageGroup());
+			groupParam.getUserList().add(new User(groupParam.getOwner().getId()));
 			groupParam = dao.create(groupParam);
 			
 		} else {
@@ -49,59 +49,59 @@ public class GroupResource {
 		return Response.status(200).entity(groupParam).build();
 	}
 	
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Group getGroup(@PathParam(Labels.ID) Long id) {
-		
-		Group group = new Group();
-		group.setId(id);
-		
-		if(Util.isEmptyOrNullOrZero(id)) {
-			group.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			group.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  ViewConstants.COLON_SPACE + Labels.ID);
-			return group;
-		}
-		
-		GroupDAO dao = new GroupDAO();
-		group = dao.getGroup(group);
-
-		return group;
-	}
-	
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Group update(Group groupParam) {
-		
-		String invalidFields = null;
-		Object[] fields = null;
-		String[] labels = null;
-		
-		fields = new Object[]{groupParam.getDestination(), groupParam.getPurpose()};
-		labels = new String[]{Labels.DESTINATION, Labels.PURPOSE};
-		
-		invalidFields = Util.validateParametersRequired(fields, labels);
-		
-		for(User u: groupParam.getUserList()) {
-			if(Util.isEmptyOrNullOrZero(u.getId())) {
-				if(Util.isNotEmptyOrNull(invalidFields)) invalidFields += ViewConstants.COMMA_SPACE;
-				invalidFields += Labels.ID_USER;
-			}
-		}
-		
-		if(Util.isEmptyOrNull(invalidFields)) {
-			GroupDAO dao = new GroupDAO();
-			groupParam = dao.update(groupParam);
-			
-		} else {
-			groupParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			groupParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
-		}
-		
-		return groupParam;
-	}
+//	@GET
+//	@Path("/{id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Group getGroup(@PathParam(Labels.ID) Long id) {
+//		
+//		Group group = new Group();
+//		group.setId(id);
+//		
+//		if(Util.isEmptyOrNullOrZero(id)) {
+//			group.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+//			group.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  ViewConstants.COLON_SPACE + Labels.ID);
+//			return group;
+//		}
+//		
+//		GroupDAO dao = new GroupDAO();
+//		group = dao.getGroup(group);
+//
+//		return group;
+//	}
+//	
+//	@PUT
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Group update(Group groupParam) {
+//		
+//		String invalidFields = null;
+//		Object[] fields = null;
+//		String[] labels = null;
+//		
+//		fields = new Object[]{groupParam.getDestination(), groupParam.getPurpose()};
+//		labels = new String[]{Labels.DESTINATION, Labels.PURPOSE};
+//		
+//		invalidFields = Util.validateParametersRequired(fields, labels);
+//		
+//		for(User u: groupParam.getUserList()) {
+//			if(Util.isEmptyOrNullOrZero(u.getId())) {
+//				if(Util.isNotEmptyOrNull(invalidFields)) invalidFields += ViewConstants.COMMA_SPACE;
+//				invalidFields += Labels.ID_USER;
+//			}
+//		}
+//		
+//		if(Util.isEmptyOrNull(invalidFields)) {
+//			GroupDAO dao = new GroupDAO();
+//			groupParam = dao.update(groupParam);
+//			
+//		} else {
+//			groupParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+//			groupParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
+//		}
+//		
+//		return groupParam;
+//	}
 	
 	@GET
 	@Path("/getTopGroups/{amount}")

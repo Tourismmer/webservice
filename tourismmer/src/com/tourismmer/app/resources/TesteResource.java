@@ -147,7 +147,7 @@ public class TesteResource {
 		}
 		
 		UserDAO dao = new UserDAO();
-		userParam = dao.update(userParam);
+//		userParam = dao.update(userParam);
 
 		return userParam;
 	}

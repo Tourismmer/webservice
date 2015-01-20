@@ -18,17 +18,19 @@ span {
 
 
 	<script>
-	$.ajax({
-		  type: "POST",
-		  data: '{"destination":"Sampa 6","purpose":{"id":1},"owner":{"id":1}}',
-		  contentType: "application/json; charset=utf-8",
-		  url: "http://localhost:8080/tourismmer/resources/group",
-		  success: function( data ) {
-			  document.write(data.statusText);
-		  },
-		  error: function( data ) {
-			  document.write("ocorreu um erro: " + data.statusText);
-		  }
+		$.ajax({
+
+			type: "POST",
+			data: '{"description":"Description 1","author":{"id":1}, "post":{"id":2}}',
+			url: "http://localhost:8080/tourismmer/resources/comment",
+
+			contentType : "application/json; charset=utf-8",
+			success : function(data) {
+				document.write(data.statusText);
+			},
+			error : function(data) {
+				document.write("ocorreu um erro: " + data.statusText);
+			}
 		});
 	</script>
 

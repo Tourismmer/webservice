@@ -137,39 +137,37 @@ public class UserResource {
 		return user;
 	}
 	
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public User update(User userParam) {
-		
-		String invalidFields = null;
-		Object[] fields = null;
-		String[] labels = null;
-		
-		if(Util.isEmptyOrNullOrZero(userParam.getFacebookId())) {
-			fields = new Object[]{userParam.getName(), userParam.getEmail(),
-					userParam.getPass(), userParam.getBirthday()};
-			labels = new String[]{Labels.NAME, Labels.EMAIL, Labels.PASS, Labels.BIRTHDAY};
-			
-		} else {
-			fields = new Object[]{userParam.getName(), userParam.getEmail(),
-					userParam.getFacebookId(), userParam.getBirthday()};
-			labels = new String[]{Labels.NAME, Labels.EMAIL, Labels.FACEBOOKID, Labels.BIRTHDAY};
-		}
-		
-		invalidFields = Util.validateParametersRequired(fields, labels);
-
-		if(Util.isNotEmptyOrNull(invalidFields)) {
-			userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
-			return userParam;
-		}
-		
-		UserDAO dao = new UserDAO();
-		userParam = dao.update(userParam);
-
-		return userParam;
-	}
+//	@PUT
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public User update(User userParam) {
+//		
+//		String invalidFields = null;
+//		Object[] fields = null;
+//		String[] labels = null;
+//		
+//		if(Util.isEmptyOrNullOrZero(userParam.getFacebookId())) {
+//			fields = new Object[]{userParam.getId()};
+//			labels = new String[]{Labels.ID_USER};
+//			
+//		} else {
+//			fields = new Object[]{userParam.getFacebookId()};
+//			labels = new String[]{Labels.FACEBOOKID};
+//		}
+//		
+//		invalidFields = Util.validateParametersRequired(fields, labels);
+//
+//		if(Util.isNotEmptyOrNull(invalidFields)) {
+//			userParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+//			userParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText());
+//			return userParam;
+//		}
+//		
+//		UserDAO dao = new UserDAO();
+//		userParam = dao.update(userParam);
+//
+//		return userParam;
+//	}
 	
 	@GET
 	@Path("/passRecover/{email}")
@@ -206,13 +204,14 @@ public class UserResource {
 	public Message changePass(@PathParam(Labels.ID) String id, @PathParam(Labels.PASS) String pass) {
 		
 		Message messageReturn = new Message();
-		User user = getUser(Util.getLong(EncryptDecryptRSA.decrypt(id)));
+		User user = getUser(Util.getLong(id));
 		
 		if(Messages.SUCCESS.getStatusCode().equals(user.getStatusCode())) {
 			
 			UserDAO dao = new UserDAO();
 			user.setPass(EncryptDecryptRSA.encrypt(pass));
-			dao.update(user);
+			dao.changePass(user);
+			
 			messageReturn.setStatusCode(Messages.SUCCESS.getStatusCode());
 			messageReturn.setStatusCode(Messages.SUCCESS.getStatusCode());
 				
