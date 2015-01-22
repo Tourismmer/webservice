@@ -101,7 +101,7 @@ public class CommentDAO {
 			EntityManager manager = factory.createEntityManager();
 			
 			
-			Query query = manager.createQuery("Select c from Comment c where c.owner.id = ? and c.post.id = ?");
+			Query query = manager.createQuery("Select c from Comment c where c.author.id = ? and c.post.id = ?");
 			query.setParameter(1, Util.getLong(idUser));
 			query.setParameter(2, Util.getLong(idPost));
 			query.setFirstResult(firstResult);

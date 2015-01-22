@@ -13,6 +13,7 @@ import com.tourismmer.app.constants.Labels;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.dao.CommentDAO;
+import com.tourismmer.app.dao.ImageDAO;
 import com.tourismmer.app.model.Comment;
 import com.tourismmer.app.model.ListComment;
 import com.tourismmer.app.util.Util;
@@ -35,8 +36,10 @@ public class CommentResource {
 		invalidFields = Util.validateParametersRequired(fields, labels);
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
-			CommentDAO dao = new CommentDAO();
-			commentParam = dao.create(commentParam);
+			CommentDAO commentDAO = new CommentDAO();
+			ImageDAO imageDAO = new ImageDAO();
+			commentParam.setImage(imageDAO.getImageRandom());
+			commentParam = commentDAO.create(commentParam);
 			
 		} else {
 			commentParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());

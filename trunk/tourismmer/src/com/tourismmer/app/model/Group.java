@@ -42,7 +42,7 @@ public class Group extends Model {
 		joinColumns = @JoinColumn(name = "gt_tr_id_trip"), inverseJoinColumns = @JoinColumn(name = "gt_us_id_user") )
 	private Collection<User> userList = new ArrayList <User>();
 	
-	@OneToOne
+	@ManyToOne(optional=false)
 	@JoinColumn(name = "tr_im_id_image")
 	private Image image;
 

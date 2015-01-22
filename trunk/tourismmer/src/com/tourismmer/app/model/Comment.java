@@ -6,13 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.tourismmer.app.constants.ViewConstants;
 
 @Entity
-@Table(name = "co_comments")
+@Table(name = "co_comment")
 public class Comment extends Model {
 	
 	@Id
@@ -27,9 +26,13 @@ public class Comment extends Model {
 	@JoinColumn(name = "co_po_id_post")
 	private Post post = new Post();
 	
-	@OneToOne(optional=false)
+	@ManyToOne(optional=false)
 	@JoinColumn(name = "co_us_id_author")
 	private User author = new User();
+	
+	@ManyToOne(optional=false)
+	@JoinColumn(name = "co_im_id_image")
+	private Image image;
 	
 	public Comment() {
 		
@@ -65,6 +68,14 @@ public class Comment extends Model {
 
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 }
