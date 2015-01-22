@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import com.tourismmer.app.constants.Labels;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.constants.ViewConstants;
+import com.tourismmer.app.dao.ImageDAO;
 import com.tourismmer.app.dao.PostDAO;
 import com.tourismmer.app.model.ListPost;
 import com.tourismmer.app.model.Post;
@@ -35,8 +36,10 @@ public class PostResource {
 		invalidFields = Util.validateParametersRequired(fields, labels);
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
-			PostDAO dao = new PostDAO();
-			postParam = dao.create(postParam);
+			PostDAO postDAO = new PostDAO();
+			ImageDAO imageDAO = new ImageDAO();
+			postParam.setImage(imageDAO.getImageRandom());
+			postParam = postDAO.create(postParam);
 			
 		} else {
 			postParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());

@@ -146,7 +146,7 @@ public class TesteResource {
 			return userParam;
 		}
 		
-		UserDAO dao = new UserDAO();
+//		UserDAO dao = new UserDAO();
 //		userParam = dao.update(userParam);
 
 		return userParam;
@@ -174,7 +174,7 @@ public class TesteResource {
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			GroupDAO dao = new GroupDAO();
-			groupParam.setImage(dao.getImageGroup());
+//			groupParam.setImage(dao.getImageGroup());
 			groupParam = dao.create(groupParam);
 			
 		} else {

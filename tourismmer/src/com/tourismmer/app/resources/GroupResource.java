@@ -13,6 +13,7 @@ import com.tourismmer.app.constants.Labels;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.dao.GroupDAO;
+import com.tourismmer.app.dao.ImageDAO;
 import com.tourismmer.app.model.Group;
 import com.tourismmer.app.model.ListGroup;
 import com.tourismmer.app.model.User;
@@ -36,10 +37,11 @@ public class GroupResource {
 		invalidFields = Util.validateParametersRequired(fields, labels);
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
-			GroupDAO dao = new GroupDAO();
-			groupParam.setImage(dao.getImageGroup());
+			GroupDAO groupDAO = new GroupDAO();
+			ImageDAO imageDAO = new ImageDAO();
+			groupParam.setImage(imageDAO.getImageRandom());
 			groupParam.getUserList().add(new User(groupParam.getOwner().getId()));
-			groupParam = dao.create(groupParam);
+			groupParam = groupDAO.create(groupParam);
 			
 		} else {
 			groupParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());

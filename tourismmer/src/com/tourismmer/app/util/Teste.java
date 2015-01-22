@@ -39,7 +39,6 @@ public class Teste {
 		try {
 			EmailService.sendEmailPassRecover(user);
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

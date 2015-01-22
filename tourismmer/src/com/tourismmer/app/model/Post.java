@@ -41,6 +41,10 @@ public class Post extends Model {
 		joinColumns = @JoinColumn(name = "ug_po_id_post"), inverseJoinColumns = @JoinColumn(name = "ug_us_id_user") )
 	private Collection<User> userList = new ArrayList <User>();
 	
+	@ManyToOne(optional=false)
+	@JoinColumn(name = "po_im_id_image")
+	private Image image;
+	
 	public Post() {
 		
 	}
@@ -83,6 +87,14 @@ public class Post extends Model {
 
 	public void setUserList(Collection<User> userList) {
 		this.userList = userList;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 }
