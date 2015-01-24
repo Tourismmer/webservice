@@ -51,27 +51,27 @@ public class GroupResource {
 		return Response.status(200).entity(groupParam).build();
 	}
 	
-//	@GET
-//	@Path("/{id}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	public Group getGroup(@PathParam(Labels.ID) Long id) {
-//		
-//		Group group = new Group();
-//		group.setId(id);
-//		
-//		if(Util.isEmptyOrNullOrZero(id)) {
-//			group.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-//			group.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  ViewConstants.COLON_SPACE + Labels.ID);
-//			return group;
-//		}
-//		
-//		GroupDAO dao = new GroupDAO();
-//		group = dao.getGroup(group);
-//
-//		return group;
-//	}
-//	
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Group getGroup(@PathParam(Labels.ID) Long id) {
+		
+		Group group = new Group();
+		group.setId(id);
+		
+		if(Util.isEmptyOrNullOrZero(id)) {
+			group.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			group.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() +  ViewConstants.COLON_SPACE + Labels.ID);
+			return group;
+		}
+		
+		GroupDAO dao = new GroupDAO();
+		group = dao.getGroup(group);
+
+		return group;
+	}
+	
 //	@PUT
 //	@Produces(MediaType.APPLICATION_JSON)
 //	@Consumes(MediaType.APPLICATION_JSON)

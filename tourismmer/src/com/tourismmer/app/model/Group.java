@@ -1,6 +1,7 @@
 package com.tourismmer.app.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -14,8 +15,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.tourismmer.app.constants.ViewConstants;
+import com.tourismmer.app.json.CalendarDeserializer;
+import com.tourismmer.app.json.CalendarSerializer;
 
 @Entity
 @Table (name = "tr_trip")
@@ -45,6 +53,12 @@ public class Group extends Model {
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "tr_im_id_image")
 	private Image image;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "tr_date")
+	@JsonDeserialize(using=CalendarDeserializer.class)
+	@JsonSerialize(using=CalendarSerializer.class)
+	private Calendar date = null;
 
 	public Group() {
 	}
@@ -100,6 +114,14 @@ public class Group extends Model {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public Calendar getDate() {
+		return date;
+	}
+
+	public void setDate(Calendar date) {
+		this.date = date;
 	}
 
 }
