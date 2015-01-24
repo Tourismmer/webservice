@@ -45,6 +45,10 @@ public class Post extends Model {
 	@JoinColumn(name = "po_im_id_image")
 	private Image image;
 	
+	@ManyToOne(optional=false)
+	@JoinColumn(name = "po_tp_id_type_post")
+	private TypePost typePost;
+	
 	public Post() {
 		
 	}
@@ -95,6 +99,14 @@ public class Post extends Model {
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+
+	public TypePost getTypePost() {
+		return typePost;
+	}
+
+	public void setTypePost(TypePost typePost) {
+		this.typePost = typePost;
 	}
 
 }

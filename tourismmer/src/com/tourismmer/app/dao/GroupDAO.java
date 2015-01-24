@@ -140,7 +140,7 @@ public class GroupDAO {
 		
 	}
 	
-	public ListGroup getTopTrips(Integer amount) {
+	public ListGroup getTopTrips(Integer amount, Integer fistResult) {
 		
 		ListGroup listGroup = new ListGroup();
 		
@@ -151,6 +151,7 @@ public class GroupDAO {
 			
 			Query query = manager.createQuery("Select g from Group g");
 			query.setMaxResults(amount);
+			query.setFirstResult(fistResult);
 			
 			@SuppressWarnings("unchecked")
 			List<Group> list = query.getResultList();

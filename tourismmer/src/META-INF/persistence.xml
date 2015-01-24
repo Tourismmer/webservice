@@ -142,4 +142,18 @@
 			<property name="javax.persistence.jdbc.password" value="ffw$2014" />
 		</properties>
 	</persistence-unit>
+	<persistence-unit name="TypePost">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.tourismmer.app.model.TypePost</class>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql.ck8fukzm4p8g.sa-east-1.rds.amazonaws.com/tour" />
+			<property name="javax.persistence.jdbc.user" value="tourismmer" />
+			<property name="javax.persistence.jdbc.password" value="ffw$2014" />
+		</properties>
+	</persistence-unit>
 </persistence>
