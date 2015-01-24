@@ -30,10 +30,6 @@ public class Comment extends Model {
 	@JoinColumn(name = "co_us_id_author")
 	private User author = new User();
 	
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "co_im_id_image")
-	private Image image;
-	
 	public Comment() {
 		
 	}
@@ -68,14 +64,6 @@ public class Comment extends Model {
 
 	public void setAuthor(User author) {
 		this.author = author;
-	}
-
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
 	}
 
 }
