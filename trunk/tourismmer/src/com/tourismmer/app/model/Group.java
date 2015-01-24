@@ -48,6 +48,11 @@ public class Group extends Model {
 
 	public Group() {
 	}
+	
+	public Group(Long idParam, String destinationParam) {
+		this.id = idParam;
+		this.destination = destinationParam;
+	}
 
 	public String getDestination() {
 		return destination;
