@@ -106,10 +106,10 @@ public class GroupResource {
 //	}
 	
 	@GET
-	@Path("/getTopGroups/{amount}")
+	@Path("/getTopGroups/{amount}/{firstResult}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ListGroup getTopGroups(@PathParam(Labels.AMOUNT) Integer amount) {
+	public ListGroup getTopGroups(@PathParam(Labels.AMOUNT) Integer amount, @PathParam(Labels.FIRST_RESULT) Integer firstResult) {
 		
 		ListGroup listGroup = new ListGroup();
 		
@@ -120,7 +120,7 @@ public class GroupResource {
 		}
 		
 		GroupDAO dao = new GroupDAO();
-		listGroup = dao.getTopTrips(amount);
+		listGroup = dao.getTopTrips(amount, firstResult);
 
 		return listGroup;
 	}

@@ -21,8 +21,8 @@ span {
 		$.ajax({
 
 			type: "POST",
-			data: '{"destination":"Santa Catarina","date":"2017-04-20", "purpose":{"id":1},"owner":{"id":1}}',
-			url: "http://localhost:8080/tourismmer/resources/group",
+			data: '{"description":"Comment 5","author":{"id":1}, "post":{"id":2}}',
+			url: "http://localhost:8080/tourismmer/resources/comment",
 
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {
