@@ -10,6 +10,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Comment;
+import com.tourismmer.app.model.Like;
 import com.tourismmer.app.model.ListComment;
 import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
@@ -41,6 +42,31 @@ public class CommentDAO {
 		
 	}
 	
+	public Like like(Like likeParam) {
+		
+		try {
+			
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(likeParam);
+		
+			likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			likeParam.setStatusText(Messages.SUCCESS.getStatusText());
+			
+			session.getTransaction().commit();
+		
+		} catch (Exception e) {
+			likeParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+			likeParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(PostDAO.class);
+			log.error(e);
+		}
+		
+		return likeParam;
+		
+	}
+	
 	public Comment getComment(Comment commentParam) {
 		
 		try {
@@ -55,6 +81,10 @@ public class CommentDAO {
 				commentParam.setId(comment.getId());
 				commentParam.setDescription(comment.getDescription());
 				commentParam.setAuthor(comment.getAuthor());
+				
+				int countLikes = session.createQuery("from Like l where l.idComment = :idComment")
+						.setParameter("idComment", commentParam.getId()).list().size();
+				commentParam.setCountLike(countLikes);
 				
 				commentParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				commentParam.setStatusText(Messages.SUCCESS.getStatusText());
@@ -117,6 +147,11 @@ public class CommentDAO {
 				comment.setId(c.getId());
 				comment.setDescription(c.getDescription());
 				comment.setAuthor(c.getAuthor());
+				
+				int countLikes = session.createQuery("from Like l where l.idComment = :idComment")
+						.setParameter("idComment", comment.getId()).list().size();
+				comment.setCountLike(countLikes);
+				
 				listComment.getListComment().add(comment);
 			}
 			

@@ -14,6 +14,7 @@ import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.dao.CommentDAO;
 import com.tourismmer.app.model.Comment;
+import com.tourismmer.app.model.Like;
 import com.tourismmer.app.model.ListComment;
 import com.tourismmer.app.util.Util;
 
@@ -44,6 +45,33 @@ public class CommentResource {
 		}
 
 		return Response.status(200).entity(commentParam).build();
+	}
+	
+	@POST
+	@Path("/like")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response like(Like likeParam) {
+		
+		String invalidFields = null;
+		Object[] fields = null;
+		String[] labels = null;
+		
+		fields = new Object[]{likeParam.getIdUser(), likeParam.getIdComment()};
+		labels = new String[]{Labels.ID_USER, Labels.ID_COMMENT};
+		
+		invalidFields = Util.validateParametersRequired(fields, labels);
+		
+		if(Util.isEmptyOrNull(invalidFields)) {
+			CommentDAO commentDAO = new CommentDAO();
+			likeParam = commentDAO.like(likeParam);
+			
+		} else {
+			likeParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			likeParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
+		}
+
+		return Response.status(200).entity(likeParam).build();
 	}
 	
 	@GET

@@ -25,6 +25,7 @@ public class CommentSerializer extends JsonSerializer<Comment> {
 		if(Util.isNotEmptyOrNullOrZero(o.getDescription())) jgen.writeObjectField("description", o.getDescription());
 		if(Util.isNotEmptyOrNullOrZero(o.getPost()) && Util.isNotEmptyOrNullOrZero(o.getPost().getId())) jgen.writeObjectField("post", o.getPost());
 		if(Util.isNotEmptyOrNullOrZero(o.getAuthor()) && Util.isNotEmptyOrNullOrZero(o.getAuthor().getId())) jgen.writeObjectField("author", o.getAuthor());
+		if(Util.isNotEmptyOrNullOrZero(o.getCountLike())) jgen.writeObjectField("countLike", o.getCountLike());
 		
 		jgen.writeEndObject();
 		

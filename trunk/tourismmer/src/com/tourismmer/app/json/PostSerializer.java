@@ -28,6 +28,8 @@ public class PostSerializer extends JsonSerializer<Post> {
 		if(Util.isNotEmptyOrNullOrZero(o.getImage()) && Util.isNotEmptyOrNullOrZero(o.getImage().getId())) jgen.writeObjectField("image", o.getImage());
 		if(Util.isNotEmptyOrNullOrZero(o.getTypePost()) && Util.isNotEmptyOrNullOrZero(o.getTypePost().getId())) jgen.writeObjectField("typePost", o.getTypePost());
 		if(Util.isNotEmptyOrNullOrZero(o.getUserList())) jgen.writeObjectField("userList", o.getUserList());
+		if(Util.isNotEmptyOrNullOrZero(o.getCountComment())) jgen.writeObjectField("countComment", o.getCountComment());
+		if(Util.isNotEmptyOrNullOrZero(o.getCountUserGo())) jgen.writeObjectField("countUserGo", o.getCountUserGo());
 		
 		jgen.writeEndObject();
 		

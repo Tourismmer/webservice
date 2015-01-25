@@ -16,6 +16,8 @@ import com.tourismmer.app.dao.ImageDAO;
 import com.tourismmer.app.dao.PostDAO;
 import com.tourismmer.app.model.ListPost;
 import com.tourismmer.app.model.Post;
+import com.tourismmer.app.model.User;
+import com.tourismmer.app.model.UserGo;
 import com.tourismmer.app.util.Util;
 
 @Path("/post")
@@ -39,6 +41,7 @@ public class PostResource {
 			PostDAO postDAO = new PostDAO();
 			ImageDAO imageDAO = new ImageDAO();
 			postParam.setImage(imageDAO.getImageRandom());
+			postParam.getUserList().add(new User(postParam.getAuthor().getId()));
 			postParam = postDAO.create(postParam);
 			
 		} else {
@@ -47,6 +50,33 @@ public class PostResource {
 		}
 
 		return Response.status(200).entity(postParam).build();
+	}
+	
+	@POST
+	@Path("/userGo")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response like(UserGo likeParam) {
+		
+		String invalidFields = null;
+		Object[] fields = null;
+		String[] labels = null;
+		
+		fields = new Object[]{likeParam.getIdUser(), likeParam.getIdPost()};
+		labels = new String[]{Labels.ID_USER, Labels.ID_POST};
+		
+		invalidFields = Util.validateParametersRequired(fields, labels);
+		
+		if(Util.isEmptyOrNull(invalidFields)) {
+			PostDAO postDAO = new PostDAO();
+			likeParam = postDAO.addUserGo(likeParam);
+			
+		} else {
+			likeParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			likeParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
+		}
+
+		return Response.status(200).entity(likeParam).build();
 	}
 	
 	@GET
