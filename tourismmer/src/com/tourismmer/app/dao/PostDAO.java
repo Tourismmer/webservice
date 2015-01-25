@@ -2,18 +2,16 @@ package com.tourismmer.app.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.ListPost;
 import com.tourismmer.app.model.Post;
+import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
 
 public class PostDAO {
@@ -21,18 +19,16 @@ public class PostDAO {
 	public Post create(Post postParam) {
 		
 		try {
+			
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(postParam);
 		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Post");
-			EntityManager manager = factory.createEntityManager();
-			
-			manager.getTransaction().begin();
-			manager.persist(postParam);
-			manager.getTransaction().commit(); 
-			
 			postParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			postParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			postParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -49,18 +45,14 @@ public class PostDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Post");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("select p from Post as p where p.id = ?");
-			query.setParameter(1, Util.getLong(postParam.getId()));
+			Post post = (Post) session.get(Post.class, postParam.getId());
 			
-			@SuppressWarnings("unchecked")
-			List<Post> list = query.getResultList();
-			
-			if(list.size()>0) {
+			if(post != null) {
 				
-				postParam = list.get(0);
+				postParam = post;
 				postParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				postParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -69,7 +61,7 @@ public class PostDAO {
 				postParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			
@@ -97,18 +89,17 @@ public class PostDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Post");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			
-			Query query = manager.createQuery("Select p from Post p where p.author.id = ? and p.group.id = ?");
-			query.setParameter(1, Util.getLong(idUser));
-			query.setParameter(2, Util.getLong(idGroup));
-			query.setFirstResult(firstResult);
+			Query query = session.createQuery("from Post p where p.author.id = :idUser and p.group.id = :idGroup");
+			query.setParameter("idUser", Util.getLong(idUser));
+			query.setParameter("idGroup", Util.getLong(idGroup));
 			query.setMaxResults(amount);
+			query.setFirstResult(firstResult);
 			
 			@SuppressWarnings("unchecked")
-			List<Post> list = query.getResultList();
+			List<Post> list = query.list();
 			
 			if(Util.isEmptyOrNull(list)) {
 				listPost.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
@@ -123,7 +114,7 @@ public class PostDAO {
 			listPost.setStatusCode(Messages.SUCCESS.getStatusCode());
 			listPost.setStatusText(Messages.SUCCESS.getStatusText());
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			

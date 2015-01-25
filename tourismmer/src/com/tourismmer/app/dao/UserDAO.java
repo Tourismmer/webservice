@@ -1,19 +1,16 @@
 package com.tourismmer.app.dao;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.User;
 import com.tourismmer.app.util.EncryptDecryptRSA;
+import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
 
 public class UserDAO {
@@ -24,18 +21,16 @@ public class UserDAO {
 	public User create(User userParam) {
 		
 		try {
-		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
-			EntityManager manager = factory.createEntityManager();
 			
-			manager.getTransaction().begin();    
-			manager.persist(userParam);
-			manager.getTransaction().commit();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(userParam);
 			
 			userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			userParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			
@@ -96,25 +91,19 @@ public class UserDAO {
 	public User changePass(User userParam) {
 		
 		try {
-		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
-			EntityManager manager = factory.createEntityManager();
 			
-			manager.getTransaction().begin();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("UPDATE User u SET u.pass = :pass WHERE u.id = :id");
-			
-			query.setParameter("id", userParam.getId());
-			query.setParameter("pass", userParam.getPass());
-			
-			query.executeUpdate();
-			manager.getTransaction().commit(); 
+			User user = (User)session.get(User.class, userParam.getId()); 
+			user.setPass(userParam.getPass());
+			session.update(user);
 			
 			userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			userParam.setStatusText(Messages.SUCCESS.getStatusText());
+
+			session.getTransaction().commit();
 			
-			manager.close();
-		
 		} catch (Exception e) {
 			
 			if(e.getCause() instanceof ConstraintViolationException) {
@@ -138,21 +127,19 @@ public class UserDAO {
 	public User login(User userParam) {
 		
 		try {
-		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
-			EntityManager manager = factory.createEntityManager();
 			
-			Query query = manager.createQuery("select u from User as u where u.email = ?");
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			query.setParameter(1, Util.getString(userParam.getEmail()));
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.eq("email", Util.getString(userParam.getEmail())));
 			
-			@SuppressWarnings("unchecked")
-			List<User> list = query.getResultList();
+			User user = (User)criteria.list().get(0);
 			
-			if(list.size()>0) {
+			if(user != null) {
 				
-				if(userParam.getPass().equals(EncryptDecryptRSA.decrypt(list.get(0).getPass()))) {
-					userParam = list.get(0);
+				if(userParam.getPass().equals(EncryptDecryptRSA.decrypt(user.getPass()))) {
+					userParam = user;
 					userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 					userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -162,11 +149,12 @@ public class UserDAO {
 				}
 				
 			} else {
+				userParam = new User();
 				userParam.setStatusCode(Messages.USER_NOT_REGISTERED.getStatusCode());
 				userParam.setStatusText(Messages.USER_NOT_REGISTERED.getStatusText());
 			}
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			
@@ -191,19 +179,18 @@ public class UserDAO {
 	public User loginFacebook(User userParam) {
 		
 		try {
-		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
-			EntityManager manager = factory.createEntityManager();
 			
-			Query query = manager.createQuery("select u from User as u where u.facebookId = ?");
-			query.setParameter(1, Util.getString(userParam.getFacebookId()));
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			@SuppressWarnings("unchecked")
-			List<User> list = query.getResultList();
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.eq("facebookId", Util.getString(userParam.getEmail())));
 			
-			if(list.size()>0) {
+			User user = (User)criteria.list().get(0);
+			
+			if(user != null) {
 				
-				userParam = list.get(0);
+				userParam = user;
 				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -211,9 +198,9 @@ public class UserDAO {
 				userParam.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
 				userParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
-			
-			manager.close();
 		
+			session.getTransaction().commit();
+			
 		} catch (Exception e) {
 			
 			if(e.getCause() instanceof ConstraintViolationException) {
@@ -238,18 +225,13 @@ public class UserDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("select u from User as u where u.id = ?");
-			query.setParameter(1, Util.getLong(userParam.getId()));
+			User user = (User) session.get(User.class, userParam.getId());
 			
-			@SuppressWarnings("unchecked")
-			List<User> list = query.getResultList();
-			
-			if(list.size()>0) {
-				
-				userParam = list.get(0);
+			if(user != null) {
+				userParam = user;
 				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -258,7 +240,7 @@ public class UserDAO {
 				userParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			
@@ -285,18 +267,16 @@ public class UserDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("User");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("select u from User as u where u.email = ?");
-			query.setParameter(1, Util.getString(email));
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.eq("email", Util.getString(userParam.getEmail())));
 			
-			@SuppressWarnings("unchecked")
-			List<User> list = query.getResultList();
+			User user = (User)criteria.list().get(0);
 			
-			if(list.size()>0) {
-				
-				userParam = list.get(0);
+			if(user != null) {
+				userParam = user;
 				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				userParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -305,8 +285,8 @@ public class UserDAO {
 				userParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
-			manager.close();
-		
+			session.getTransaction().commit();
+			
 		} catch (Exception e) {
 			
 			if(e.getCause() instanceof ConstraintViolationException) {

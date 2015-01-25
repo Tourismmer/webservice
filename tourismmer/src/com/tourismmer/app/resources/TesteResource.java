@@ -185,43 +185,43 @@ public class TesteResource {
 		return Response.status(200).entity(groupParam).build();
 	}
 	
-	@GET
-	@Path("/testeUpdateGroup")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Group testeUpdateGroup() {
-		
-		Group groupParam = new Group();
-		
-		groupParam.setId(1L);
-		groupParam.setDestination("São Paulo - Brasil");
-		groupParam.setPurpose(new Purpose(2, "Estudos"));
-		
-		String invalidFields = null;
-		Object[] fields = null;
-		String[] labels = null;
-		
-		fields = new Object[]{groupParam.getDestination(), groupParam.getPurpose()};
-		labels = new String[]{Labels.DESTINATION, Labels.PURPOSE};
-		
-		invalidFields = Util.validateParametersRequired(fields, labels);
-		
-		for(User u: groupParam.getUserList()) {
-			if(Util.isEmptyOrNullOrZero(u.getId())) {
-				if(Util.isNotEmptyOrNull(invalidFields)) invalidFields += ViewConstants.COMMA_SPACE;
-				invalidFields += Labels.ID_USER;
-			}
-		}
-		
-		if(Util.isEmptyOrNull(invalidFields)) {
-			GroupDAO dao = new GroupDAO();
-			groupParam = dao.update(groupParam);
-			
-		} else {
-			groupParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
-			groupParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
-		}
-		
-		return groupParam;
-	}
+//	@GET
+//	@Path("/testeUpdateGroup")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Group testeUpdateGroup() {
+//		
+//		Group groupParam = new Group();
+//		
+//		groupParam.setId(1L);
+//		groupParam.setDestination("São Paulo - Brasil");
+//		groupParam.setPurpose(new Purpose(2, "Estudos"));
+//		
+//		String invalidFields = null;
+//		Object[] fields = null;
+//		String[] labels = null;
+//		
+//		fields = new Object[]{groupParam.getDestination(), groupParam.getPurpose()};
+//		labels = new String[]{Labels.DESTINATION, Labels.PURPOSE};
+//		
+//		invalidFields = Util.validateParametersRequired(fields, labels);
+//		
+//		for(User u: groupParam.getUserList()) {
+//			if(Util.isEmptyOrNullOrZero(u.getId())) {
+//				if(Util.isNotEmptyOrNull(invalidFields)) invalidFields += ViewConstants.COMMA_SPACE;
+//				invalidFields += Labels.ID_USER;
+//			}
+//		}
+//		
+//		if(Util.isEmptyOrNull(invalidFields)) {
+//			GroupDAO dao = new GroupDAO();
+//			groupParam = dao.update(groupParam);
+//			
+//		} else {
+//			groupParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+//			groupParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
+//		}
+//		
+//		return groupParam;
+//	}
 
 }

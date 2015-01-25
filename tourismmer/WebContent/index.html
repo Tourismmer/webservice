@@ -20,9 +20,9 @@ span {
 	<script>
 		$.ajax({
 
-			type: "POST",
-			data: '{"description":"Comment 5","author":{"id":1}, "post":{"id":2}}',
-			url: "http://localhost:8080/tourismmer/resources/comment",
+			type: "PUT",
+			data: '',
+			url: "http://localhost:8081/tourismmer/resources/user/changePass/1/b",
 
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {

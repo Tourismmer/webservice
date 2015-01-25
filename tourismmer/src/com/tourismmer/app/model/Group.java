@@ -45,7 +45,7 @@ public class Group extends Model {
 	@JoinColumn(name = "tr_us_id_owner")
 	private User owner = new User();
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable( name = "gt_group", 
 		joinColumns = @JoinColumn(name = "gt_tr_id_trip"), inverseJoinColumns = @JoinColumn(name = "gt_us_id_user") )
 	private Collection<User> userList = new ArrayList <User>();
