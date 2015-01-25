@@ -14,10 +14,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.tourismmer.app.constants.ViewConstants;
+import com.tourismmer.app.json.PostSerializer;
 
 @Entity
 @Table(name = "po_post")
+@JsonSerialize(using=PostSerializer.class)
 public class Post extends Model {
 	
 	@Id
@@ -32,7 +36,7 @@ public class Post extends Model {
 	@JoinColumn(name = "po_tr_id_trip")
 	private Group group = new Group();
 	
-	@ManyToOne(optional=false, fetch=FetchType.LAZY)
+	@ManyToOne(optional=false)
 	@JoinColumn(name = "po_us_id_author")
 	private User author = new User();
 	

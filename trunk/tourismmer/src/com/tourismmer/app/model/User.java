@@ -10,8 +10,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -41,7 +39,7 @@ public class User extends Model {
 	private String email = ViewConstants.EMPYT;
 	
 	@Column(name = "us_pass")
-	@JsonIgnore
+//	@JsonIgnore
 	private String pass = ViewConstants.EMPYT;
 	
 	@Column(name = "us_gender")
@@ -81,12 +79,12 @@ public class User extends Model {
 		this.email = email;
 	}
 
-	@JsonIgnore
+//	@JsonIgnore
 	public String getPass() {
 		return pass;
 	}
 	
-	@JsonProperty
+//	@JsonProperty
 	public void setPass(String pass) {
 		this.pass = pass;
 	}

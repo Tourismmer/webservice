@@ -8,10 +8,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.tourismmer.app.constants.ViewConstants;
+import com.tourismmer.app.json.CommentSerializer;
 
 @Entity
 @Table(name = "co_comment")
+@JsonSerialize(using=CommentSerializer.class)
+//@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public class Comment extends Model {
 	
 	@Id

@@ -50,9 +50,16 @@ public class PostDAO {
 			
 			Post post = (Post) session.get(Post.class, postParam.getId());
 			
+			session.getTransaction().commit();
+			
 			if(post != null) {
 				
-				postParam = post;
+				postParam.setId(post.getId());
+				postParam.setDescription(post.getDescription());
+				postParam.setAuthor(post.getAuthor());
+				postParam.setImage(post.getImage());
+				postParam.setTypePost(post.getTypePost());
+				
 				postParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				postParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -61,7 +68,6 @@ public class PostDAO {
 				postParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
-			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			
@@ -106,8 +112,16 @@ public class PostDAO {
 				listPost.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 				return listPost;
 			}
-				
-			for (Post post : list) {
+			
+			Post post = null;
+			
+			for (Post p : list) {
+				post = new Post();
+				post.setId(p.getId());
+				post.setDescription(p.getDescription());
+				post.setAuthor(p.getAuthor());
+				post.setImage(p.getImage());
+				post.setTypePost(p.getTypePost());
 				listPost.getListPost().add(post);
 			}
 			

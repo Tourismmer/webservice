@@ -52,7 +52,10 @@ public class CommentDAO {
 			
 			if(comment != null) {
 				
-				commentParam = comment;
+				commentParam.setId(comment.getId());
+				commentParam.setDescription(comment.getDescription());
+				commentParam.setAuthor(comment.getAuthor());
+				
 				commentParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				commentParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -106,9 +109,15 @@ public class CommentDAO {
 				listComment.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 				return listComment;
 			}
+			
+			Comment comment = null;
 				
 			for (Comment c : list) {
-				listComment.getListComment().add(c);
+				comment = new Comment();
+				comment.setId(c.getId());
+				comment.setDescription(c.getDescription());
+				comment.setAuthor(c.getAuthor());
+				listComment.getListComment().add(comment);
 			}
 			
 			listComment.setStatusCode(Messages.SUCCESS.getStatusCode());

@@ -7,13 +7,13 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
-import com.tourismmer.app.model.User;
+import com.tourismmer.app.model.Comment;
 import com.tourismmer.app.util.Util;
 
-public class UserSerializer extends JsonSerializer<User> {
+public class CommentSerializer extends JsonSerializer<Comment> {
 
 	@Override
-	public void serialize(User o, JsonGenerator jgen, SerializerProvider sp)
+	public void serialize(Comment o, JsonGenerator jgen, SerializerProvider sp)
 			throws IOException, JsonProcessingException {
 		
 		jgen.writeStartObject();
@@ -22,14 +22,11 @@ public class UserSerializer extends JsonSerializer<User> {
 		if(Util.isNotEmptyOrNullOrZero(o.getStatusText())) jgen.writeObjectField("statusText", o.getStatusText());
 		
 		jgen.writeObjectField("id", o.getId());
-		if(Util.isNotEmptyOrNullOrZero(o.getName())) jgen.writeObjectField("name", o.getName());
-		if(Util.isNotEmptyOrNullOrZero(o.getBirthday())) jgen.writeObjectField("birthday", o.getBirthday());
-		if(Util.isNotEmptyOrNullOrZero(o.getEmail())) jgen.writeObjectField("email", o.getEmail());
-		if(Util.isNotEmptyOrNullOrZero(o.getGender())) jgen.writeObjectField("gender", o.getGender());
-		if(Util.isNotEmptyOrNullOrZero(o.getFacebookId())) jgen.writeObjectField("facebookId", o.getFacebookId());
+		if(Util.isNotEmptyOrNullOrZero(o.getDescription())) jgen.writeObjectField("description", o.getDescription());
+		if(Util.isNotEmptyOrNullOrZero(o.getPost()) && Util.isNotEmptyOrNullOrZero(o.getPost().getId())) jgen.writeObjectField("post", o.getPost());
+		if(Util.isNotEmptyOrNullOrZero(o.getAuthor()) && Util.isNotEmptyOrNullOrZero(o.getAuthor().getId())) jgen.writeObjectField("author", o.getAuthor());
 		
 		jgen.writeEndObject();
-		
 		
 	}
 

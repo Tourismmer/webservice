@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -26,39 +27,43 @@ import com.tourismmer.app.json.CalendarDeserializer;
 import com.tourismmer.app.json.CalendarSerializer;
 
 @Entity
-@Table (name = "tr_trip")
+@Table (name = "gr_group")
+//@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public class Group extends Model {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "tr_id")
+	@Column(name = "gr_id")
 	private Long id = null;
 	
-	@Column(name = "tr_destination")
+	@Column(name = "gr_destination")
 	private String destination = ViewConstants.EMPYT;
 	
 	@OneToOne
-	@JoinColumn(name = "tr_pu_id_purpose")
+	@JoinColumn(name = "gr_pu_id_purpose")
 	private Purpose purpose;
 	
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "tr_us_id_owner")
+	@JoinColumn(name = "gr_us_id_owner")
 	private User owner = new User();
 	
 	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable( name = "gt_group", 
-		joinColumns = @JoinColumn(name = "gt_tr_id_trip"), inverseJoinColumns = @JoinColumn(name = "gt_us_id_user") )
+	@JoinTable( name = "gu_group_user", 
+		joinColumns = @JoinColumn(name = "gu_gr_id_group"), inverseJoinColumns = @JoinColumn(name = "gu_us_id_user") )
 	private Collection<User> userList = new ArrayList <User>();
 	
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "tr_im_id_image")
+	@JoinColumn(name = "gr_im_id_image")
 	private Image image;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "tr_date")
+	@Column(name = "gr_date")
 	@JsonDeserialize(using=CalendarDeserializer.class)
 	@JsonSerialize(using=CalendarSerializer.class)
 	private Calendar date = null;
+	
+	@Transient
+	private Integer countUser = null;
 
 	public Group() {
 	}
@@ -123,5 +128,14 @@ public class Group extends Model {
 	public void setDate(Calendar date) {
 		this.date = date;
 	}
+
+	public Integer getCountUser() {
+		return countUser;
+	}
+
+	public void setCountUser(Integer countUser) {
+		this.countUser = countUser;
+	}
+
 
 }
