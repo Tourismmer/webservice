@@ -28,15 +28,15 @@ public class Post extends Model {
 	@Column(name = "po_description")
 	private String description = ViewConstants.EMPYT;
 	
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "po_tr_id_trip")
 	private Group group = new Group();
 	
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "po_us_id_author")
 	private User author = new User();
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable( name = "ug_user_go", 
 		joinColumns = @JoinColumn(name = "ug_po_id_post"), inverseJoinColumns = @JoinColumn(name = "ug_us_id_user") )
 	private Collection<User> userList = new ArrayList <User>();

@@ -2,18 +2,16 @@ package com.tourismmer.app.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Group;
 import com.tourismmer.app.model.ListGroup;
+import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
 
 public class GroupDAO {
@@ -24,18 +22,16 @@ public class GroupDAO {
 	public Group create(Group groupParam) {
 		
 		try {
-		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
-			EntityManager manager = factory.createEntityManager();
 			
-			manager.getTransaction().begin();
-			manager.persist(groupParam);
-			manager.getTransaction().commit(); 
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(groupParam);
 			
 			groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			groupParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			groupParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -52,18 +48,14 @@ public class GroupDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("select g from Group as g where g.id = ?");
-			query.setParameter(1, Util.getLong(groupParam.getId()));
+			Group group = (Group) session.get(Group.class, groupParam.getId());
 			
-			@SuppressWarnings("unchecked")
-			List<Group> list = query.getResultList();
-			
-			if(list.size()>0) {
+			if(group != null) {
 				
-				groupParam = list.get(0);
+				groupParam = group;
 				groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				groupParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -72,8 +64,8 @@ public class GroupDAO {
 				groupParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
-			manager.close();
-		
+			session.getTransaction().commit();
+			
 		} catch (Exception e) {
 			
 			if(e.getCause() instanceof ConstraintViolationException) {
@@ -96,49 +88,49 @@ public class GroupDAO {
 	
 	
 	
-	public Group update(Group groupParam) {
-		
-		try {
-		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
-			EntityManager manager = factory.createEntityManager();
-			
-			manager.getTransaction().begin();
-			
-			Query query = manager.createQuery("UPDATE Group g SET g.destination = :destination, g.purpose.id = :purpose WHERE g.id = :id");
-			
-			query.setParameter("id", groupParam.getId());
-			query.setParameter("destination", groupParam.getDestination());
-			query.setParameter("purpose", groupParam.getPurpose().getId());
-			
-			query.executeUpdate();
-			
-			manager.getTransaction().commit(); 
-			
-			groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
-			groupParam.setStatusText(Messages.SUCCESS.getStatusText());
-			
-			manager.close();
-		
-		} catch (Exception e) {
-			
-			if(e.getCause() instanceof ConstraintViolationException) {
-				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
-				groupParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
-				groupParam.setStatusText(msg);
-			
-			} else {
-				groupParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
-				groupParam.setStatusText(e.getMessage());
-			}
-			
-			Log log = LogFactory.getLog(GroupDAO.class);
-			log.error(e);
-		}
-		
-		return groupParam;
-		
-	}
+//	public Group update(Group groupParam) {
+//		
+//		try {
+//		
+//			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
+//			EntityManager manager = factory.createEntityManager();
+//			
+//			manager.getTransaction().begin();
+//			
+//			Query query = manager.createQuery("UPDATE Group g SET g.destination = :destination, g.purpose.id = :purpose WHERE g.id = :id");
+//			
+//			query.setParameter("id", groupParam.getId());
+//			query.setParameter("destination", groupParam.getDestination());
+//			query.setParameter("purpose", groupParam.getPurpose().getId());
+//			
+//			query.executeUpdate();
+//			
+//			manager.getTransaction().commit(); 
+//			
+//			groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+//			groupParam.setStatusText(Messages.SUCCESS.getStatusText());
+//			
+//			manager.close();
+//		
+//		} catch (Exception e) {
+//			
+//			if(e.getCause() instanceof ConstraintViolationException) {
+//				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+//				groupParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+//				groupParam.setStatusText(msg);
+//			
+//			} else {
+//				groupParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+//				groupParam.setStatusText(e.getMessage());
+//			}
+//			
+//			Log log = LogFactory.getLog(GroupDAO.class);
+//			log.error(e);
+//		}
+//		
+//		return groupParam;
+//		
+//	}
 	
 	public ListGroup getTopTrips(Integer amount, Integer fistResult) {
 		
@@ -146,15 +138,15 @@ public class GroupDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("Select g from Group g");
+			Query query = session.createQuery("from Group");
 			query.setMaxResults(amount);
 			query.setFirstResult(fistResult);
 			
 			@SuppressWarnings("unchecked")
-			List<Group> list = query.getResultList();
+			List<Group> list = query.list();
 			
 			if(Util.isEmptyOrNull(list)) {
 				listGroup.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
@@ -168,9 +160,8 @@ public class GroupDAO {
 			
 			listGroup.setStatusCode(Messages.SUCCESS.getStatusCode());
 			listGroup.setStatusText(Messages.SUCCESS.getStatusText());
-				
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			
@@ -197,17 +188,16 @@ public class GroupDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Group");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			
-			Query query = manager.createQuery("Select g from Group g where g.owner.id = ?");
-			query.setParameter(1, Util.getLong(idUser));
-			query.setFirstResult(firstResult);
+			Query query = session.createQuery("from Group g where g.owner.id = :idOwner");
+			query.setParameter("idOwner", Util.getLong(idUser));
 			query.setMaxResults(amount);
+			query.setFirstResult(firstResult);
 			
 			@SuppressWarnings("unchecked")
-			List<Group> list = query.getResultList();
+			List<Group> list = query.list();
 			
 			if(Util.isEmptyOrNull(list)) {
 				listGroup.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
@@ -222,8 +212,7 @@ public class GroupDAO {
 			listGroup.setStatusCode(Messages.SUCCESS.getStatusCode());
 			listGroup.setStatusText(Messages.SUCCESS.getStatusText());
 				
-			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			

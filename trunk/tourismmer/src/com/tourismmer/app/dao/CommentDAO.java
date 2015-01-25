@@ -2,18 +2,16 @@ package com.tourismmer.app.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Comment;
 import com.tourismmer.app.model.ListComment;
+import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
 
 public class CommentDAO {
@@ -21,18 +19,16 @@ public class CommentDAO {
 	public Comment create(Comment commentParam) {
 		
 		try {
-		
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Comment");
-			EntityManager manager = factory.createEntityManager();
 			
-			manager.getTransaction().begin();
-			manager.persist(commentParam);
-			manager.getTransaction().commit(); 
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(commentParam);
 			
 			commentParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			commentParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			commentParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -49,18 +45,14 @@ public class CommentDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Comment");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("select c from Comment as c where c.id = ?");
-			query.setParameter(1, Util.getLong(commentParam.getId()));
+			Comment comment = (Comment) session.get(Comment.class, commentParam.getId());
 			
-			@SuppressWarnings("unchecked")
-			List<Comment> list = query.getResultList();
-			
-			if(list.size()>0) {
+			if(comment != null) {
 				
-				commentParam = list.get(0);
+				commentParam = comment;
 				commentParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				commentParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -69,7 +61,7 @@ public class CommentDAO {
 				commentParam.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			
@@ -97,18 +89,17 @@ public class CommentDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Comment");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			
-			Query query = manager.createQuery("Select c from Comment c where c.author.id = ? and c.post.id = ?");
-			query.setParameter(1, Util.getLong(idUser));
-			query.setParameter(2, Util.getLong(idPost));
-			query.setFirstResult(firstResult);
+			Query query = session.createQuery("from Comment p where p.author.id = :idUser and p.post.id = :idPost");
+			query.setParameter("idUser", Util.getLong(idUser));
+			query.setParameter("idPost", Util.getLong(idPost));
 			query.setMaxResults(amount);
+			query.setFirstResult(firstResult);
 			
 			@SuppressWarnings("unchecked")
-			List<Comment> list = query.getResultList();
+			List<Comment> list = query.list();
 			
 			if(Util.isEmptyOrNull(list)) {
 				listComment.setStatusCode(Messages.QUERY_NOT_FOUND.getStatusCode());
@@ -124,7 +115,7 @@ public class CommentDAO {
 			listComment.setStatusText(Messages.SUCCESS.getStatusText());
 				
 			
-			manager.close();
+			session.getTransaction().commit();
 		
 		} catch (Exception e) {
 			

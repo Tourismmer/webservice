@@ -1,18 +1,14 @@
 package com.tourismmer.app.dao;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Image;
+import com.tourismmer.app.util.HibernateUtil;
 
 public class ImageDAO {
 	
@@ -22,18 +18,18 @@ public class ImageDAO {
 		
 		try {
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("Image");
-			EntityManager manager = factory.createEntityManager();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
 			
-			Query query = manager.createQuery("select i from Image as i order by rand()");
+			Query query = session.createQuery("from Image u order by rand()");
 			
+			Image image = (Image) query.list().get(0);
 			
-			@SuppressWarnings("unchecked")
-			List<Image> list = query.getResultList();
+			session.getTransaction().commit();
 			
-			if(list.size()>0) {
+			if(image != null) {
 				
-				imageReturn = list.get(0);
+				imageReturn = image;
 				imageReturn.setStatusCode(Messages.SUCCESS.getStatusCode());
 				imageReturn.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -42,7 +38,6 @@ public class ImageDAO {
 				imageReturn.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 			}
 			
-			manager.close();
 		
 		} catch (Exception e) {
 			
