@@ -36,8 +36,6 @@ public class CommentResource {
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			CommentDAO commentDAO = new CommentDAO();
-//			ImageDAO imageDAO = new ImageDAO();
-//			commentParam.setImage(imageDAO.getImageRandom());
 			commentParam = commentDAO.create(commentParam);
 			
 		} else {

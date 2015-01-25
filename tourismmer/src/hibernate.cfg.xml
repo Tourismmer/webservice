@@ -25,6 +25,7 @@
   <mapping class="com.tourismmer.app.model.Post"></mapping>
   <mapping class="com.tourismmer.app.model.Comment"></mapping>
   <mapping class="com.tourismmer.app.model.TypePost"></mapping>
+  <mapping class="com.tourismmer.app.model.GroupUser"></mapping>
   
 </session-factory>
 </hibernate-configuration>

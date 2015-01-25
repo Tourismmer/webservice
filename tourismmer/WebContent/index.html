@@ -20,9 +20,9 @@ span {
 	<script>
 		$.ajax({
 
-			type: "PUT",
-			data: '',
-			url: "http://localhost:8081/tourismmer/resources/user/changePass/1/b",
+			type: "POST",
+			data: '{"description":"Estou indo para casa do Baralho amanhã","author":{"id":1}, "group":{"id":2}, "typePost":{"id":1}}',
+			url: "http://localhost:8080/tourismmer/resources/post",
 
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {

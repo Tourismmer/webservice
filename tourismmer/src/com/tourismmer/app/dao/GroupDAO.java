@@ -55,7 +55,14 @@ public class GroupDAO {
 			
 			if(group != null) {
 				
-				groupParam = group;
+				groupParam.setId(group.getId());
+				groupParam.setDestination(group.getDestination());
+				groupParam.setPurpose(group.getPurpose());
+				groupParam.setOwner(group.getOwner());
+				groupParam.setImage(group.getImage());
+				groupParam.setDate(group.getDate());
+				groupParam.setCountUser(group.getCountUser());
+				
 				groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				groupParam.setStatusText(Messages.SUCCESS.getStatusText());
 					
@@ -153,8 +160,22 @@ public class GroupDAO {
 				listGroup.setStatusText(Messages.QUERY_NOT_FOUND.getStatusText());
 				return listGroup;
 			}
+			
+			Group group = null;
+			
+			for (Group g : list) {
+				group = new Group();
+				group.setId(g.getId());
+				group.setDestination(g.getDestination());
+				group.setPurpose(g.getPurpose());
+				group.setOwner(g.getOwner());
+				group.setImage(g.getImage());
+				group.setDate(g.getDate());
 				
-			for (Group group : list) {
+				int countUser = session.createQuery("from GroupUser g where g.idGroup = :idGroup")
+						.setParameter("idGroup", group.getId()).list().size();
+				group.setCountUser(countUser);
+				
 				listGroup.getListGroup().add(group);
 			}
 			
@@ -205,7 +226,21 @@ public class GroupDAO {
 				return listGroup;
 			}
 				
-			for (Group group : list) {
+			Group group = null;
+			
+			for (Group g : list) {
+				group = new Group();
+				group.setId(g.getId());
+				group.setDestination(g.getDestination());
+				group.setPurpose(g.getPurpose());
+				group.setOwner(g.getOwner());
+				group.setImage(g.getImage());
+				group.setDate(g.getDate());
+				
+				int countUser = session.createQuery("from GroupUser g where g.idGroup = :idGroup")
+						.setParameter("idGroup", group.getId()).list().size();
+				group.setCountUser(countUser);
+				
 				listGroup.getListGroup().add(group);
 			}
 			
