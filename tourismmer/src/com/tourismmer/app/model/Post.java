@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -52,6 +53,12 @@ public class Post extends Model {
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "po_tp_id_type_post")
 	private TypePost typePost;
+	
+	@Transient
+	private Integer countComment = null;
+	
+	@Transient
+	private Integer countUserGo = null;
 	
 	public Post() {
 		
@@ -111,6 +118,22 @@ public class Post extends Model {
 
 	public void setTypePost(TypePost typePost) {
 		this.typePost = typePost;
+	}
+
+	public Integer getCountComment() {
+		return countComment;
+	}
+
+	public void setCountComment(Integer countComment) {
+		this.countComment = countComment;
+	}
+
+	public Integer getCountUserGo() {
+		return countUserGo;
+	}
+
+	public void setCountUserGo(Integer countUserGo) {
+		this.countUserGo = countUserGo;
 	}
 
 }

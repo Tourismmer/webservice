@@ -61,7 +61,10 @@ public class GroupDAO {
 				groupParam.setOwner(group.getOwner());
 				groupParam.setImage(group.getImage());
 				groupParam.setDate(group.getDate());
-				groupParam.setCountUser(group.getCountUser());
+				
+				int countUser = session.createQuery("from GroupUser g where g.idGroup = :idGroup")
+						.setParameter("idGroup", groupParam.getId()).list().size();
+				groupParam.setCountUser(countUser);
 				
 				groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				groupParam.setStatusText(Messages.SUCCESS.getStatusText());

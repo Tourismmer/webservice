@@ -33,6 +33,8 @@ public class Labels {
 	public static final String POST = "post";
 	
 	public static final String ID_AUTHOR = "id author";
+	
+	public static final String ID_COMMENT = "id comment";
 
 	public static final String ID_GROUP = "id group";
 

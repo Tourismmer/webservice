@@ -11,6 +11,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.ListPost;
 import com.tourismmer.app.model.Post;
+import com.tourismmer.app.model.UserGo;
 import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
 
@@ -41,6 +42,31 @@ public class PostDAO {
 		
 	}
 	
+	public UserGo addUserGo(UserGo userGoParam) {
+		
+		try {
+			
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(userGoParam);
+		
+			userGoParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			userGoParam.setStatusText(Messages.SUCCESS.getStatusText());
+			
+			session.getTransaction().commit();
+		
+		} catch (Exception e) {
+			userGoParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+			userGoParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(PostDAO.class);
+			log.error(e);
+		}
+		
+		return userGoParam;
+		
+	}
+	
 	public Post getPost(Post postParam) {
 		
 		try {
@@ -59,6 +85,14 @@ public class PostDAO {
 				postParam.setAuthor(post.getAuthor());
 				postParam.setImage(post.getImage());
 				postParam.setTypePost(post.getTypePost());
+				
+				int countComment = session.createQuery("from Comment c where c.post.id = :idPost")
+						.setParameter("idPost", postParam.getId()).list().size();
+				postParam.setCountComment(countComment);
+				
+				int countUserGo = session.createQuery("from UserGo u where u.idPost = :idPost")
+						.setParameter("idPost", postParam.getId()).list().size();
+				postParam.setCountUserGo(countUserGo);
 				
 				postParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				postParam.setStatusText(Messages.SUCCESS.getStatusText());
@@ -122,6 +156,15 @@ public class PostDAO {
 				post.setAuthor(p.getAuthor());
 				post.setImage(p.getImage());
 				post.setTypePost(p.getTypePost());
+				
+				int countComment = session.createQuery("from Comment c where c.post.id = :idPost")
+						.setParameter("idPost", post.getId()).list().size();
+				post.setCountComment(countComment);
+				
+				int countUserGo = session.createQuery("from UserGo u where u.idPost = :idPost")
+						.setParameter("idPost", post.getId()).list().size();
+				post.setCountUserGo(countUserGo);
+				
 				listPost.getListPost().add(post);
 			}
 			

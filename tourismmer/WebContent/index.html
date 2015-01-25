@@ -21,8 +21,8 @@ span {
 		$.ajax({
 
 			type: "POST",
-			data: '{"description":"Estou indo para casa do Baralho amanhã","author":{"id":1}, "group":{"id":2}, "typePost":{"id":1}}',
-			url: "http://localhost:8080/tourismmer/resources/post",
+			data: '{"idUser":2,"idPost":1}',
+			url: "http://localhost:8080/tourismmer/resources/post/userGo",
 
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {
