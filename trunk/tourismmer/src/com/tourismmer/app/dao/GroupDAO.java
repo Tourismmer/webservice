@@ -32,6 +32,7 @@ public class GroupDAO {
 			groupParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			groupParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -75,6 +76,7 @@ public class GroupDAO {
 			}
 			
 			session.getTransaction().commit();
+			session.close();
 			
 		} catch (Exception e) {
 			
@@ -186,6 +188,7 @@ public class GroupDAO {
 			listGroup.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			
@@ -251,6 +254,9 @@ public class GroupDAO {
 			listGroup.setStatusText(Messages.SUCCESS.getStatusText());
 				
 			session.getTransaction().commit();
+			session.close();
+			
+			list.size();
 		
 		} catch (Exception e) {
 			

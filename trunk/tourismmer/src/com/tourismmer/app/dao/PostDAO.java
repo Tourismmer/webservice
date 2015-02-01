@@ -30,6 +30,7 @@ public class PostDAO {
 			postParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			postParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -55,6 +56,7 @@ public class PostDAO {
 			userGoParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			userGoParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -77,6 +79,7 @@ public class PostDAO {
 			Post post = (Post) session.get(Post.class, postParam.getId());
 			
 			session.getTransaction().commit();
+			session.close();
 			
 			if(post != null) {
 				
@@ -172,6 +175,7 @@ public class PostDAO {
 			listPost.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			

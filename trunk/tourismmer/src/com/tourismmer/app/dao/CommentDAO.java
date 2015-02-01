@@ -30,6 +30,7 @@ public class CommentDAO {
 			commentParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			commentParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -55,6 +56,7 @@ public class CommentDAO {
 			likeParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			likeParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
@@ -95,6 +97,7 @@ public class CommentDAO {
 			}
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			
@@ -160,6 +163,7 @@ public class CommentDAO {
 				
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			
