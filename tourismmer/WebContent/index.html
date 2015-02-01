@@ -21,8 +21,8 @@ span {
 		$.ajax({
 
 			type: "POST",
-			data: '{"idUser":2,"idPost":1}',
-			url: "http://localhost:8080/tourismmer/resources/post/userGo",
+			data: '{"destination":"Paraná", "purpose":{"id":1},"owner":{"id":1}}',
+			url: "http://localhost:8080/tourismmer/resources/group",
 
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {

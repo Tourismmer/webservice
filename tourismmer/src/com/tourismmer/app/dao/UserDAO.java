@@ -1,5 +1,7 @@
 package com.tourismmer.app.dao;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -31,6 +33,8 @@ public class UserDAO {
 			userParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
+			
+			session.close();
 		
 		} catch (Exception e) {
 			
@@ -104,6 +108,8 @@ public class UserDAO {
 
 			session.getTransaction().commit();
 			
+			session.close();
+			
 		} catch (Exception e) {
 			
 			if(e.getCause() instanceof ConstraintViolationException) {
@@ -134,9 +140,12 @@ public class UserDAO {
 			Criteria criteria = session.createCriteria(User.class);
 			criteria.add(Restrictions.eq("email", Util.getString(userParam.getEmail())));
 			
-			User user = (User)criteria.list().get(0);
+			@SuppressWarnings("rawtypes")
+			List listUser = criteria.list();
 			
-			if(user != null) {
+			if(Util.isNotEmptyOrNull(listUser)) {
+				
+				User user = (User) listUser.get(0);
 				
 				if(userParam.getPass().equals(EncryptDecryptRSA.decrypt(user.getPass()))) {
 					userParam = user;
@@ -155,6 +164,7 @@ public class UserDAO {
 			}
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			
@@ -184,12 +194,14 @@ public class UserDAO {
 			session.beginTransaction();
 			
 			Criteria criteria = session.createCriteria(User.class);
-			criteria.add(Restrictions.eq("facebookId", Util.getString(userParam.getEmail())));
+			criteria.add(Restrictions.eq("facebookId", Util.getString(userParam.getFacebookId())));
 			
-			User user = (User)criteria.list().get(0);
+			@SuppressWarnings("rawtypes")
+			List listUser = criteria.list();
 			
-			if(user != null) {
+			if(Util.isNotEmptyOrNull(listUser)) {
 				
+				User user = (User)criteria.list().get(0);
 				userParam = user;
 				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				userParam.setStatusText(Messages.SUCCESS.getStatusText());
@@ -200,6 +212,7 @@ public class UserDAO {
 			}
 		
 			session.getTransaction().commit();
+			session.close();
 			
 		} catch (Exception e) {
 			
@@ -241,6 +254,7 @@ public class UserDAO {
 			}
 			
 			session.getTransaction().commit();
+			session.close();
 		
 		} catch (Exception e) {
 			
@@ -273,9 +287,12 @@ public class UserDAO {
 			Criteria criteria = session.createCriteria(User.class);
 			criteria.add(Restrictions.eq("email", Util.getString(userParam.getEmail())));
 			
-			User user = (User)criteria.list().get(0);
+			@SuppressWarnings("rawtypes")
+			List listUser = criteria.list();
 			
-			if(user != null) {
+			if(Util.isNotEmptyOrNull(listUser)) {
+				
+				User user = (User)criteria.list().get(0);
 				userParam = user;
 				userParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 				userParam.setStatusText(Messages.SUCCESS.getStatusText());
@@ -286,6 +303,7 @@ public class UserDAO {
 			}
 			
 			session.getTransaction().commit();
+			session.close();
 			
 		} catch (Exception e) {
 			
