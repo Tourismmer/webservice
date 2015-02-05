@@ -1,5 +1,6 @@
 package com.tourismmer.app.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -10,6 +11,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Group;
+import com.tourismmer.app.model.GroupUser;
 import com.tourismmer.app.model.ListGroup;
 import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
@@ -26,7 +28,29 @@ public class GroupDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			session.save(groupParam);
+			@SuppressWarnings("rawtypes")
+			Query query = session.createQuery("from Group g where month(g.date) = :month and g.purpose.id = :idPurpose and g.destination = :destination");
+			
+			query.setParameter("month", groupParam.getDate().get(Calendar.MONTH)+1);
+			query.setParameter("idPurpose", groupParam.getPurpose().getId());
+			query.setParameter("destination", groupParam.getDestination());
+			
+			List listGroup = query.list();
+			
+			Group group = null;
+			if(Util.isNotEmptyOrNull(listGroup)) {
+				
+				group = (Group) listGroup.get(0);
+				
+				GroupUser groupUser = new GroupUser();
+				groupUser.setIdGroup(group.getId());
+				groupUser.setIdUser(groupParam.getOwner().getId());
+				
+				session.save(groupUser);
+				
+			} else {
+				session.save(groupParam);
+			}
 			
 			groupParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			groupParam.setStatusText(Messages.SUCCESS.getStatusText());
@@ -275,6 +299,32 @@ public class GroupDAO {
 		}
 		
 		return listGroup;
+	}
+	
+	public GroupUser joinGroup(GroupUser groupUserParam) {
+		
+		try {
+			
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(groupUserParam);
+		
+			groupUserParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			groupUserParam.setStatusText(Messages.SUCCESS.getStatusText());
+			
+			session.getTransaction().commit();
+			session.close();
+		
+		} catch (Exception e) {
+			groupUserParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+			groupUserParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(PostDAO.class);
+			log.error(e);
+		}
+		
+		return groupUserParam;
+		
 	}
 	
 }
