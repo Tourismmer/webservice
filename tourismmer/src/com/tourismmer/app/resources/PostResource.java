@@ -39,8 +39,12 @@ public class PostResource {
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			PostDAO postDAO = new PostDAO();
-			ImageDAO imageDAO = new ImageDAO();
-			postParam.setImage(imageDAO.getImageRandom());
+			
+			if(postParam.getImage() == null || postParam.getImage().getId() == null) {
+				ImageDAO imageDAO = new ImageDAO();
+				postParam.setImage(imageDAO.getImageRandom());
+			}
+			
 			postParam.getUserList().add(new User(postParam.getAuthor().getId()));
 			postParam = postDAO.create(postParam);
 			

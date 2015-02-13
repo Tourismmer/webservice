@@ -22,8 +22,8 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.tourismmer.app.constants.ViewConstants;
-import com.tourismmer.app.json.CalendarDeserializer;
-import com.tourismmer.app.json.CalendarSerializer;
+import com.tourismmer.app.json.CalendarDateTimeDeserializer;
+import com.tourismmer.app.json.CalendarDateTimeSerializer;
 import com.tourismmer.app.json.CommentSerializer;
 
 @Entity
@@ -56,10 +56,10 @@ public class Comment extends Model {
 	@Transient
 	private Integer countLike = null;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "co_date")
-	@JsonDeserialize(using=CalendarDeserializer.class)
-	@JsonSerialize(using=CalendarSerializer.class)
+	@JsonDeserialize(using=CalendarDateTimeDeserializer.class)
+	@JsonSerialize(using=CalendarDateTimeSerializer.class)
 	private Calendar date = null;
 	
 	public Comment() {

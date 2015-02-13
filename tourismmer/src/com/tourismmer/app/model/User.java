@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,6 +49,10 @@ public class User extends Model {
 	
 	@Column(name = "us_facebook_id")
 	private String facebookId = ViewConstants.EMPYT;
+	
+	@OneToOne(optional=true)
+	@JoinColumn(name = "us_im_id_image")
+	private Image image;
 	
     public User() {
     }
@@ -111,6 +117,14 @@ public class User extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
     
 }

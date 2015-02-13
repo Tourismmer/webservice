@@ -22,8 +22,8 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.tourismmer.app.constants.ViewConstants;
-import com.tourismmer.app.json.CalendarDeserializer;
-import com.tourismmer.app.json.CalendarSerializer;
+import com.tourismmer.app.json.CalendarDateTimeDeserializer;
+import com.tourismmer.app.json.CalendarDateTimeSerializer;
 import com.tourismmer.app.json.PostSerializer;
 
 @Entity
@@ -54,7 +54,7 @@ public class Post extends Model {
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "po_im_id_image")
-	private Image image;
+	private Image image = new Image();
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "po_tp_id_type_post")
@@ -66,10 +66,10 @@ public class Post extends Model {
 	@Transient
 	private Integer countUserGo = null;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "po_date")
-	@JsonDeserialize(using=CalendarDeserializer.class)
-	@JsonSerialize(using=CalendarSerializer.class)
+	@JsonDeserialize(using=CalendarDateTimeDeserializer.class)
+	@JsonSerialize(using=CalendarDateTimeSerializer.class)
 	private Calendar date = null;
 	
 	public Post() {

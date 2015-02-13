@@ -21,8 +21,8 @@ span {
 		$.ajax({
 
 			type: "POST",
-			data: '{"purpose":{"id":3},"destination":"California City, CA, Estados Unidos","owner":{"id":2},"date":"01-09-2015"}',
-			url: "http://localhost:8080/tourismmer/resources/group",
+			data: '{"description":"Trilha","author":{"id":1}, "group":{"id":1}, "typePost":{"id":1}, "image":{"id":2}}',
+			url: "http://localhost:8080/tourismmer/resources/post",
 
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {

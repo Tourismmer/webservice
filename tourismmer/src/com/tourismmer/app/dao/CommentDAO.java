@@ -151,6 +151,7 @@ public class CommentDAO {
 				comment.setId(c.getId());
 				comment.setDescription(c.getDescription());
 				comment.setAuthor(c.getAuthor());
+				comment.setDate(c.getDate());
 				
 				int countLikes = session.createQuery("from Like l where l.idComment = :idComment")
 						.setParameter("idComment", comment.getId()).list().size();

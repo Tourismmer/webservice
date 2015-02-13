@@ -90,6 +90,7 @@ public class PostDAO {
 				postParam.setAuthor(post.getAuthor());
 				postParam.setImage(post.getImage());
 				postParam.setTypePost(post.getTypePost());
+				postParam.setDate(post.getDate());
 				
 				int countComment = session.createQuery("from Comment c where c.post.id = :idPost")
 						.setParameter("idPost", postParam.getId()).list().size();
@@ -160,6 +161,7 @@ public class PostDAO {
 				post.setAuthor(p.getAuthor());
 				post.setImage(p.getImage());
 				post.setTypePost(p.getTypePost());
+				post.setDate(p.getDate());
 				
 				int countComment = session.createQuery("from Comment c where c.post.id = :idPost")
 						.setParameter("idPost", post.getId()).list().size();
