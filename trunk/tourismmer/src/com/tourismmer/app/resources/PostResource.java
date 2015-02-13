@@ -101,10 +101,10 @@ public class PostResource {
 	}
 	
 	@GET
-	@Path("/getListPost/{idUser}/{idGroup}/{amount}/{firstResult}")
+	@Path("/getListPost/{idGroup}/{amount}/{firstResult}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ListPost getListPost(@PathParam("idUser") Long idUser, @PathParam("idGroup") Long idGroup, @PathParam(Labels.AMOUNT) Integer amount, @PathParam(Labels.FIRST_RESULT) Integer firstResult) {
+	public ListPost getListPost(@PathParam("idGroup") Long idGroup, @PathParam(Labels.AMOUNT) Integer amount, @PathParam(Labels.FIRST_RESULT) Integer firstResult) {
 		
 		ListPost listPost = new ListPost();
 		
@@ -112,14 +112,14 @@ public class PostResource {
 		Object[] fields = null;
 		String[] labels = null;
 		
-			fields = new Object[]{idUser, idGroup, amount};
-			labels = new String[]{Labels.ID, Labels.ID_GROUP, Labels.AMOUNT};
+			fields = new Object[]{idGroup, amount};
+			labels = new String[]{Labels.ID_GROUP, Labels.AMOUNT};
 			
 		invalidFields = Util.validateParametersRequired(fields, labels);
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			PostDAO dao = new PostDAO();
-			listPost = dao.getListPost(idUser, idGroup, amount, firstResult);
+			listPost = dao.getListPost(idGroup, amount, firstResult);
 			
 		} else {
 			listPost.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
@@ -129,5 +129,6 @@ public class PostResource {
 
 		return listPost;
 	}
+	
 
 }

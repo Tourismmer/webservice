@@ -1,6 +1,7 @@
 package com.tourismmer.app.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -13,11 +14,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.tourismmer.app.constants.ViewConstants;
+import com.tourismmer.app.json.CalendarDeserializer;
+import com.tourismmer.app.json.CalendarSerializer;
 import com.tourismmer.app.json.CommentSerializer;
 
 @Entity
@@ -49,6 +55,12 @@ public class Comment extends Model {
 	
 	@Transient
 	private Integer countLike = null;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "co_date")
+	@JsonDeserialize(using=CalendarDeserializer.class)
+	@JsonSerialize(using=CalendarSerializer.class)
+	private Calendar date = null;
 	
 	public Comment() {
 		
@@ -100,6 +112,14 @@ public class Comment extends Model {
 
 	public void setCountLike(Integer countLike) {
 		this.countLike = countLike;
+	}
+
+	public Calendar getDate() {
+		return date;
+	}
+
+	public void setDate(Calendar date) {
+		this.date = date;
 	}
 
 }

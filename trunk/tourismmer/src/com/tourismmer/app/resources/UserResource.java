@@ -114,7 +114,7 @@ public class UserResource {
 	@Path("/{email}/{pass}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User read(@PathParam(Labels.EMAIL) String email, @PathParam(Labels.PASS) String pass) {
+	public User login(@PathParam(Labels.EMAIL) String email, @PathParam(Labels.PASS) String pass) {
 		
 		User user = new User();
 		user.setEmail(email);

@@ -1,5 +1,6 @@
 package com.tourismmer.app.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -24,6 +25,7 @@ public class PostDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
+			postParam.setDate(Calendar.getInstance());
 			session.save(postParam);
 		
 			postParam.setStatusCode(Messages.SUCCESS.getStatusCode());
@@ -126,7 +128,7 @@ public class PostDAO {
 		
 	}
 	
-	public ListPost getListPost(Long idUser, Long idGroup, Integer amount, Integer firstResult) {
+	public ListPost getListPost(Long idGroup, Integer amount, Integer firstResult) {
 		
 		ListPost listPost = new ListPost();
 		
@@ -135,8 +137,7 @@ public class PostDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			Query query = session.createQuery("from Post p where p.author.id = :idUser and p.group.id = :idGroup");
-			query.setParameter("idUser", Util.getLong(idUser));
+			Query query = session.createQuery("from Post p where p.group.id = :idGroup order by p.date desc");
 			query.setParameter("idGroup", Util.getLong(idGroup));
 			query.setMaxResults(amount);
 			query.setFirstResult(firstResult);
