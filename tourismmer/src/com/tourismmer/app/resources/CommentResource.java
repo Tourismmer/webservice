@@ -96,10 +96,10 @@ public class CommentResource {
 	}
 	
 	@GET
-	@Path("/getListComment/{idUser}/{idPost}/{amount}/{firstResult}")
+	@Path("/getListComment/{idPost}/{amount}/{firstResult}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ListComment getListComment(@PathParam("idUser") Long idUser, @PathParam("idPost") Long idPost, @PathParam(Labels.AMOUNT) Integer amount, @PathParam(Labels.FIRST_RESULT) Integer firstResult) {
+	public ListComment getListComment(@PathParam("idPost") Long idPost, @PathParam(Labels.AMOUNT) Integer amount, @PathParam(Labels.FIRST_RESULT) Integer firstResult) {
 		
 		ListComment listComment = new ListComment();
 		
@@ -107,14 +107,14 @@ public class CommentResource {
 		Object[] fields = null;
 		String[] labels = null;
 		
-			fields = new Object[]{idUser, idPost, amount};
-			labels = new String[]{Labels.ID, Labels.ID_POST, Labels.AMOUNT};
+			fields = new Object[]{idPost, amount};
+			labels = new String[]{Labels.ID_POST, Labels.AMOUNT};
 			
 		invalidFields = Util.validateParametersRequired(fields, labels);
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			CommentDAO dao = new CommentDAO();
-			listComment = dao.getListComment(idUser, idPost, amount, firstResult);
+			listComment = dao.getListComment( idPost, amount, firstResult);
 			
 		} else {
 			listComment.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());

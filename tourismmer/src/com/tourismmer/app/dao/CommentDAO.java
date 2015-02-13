@@ -1,5 +1,6 @@
 package com.tourismmer.app.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -24,6 +25,7 @@ public class CommentDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
+			commentParam.setDate(Calendar.getInstance());
 			session.save(commentParam);
 			
 			commentParam.setStatusCode(Messages.SUCCESS.getStatusCode());
@@ -119,7 +121,7 @@ public class CommentDAO {
 		
 	}
 	
-	public ListComment getListComment(Long idUser, Long idPost, Integer amount, Integer firstResult) {
+	public ListComment getListComment(Long idPost, Integer amount, Integer firstResult) {
 		
 		ListComment listComment = new ListComment();
 		
@@ -128,8 +130,7 @@ public class CommentDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			Query query = session.createQuery("from Comment p where p.author.id = :idUser and p.post.id = :idPost");
-			query.setParameter("idUser", Util.getLong(idUser));
+			Query query = session.createQuery("from Comment c where c.post.id = :idPost order by c.date desc");
 			query.setParameter("idPost", Util.getLong(idPost));
 			query.setMaxResults(amount);
 			query.setFirstResult(firstResult);

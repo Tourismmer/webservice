@@ -15,6 +15,7 @@ import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.dao.GroupDAO;
 import com.tourismmer.app.dao.ImageDAO;
 import com.tourismmer.app.model.Group;
+import com.tourismmer.app.model.GroupUser;
 import com.tourismmer.app.model.ListGroup;
 import com.tourismmer.app.model.User;
 import com.tourismmer.app.util.Util;
@@ -155,6 +156,31 @@ public class GroupResource {
 		return listGroup;
 	}
 	
-	
+	@POST
+	@Path("/join")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response join(GroupUser groupUserParam) {
+		
+		String invalidFields = null;
+		Object[] fields = null;
+		String[] labels = null;
+		
+		fields = new Object[]{groupUserParam.getIdUser(), groupUserParam.getIdGroup()};
+		labels = new String[]{Labels.ID_USER, Labels.ID_GROUP};
+		
+		invalidFields = Util.validateParametersRequired(fields, labels);
+		
+		if(Util.isEmptyOrNull(invalidFields)) {
+			GroupDAO groupDAO = new GroupDAO();
+			groupUserParam = groupDAO.join(groupUserParam);
+			
+		} else {
+			groupUserParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			groupUserParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
+		}
+
+		return Response.status(200).entity(groupUserParam).build();
+	}
 
 }

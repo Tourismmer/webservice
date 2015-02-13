@@ -28,13 +28,14 @@ public class GroupDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			@SuppressWarnings("rawtypes")
-			Query query = session.createQuery("from Group g where month(g.date) = :month and g.purpose.id = :idPurpose and g.destination = :destination");
+			Query query = session.createQuery("from Group g where month(g.date) = :month and year(g.date) = :year and g.purpose.id = :idPurpose and g.destination = :destination");
 			
 			query.setParameter("month", groupParam.getDate().get(Calendar.MONTH)+1);
+			query.setParameter("year", groupParam.getDate().get(Calendar.YEAR));
 			query.setParameter("idPurpose", groupParam.getPurpose().getId());
 			query.setParameter("destination", groupParam.getDestination());
 			
+			@SuppressWarnings("rawtypes")
 			List listGroup = query.list();
 			
 			Group group = null;
@@ -47,6 +48,8 @@ public class GroupDAO {
 				groupUser.setIdUser(groupParam.getOwner().getId());
 				
 				session.save(groupUser);
+				
+				groupParam = (Group) session.get(Group.class, groupParam.getId());
 				
 			} else {
 				session.save(groupParam);
@@ -301,7 +304,7 @@ public class GroupDAO {
 		return listGroup;
 	}
 	
-	public GroupUser joinGroup(GroupUser groupUserParam) {
+	public GroupUser join(GroupUser groupUserParam) {
 		
 		try {
 			
@@ -324,7 +327,6 @@ public class GroupDAO {
 		}
 		
 		return groupUserParam;
-		
 	}
 	
 }
