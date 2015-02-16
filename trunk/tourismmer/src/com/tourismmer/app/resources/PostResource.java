@@ -39,10 +39,23 @@ public class PostResource {
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			PostDAO postDAO = new PostDAO();
+			ImageDAO imageDAO = new ImageDAO();
 			
 			if(postParam.getImage() == null || postParam.getImage().getId() == null) {
-				ImageDAO imageDAO = new ImageDAO();
 				postParam.setImage(imageDAO.getImageRandom());
+				
+			} else {
+				
+				fields = new Object[]{postParam.getImage().getUrl(), postParam.getImage().getOwner(), postParam.getImage().getOwner().getId()};
+				labels = new String[]{Labels.URL, Labels.OWNER, Labels.ID_OWNER};
+				
+				invalidFields = Util.validateParametersRequired(fields, labels);
+				
+				if(Util.isEmptyOrNull(invalidFields)) { 
+					imageDAO.create(postParam.getImage());
+					postParam.setImage(imageDAO.getImageRandom());
+				}
+				
 			}
 			
 			postParam.getUserList().add(new User(postParam.getAuthor().getId()));

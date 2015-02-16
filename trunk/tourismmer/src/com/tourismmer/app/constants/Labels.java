@@ -40,4 +40,10 @@ public class Labels {
 
 	public static final String ID_POST = "id post";
 
+	public static final String URL = "url";
+
+	public static final String OWNER = "owner";
+	
+	public static final String ID_OWNER = "id owner";
+
 }
