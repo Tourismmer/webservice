@@ -63,5 +63,41 @@ public class ImageDAO {
 		return imageReturn;
 		
 	}
+	
+	public Image create(Image imageParam) {
+		
+		try {
+			
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(imageParam);
+			
+			imageParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			imageParam.setStatusText(Messages.SUCCESS.getStatusText());
+			
+			session.getTransaction().commit();
+			
+			session.close();
+		
+		} catch (Exception e) {
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				imageParam.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				imageParam.setStatusText(msg);
+			
+			} else {
+				imageParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				imageParam.setStatusText(e.getMessage());
+			}
+			
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
+		}
+		
+		return imageParam;
+		
+	}
 
 }
