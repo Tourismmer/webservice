@@ -49,7 +49,7 @@ public class GroupDAO {
 				
 				session.save(groupUser);
 				
-				groupParam = (Group) session.get(Group.class, groupParam.getId());
+				groupParam = (Group) session.get(Group.class, group.getId());
 				
 			} else {
 				session.save(groupParam);
