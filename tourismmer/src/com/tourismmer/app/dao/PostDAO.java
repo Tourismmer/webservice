@@ -1,6 +1,5 @@
 package com.tourismmer.app.dao;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -25,7 +24,7 @@ public class PostDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			postParam.setDate(Calendar.getInstance());
+			postParam.setDate(Util.getInstanceCalendar());
 			session.save(postParam);
 		
 			postParam.setStatusCode(Messages.SUCCESS.getStatusCode());
