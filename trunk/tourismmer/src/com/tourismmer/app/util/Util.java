@@ -4,8 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -406,6 +408,10 @@ public class Util {
 				|| valor.toString().equals(String.valueOf(Numeros.ZERO))
 				|| valor.toString().equals(
 						String.valueOf(Numeros.ZERO_PONTO_ZERO));
+	}
+	
+	public static Calendar getInstanceCalendar() {
+		return Calendar.getInstance(new Locale("pt", "BR"));
 	}
 	
 	
