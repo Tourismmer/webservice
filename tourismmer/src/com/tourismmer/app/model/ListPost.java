@@ -7,7 +7,7 @@ import com.tourismmer.app.constants.Numeros;
 
 public class ListPost extends Model {
 	
-	List<Post> listPost = null;
+	private List<Post> listPost = null;
 	
 	public ListPost() {
 		listPost = new ArrayList<Post>(Numeros.ZERO);

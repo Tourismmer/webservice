@@ -7,7 +7,7 @@ import com.tourismmer.app.constants.Numeros;
 
 public class ListComment extends Model {
 	
-	List<Comment> listComment = null;
+	private List<Comment> listComment = null;
 	
 	public ListComment() {
 		listComment = new ArrayList<Comment>(Numeros.ZERO);

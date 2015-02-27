@@ -7,7 +7,9 @@ import com.tourismmer.app.constants.Numeros;
 
 public class ListGroup extends Model {
 	
-	List<Group> listGroup = null;
+	private List<Group> listGroup = null;
+	
+	private Boolean hasMoreData = Boolean.FALSE;
 	
 	public ListGroup() {
 		listGroup = new ArrayList<Group>(Numeros.ZERO);
@@ -19,6 +21,14 @@ public class ListGroup extends Model {
 
 	public void setListGroup(List<Group> listGroup) {
 		this.listGroup = listGroup;
+	}
+
+	public Boolean getHasMoreData() {
+		return hasMoreData;
+	}
+
+	public void setHasMoreData(Boolean hasMoreData) {
+		this.hasMoreData = hasMoreData;
 	}
 	
 }
