@@ -171,6 +171,7 @@ public class GroupDAO {
 //		
 //	}
 	
+	@SuppressWarnings("unchecked")
 	public ListGroup getTopTrips(Integer amount, Integer fistResult) {
 		
 		ListGroup listGroup = new ListGroup();
@@ -184,7 +185,6 @@ public class GroupDAO {
 			query.setMaxResults(amount);
 			query.setFirstResult(fistResult);
 			
-			@SuppressWarnings("unchecked")
 			List<Group> list = query.list();
 			
 			if(Util.isEmptyOrNull(list)) {
@@ -210,6 +210,23 @@ public class GroupDAO {
 				
 				listGroup.getListGroup().add(group);
 			}
+			
+			if(list.size() < amount) {
+				listGroup.setHasMoreData(Boolean.FALSE);
+			} else {
+				query.setMaxResults(amount);
+				query.setFirstResult(fistResult+amount);
+				list = query.list();
+				
+				if(list.size() >= 1) {
+					listGroup.setHasMoreData(Boolean.TRUE);
+				} else {
+					listGroup.setHasMoreData(Boolean.FALSE);
+				}
+				
+			}
+			
+			
 			
 			listGroup.setStatusCode(Messages.SUCCESS.getStatusCode());
 			listGroup.setStatusText(Messages.SUCCESS.getStatusText());
