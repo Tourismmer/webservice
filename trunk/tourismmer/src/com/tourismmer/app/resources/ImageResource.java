@@ -13,11 +13,23 @@ import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.dao.ImageDAO;
 import com.tourismmer.app.model.Image;
+import com.tourismmer.app.model.ImageS3;
 import com.tourismmer.app.util.Util;
 
 @Path("/image")
 public class ImageResource {
 	
+	@GET
+	@Path("/getIdS3Randown")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ImageS3 getIdS3Randown() {
+		
+		ImageS3 image = new ImageS3();
+		ImageDAO dao = new ImageDAO();
+		image = dao.getIdS3Randown();
+
+		return image;
+	}
 	
 	@GET
 	@Path("/getImageRandom")

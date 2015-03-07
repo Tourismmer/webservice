@@ -45,14 +45,29 @@ public class PostDAO {
 		
 	}
 	
-	public UserGo addUserGo(UserGo userGoParam) {
+	public UserGo join(UserGo userGoParam) {
 		
 		try {
 			
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			session.save(userGoParam);
+			Query query = session.createQuery("from UserGo o where o.idUser = :idUser and o.idPost = :idPost");
+			query.setParameter("idUser", userGoParam.getIdUser());
+			query.setParameter("idPost", userGoParam.getIdPost());
+			
+			// Se existe registro
+			if(query.list().size() >= 1) {
+				
+				Query queryDel = session.createQuery("DELETE from UserGo o where o.idUser = :idUser and o.idPost = :idPost");
+				queryDel.setParameter("idUser", userGoParam.getIdUser());
+				queryDel.setParameter("idPost", userGoParam.getIdPost());
+				
+				queryDel.executeUpdate();
+				
+			} else {
+				session.save(userGoParam);
+			}
 		
 			userGoParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			userGoParam.setStatusText(Messages.SUCCESS.getStatusText());
@@ -224,8 +239,23 @@ public class PostDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			session.save(likeParam);
-		
+			Query query = session.createQuery("from LikePost o where o.idUser = :idUser and o.idPost = :idPost");
+			query.setParameter("idUser", likeParam.getIdUser());
+			query.setParameter("idPost", likeParam.getIdPost());
+			
+			// Se existe registro
+			if(query.list().size() >= 1) {
+				
+				Query queryDel = session.createQuery("DELETE from LikePost o where o.idUser = :idUser and o.idPost = :idPost");
+				queryDel.setParameter("idUser", likeParam.getIdUser());
+				queryDel.setParameter("idPost", likeParam.getIdPost());
+				
+				queryDel.executeUpdate();
+				
+			} else {
+				session.save(likeParam);
+			}
+			
 			likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			likeParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
