@@ -22,6 +22,8 @@ public class Labels {
 	
 	public static final String AMOUNT = "amount";
 	
+	public static final String TYPE_POST = "type post";
+	
 	public static final String FIRST_RESULT = "firstResult";
 	
 	public static final String DESCRIPTION = "description";

@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "li_like")
-public class Like extends Model implements Serializable {
+@Table (name = "li_like_comment")
+public class LikeComment extends Model implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class Like extends Model implements Serializable {
 	private Long idComment = null;
 	
 
-	public Like() {
+	public LikeComment() {
 	}
 
 

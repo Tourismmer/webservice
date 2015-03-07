@@ -31,6 +31,9 @@ public class PostSerializer extends JsonSerializer<Post> {
 		if(Util.isNotEmptyOrNullOrZero(o.getDate())) jgen.writeObjectField("date", Util.dateToString(o.getDate().getTime(), Util.FORMAT_DATE_TIME_JSON));
 		if(Util.isNotEmptyOrNullOrZero(o.getCountComment())) jgen.writeObjectField("countComment", o.getCountComment());
 		if(Util.isNotEmptyOrNullOrZero(o.getCountUserGo())) jgen.writeObjectField("countUserGo", o.getCountUserGo());
+		if(Util.isNotEmptyOrNullOrZero(o.getUserLiked())) jgen.writeObjectField("userLiked", o.getUserLiked());
+		if(Util.isNotEmptyOrNullOrZero(o.getUserCommented())) jgen.writeObjectField("userCommented", o.getUserCommented());
+		if(Util.isNotEmptyOrNullOrZero(o.getUserGo())) jgen.writeObjectField("userGo", o.getUserGo());
 		
 		jgen.writeEndObject();
 		

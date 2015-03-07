@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
+import com.tourismmer.app.model.LikePost;
 import com.tourismmer.app.model.ListPost;
 import com.tourismmer.app.model.Post;
 import com.tourismmer.app.model.UserGo;
@@ -128,7 +129,7 @@ public class PostDAO {
 		
 	}
 	
-	public ListPost getListPost(Long idGroup, Integer amount, Integer firstResult) {
+	public ListPost getListPost(Long idGroup, Integer amount, Integer firstResult, Long idUser) {
 		
 		ListPost listPost = new ListPost();
 		
@@ -162,13 +163,31 @@ public class PostDAO {
 				post.setTypePost(p.getTypePost());
 				post.setDate(p.getDate());
 				
-				int countComment = session.createQuery("from Comment c where c.post.id = :idPost")
+				int countComment = session.createQuery("from Comment o where o.post.id = :idPost")
 						.setParameter("idPost", post.getId()).list().size();
 				post.setCountComment(countComment);
 				
-				int countUserGo = session.createQuery("from UserGo u where u.idPost = :idPost")
+				int countUserGo = session.createQuery("from UserGo o where o.idPost = :idPost")
 						.setParameter("idPost", post.getId()).list().size();
 				post.setCountUserGo(countUserGo);
+				
+				Query queryItem = session.createQuery("from LikePost o where o.idUser = :idUser and o.idPost = :idPost");
+				queryItem.setParameter("idUser", idUser);
+				queryItem.setParameter("idPost", post.getId());
+				
+				post.setUserLiked(queryItem.list().size() >= 1);
+				
+				Query queryItem2 = session.createQuery("from Comment o where o.author.id = :idUser and o.post.id = :idPost");
+				queryItem2.setParameter("idUser", idUser);
+				queryItem2.setParameter("idPost", post.getId());
+				
+				post.setUserCommented(queryItem2.list().size() >= 1);
+				
+				Query queryItem3 = session.createQuery("from UserGo o where o.idUser = :idUser and o.idPost = :idPost");
+				queryItem3.setParameter("idUser", idUser);
+				queryItem3.setParameter("idPost", post.getId());
+				
+				post.setUserGo(queryItem3.list().size() >= 1);
 				
 				listPost.getListPost().add(post);
 			}
@@ -196,6 +215,32 @@ public class PostDAO {
 		}
 		
 		return listPost;
+	}
+	
+	public LikePost like(LikePost likeParam) {
+		
+		try {
+			
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(likeParam);
+		
+			likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+			likeParam.setStatusText(Messages.SUCCESS.getStatusText());
+			
+			session.getTransaction().commit();
+			session.close();
+		
+		} catch (Exception e) {
+			likeParam.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+			likeParam.setStatusText(Messages.ERROR_QUERYING_DATABASE.getStatusText());
+			Log log = LogFactory.getLog(PostDAO.class);
+			log.error(e);
+		}
+		
+		return likeParam;
+		
 	}
 
 }

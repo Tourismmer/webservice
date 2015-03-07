@@ -39,11 +39,11 @@ public class Post extends Model {
 	@Column(name = "po_description")
 	private String description = ViewConstants.EMPYT;
 	
-	@ManyToOne(optional=false, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "po_tr_id_trip")
 	private Group group = new Group();
 	
-	@ManyToOne(optional=false)
+	@ManyToOne
 	@JoinColumn(name = "po_us_id_author")
 	private User author = new User();
 	
@@ -52,11 +52,11 @@ public class Post extends Model {
 		joinColumns = @JoinColumn(name = "ug_po_id_post"), inverseJoinColumns = @JoinColumn(name = "ug_us_id_user") )
 	private Collection<User> userList = new ArrayList <User>();
 	
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "po_im_id_image")
-	private Image image = new Image();
+	@ManyToOne(optional=true)
+	@JoinColumn(name = "po_im_id_image", nullable=true)
+	private Image image = null;
 	
-	@ManyToOne(optional=false)
+	@ManyToOne
 	@JoinColumn(name = "po_tp_id_type_post")
 	private TypePost typePost;
 	
@@ -65,6 +65,15 @@ public class Post extends Model {
 	
 	@Transient
 	private Integer countUserGo = null;
+	
+	@Transient
+	private Boolean userLiked = null;
+	
+	@Transient
+	private Boolean userCommented = null;
+	
+	@Transient
+	private Boolean userGo = null;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "po_date")
@@ -154,6 +163,30 @@ public class Post extends Model {
 
 	public void setDate(Calendar date) {
 		this.date = date;
+	}
+
+	public Boolean getUserLiked() {
+		return userLiked;
+	}
+
+	public void setUserLiked(Boolean userLiked) {
+		this.userLiked = userLiked;
+	}
+
+	public Boolean getUserCommented() {
+		return userCommented;
+	}
+
+	public void setUserCommented(Boolean userCommented) {
+		this.userCommented = userCommented;
+	}
+
+	public Boolean getUserGo() {
+		return userGo;
+	}
+
+	public void setUserGo(Boolean userGo) {
+		this.userGo = userGo;
 	}
 
 }
