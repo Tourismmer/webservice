@@ -10,6 +10,8 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Image;
+import com.tourismmer.app.model.ImageS3;
+import com.tourismmer.app.util.EncryptDecryptRSA;
 import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
 
@@ -97,6 +99,44 @@ public class ImageDAO {
 		}
 		
 		return imageParam;
+		
+	}
+	
+	public ImageS3 getIdS3Randown() {
+		ImageS3 image = new ImageS3();
+		try {
+			
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.save(image);
+			
+			image.setSequence(EncryptDecryptRSA.encrypt(image.getId().toString()));
+			
+			image.setStatusCode(Messages.SUCCESS.getStatusCode());
+			image.setStatusText(Messages.SUCCESS.getStatusText());
+			
+			session.getTransaction().commit();
+			
+			session.close();
+		
+		} catch (Exception e) {
+			
+			if(e.getCause() instanceof ConstraintViolationException) {
+				String msg = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+				image.setStatusCode(Messages.CONSTRAINT_VIOLATION_EXCEPTION.getStatusCode());
+				image.setStatusText(msg);
+			
+			} else {
+				image.setStatusCode(Messages.ERROR_QUERYING_DATABASE.getStatusCode());
+				image.setStatusText(e.getMessage());
+			}
+			
+			Log log = LogFactory.getLog(UserDAO.class);
+			log.error(e);
+		}
+		
+		return image;
 		
 	}
 

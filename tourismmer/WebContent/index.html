@@ -21,8 +21,8 @@ span {
 		$.ajax({
 
 			type: "POST",
-			data: '{"description":"Comment 1","author":{"id":1}, "post":{"id":20}}',
-			url: "http://localhost:8080/tourismmer/resources/comment",
+			data: '{"idUser":1,"idPost":21}',
+			url: "http://localhost:8080/tourismmer/resources/post/userGo",
 
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {

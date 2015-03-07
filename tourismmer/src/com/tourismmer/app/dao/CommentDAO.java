@@ -52,7 +52,22 @@ public class CommentDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			session.save(likeParam);
+			Query query = session.createQuery("from LikeComment o where o.idUser = :idUser and o.idComment = :idComment");
+			query.setParameter("idUser", likeParam.getIdUser());
+			query.setParameter("idComment", likeParam.getIdComment());
+			
+			// Se existe registro
+			if(query.list().size() >= 1) {
+				
+				Query queryDel = session.createQuery("DELETE from LikeComment o where o.idUser = :idUser and o.idComment = :idComment");
+				queryDel.setParameter("idUser", likeParam.getIdUser());
+				queryDel.setParameter("idComment", likeParam.getIdComment());
+				
+				queryDel.executeUpdate();
+				
+			} else {
+				session.save(likeParam);
+			}
 		
 			likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
 			likeParam.setStatusText(Messages.SUCCESS.getStatusText());

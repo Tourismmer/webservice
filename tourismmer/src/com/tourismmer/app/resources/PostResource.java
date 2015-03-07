@@ -67,7 +67,7 @@ public class PostResource {
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			PostDAO postDAO = new PostDAO();
-			likeParam = postDAO.addUserGo(likeParam);
+			likeParam = postDAO.join(likeParam);
 			
 		} else {
 			likeParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
