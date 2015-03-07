@@ -14,7 +14,7 @@ import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.constants.ViewConstants;
 import com.tourismmer.app.dao.CommentDAO;
 import com.tourismmer.app.model.Comment;
-import com.tourismmer.app.model.Like;
+import com.tourismmer.app.model.LikeComment;
 import com.tourismmer.app.model.ListComment;
 import com.tourismmer.app.util.Util;
 
@@ -51,7 +51,7 @@ public class CommentResource {
 	@Path("/like")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response like(Like likeParam) {
+	public Response like(LikeComment likeParam) {
 		
 		String invalidFields = null;
 		Object[] fields = null;

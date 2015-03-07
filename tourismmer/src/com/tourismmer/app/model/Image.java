@@ -22,7 +22,7 @@ public class Image extends Model {
 	@Column(name = "im_url")
 	private String url = ViewConstants.EMPYT;
 	
-	@OneToOne(optional=true)
+	@OneToOne
 	@JoinColumn(name = "im_us_id_owner")
 	private User owner;
 	

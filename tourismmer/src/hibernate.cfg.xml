@@ -5,13 +5,13 @@
 <hibernate-configuration>
  <session-factory>
   
-  <!-- <property name="hibernate.connection.url">jdbc:mysql://localhost/tour</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost/tour</property>
   <property name="hibernate.connection.username">root</property>
-  <property name="hibernate.connection.password">admin</property> -->
+  <property name="hibernate.connection.password">admin</property>
   
-  <property name="hibernate.connection.url">jdbc:mysql://mysql.ck8fukzm4p8g.sa-east-1.rds.amazonaws.com/tour</property>
+  <!-- <property name="hibernate.connection.url">jdbc:mysql://mysql.ck8fukzm4p8g.sa-east-1.rds.amazonaws.com/tour</property>
   <property name="hibernate.connection.username">tourismmer</property>
-  <property name="hibernate.connection.password">ffw$2014</property>
+  <property name="hibernate.connection.password">ffw$2014</property> -->
   
   <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -34,7 +34,8 @@
   <mapping class="com.tourismmer.app.model.Comment"></mapping>
   <mapping class="com.tourismmer.app.model.TypePost"></mapping>
   <mapping class="com.tourismmer.app.model.GroupUser"></mapping>
-  <mapping class="com.tourismmer.app.model.Like"></mapping>
+  <mapping class="com.tourismmer.app.model.LikeComment"></mapping>
+  <mapping class="com.tourismmer.app.model.LikePost"></mapping>
   <mapping class="com.tourismmer.app.model.UserGo"></mapping>
   
 </session-factory>

@@ -12,8 +12,8 @@ import javax.ws.rs.core.Response;
 import com.tourismmer.app.constants.Labels;
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.constants.ViewConstants;
-import com.tourismmer.app.dao.ImageDAO;
 import com.tourismmer.app.dao.PostDAO;
+import com.tourismmer.app.model.LikePost;
 import com.tourismmer.app.model.ListPost;
 import com.tourismmer.app.model.Post;
 import com.tourismmer.app.model.User;
@@ -32,32 +32,13 @@ public class PostResource {
 		Object[] fields = null;
 		String[] labels = null;
 		
-		fields = new Object[]{postParam.getDescription(), postParam.getAuthor().getId(), postParam.getGroup().getId()};
-		labels = new String[]{Labels.DESTINATION, Labels.ID_AUTHOR, Labels.ID_GROUP};
+		fields = new Object[]{postParam.getDescription(), postParam.getAuthor().getId(), postParam.getGroup().getId(), postParam.getTypePost()};
+		labels = new String[]{Labels.DESTINATION, Labels.ID_AUTHOR, Labels.ID_GROUP, Labels.TYPE_POST};
 		
 		invalidFields = Util.validateParametersRequired(fields, labels);
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			PostDAO postDAO = new PostDAO();
-			ImageDAO imageDAO = new ImageDAO();
-			
-			if(postParam.getImage() == null || postParam.getImage().getId() == null) {
-				postParam.setImage(imageDAO.getImageRandom());
-				
-			} else {
-				
-				fields = new Object[]{postParam.getImage().getUrl(), postParam.getImage().getOwner(), postParam.getImage().getOwner().getId()};
-				labels = new String[]{Labels.URL, Labels.OWNER, Labels.ID_OWNER};
-				
-				invalidFields = Util.validateParametersRequired(fields, labels);
-				
-				if(Util.isEmptyOrNull(invalidFields)) { 
-					imageDAO.create(postParam.getImage());
-					postParam.setImage(imageDAO.getImageRandom());
-				}
-				
-			}
-			
 			postParam.getUserList().add(new User(postParam.getAuthor().getId()));
 			postParam = postDAO.create(postParam);
 			
@@ -73,7 +54,7 @@ public class PostResource {
 	@Path("/userGo")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response like(UserGo likeParam) {
+	public Response join(UserGo likeParam) {
 		
 		String invalidFields = null;
 		Object[] fields = null;
@@ -118,10 +99,10 @@ public class PostResource {
 	}
 	
 	@GET
-	@Path("/getListPost/{idGroup}/{amount}/{firstResult}")
+	@Path("/getListPost/{idGroup}/{idUser}/{amount}/{firstResult}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ListPost getListPost(@PathParam("idGroup") Long idGroup, @PathParam(Labels.AMOUNT) Integer amount, @PathParam(Labels.FIRST_RESULT) Integer firstResult) {
+	public ListPost getListPost(@PathParam("idGroup") Long idGroup, @PathParam("idUser") Long idUser, @PathParam(Labels.AMOUNT) Integer amount, @PathParam(Labels.FIRST_RESULT) Integer firstResult) {
 		
 		ListPost listPost = new ListPost();
 		
@@ -136,7 +117,7 @@ public class PostResource {
 		
 		if(Util.isEmptyOrNull(invalidFields)) {
 			PostDAO dao = new PostDAO();
-			listPost = dao.getListPost(idGroup, amount, firstResult);
+			listPost = dao.getListPost(idGroup, amount, firstResult, idUser);
 			
 		} else {
 			listPost.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
@@ -145,6 +126,33 @@ public class PostResource {
 		
 
 		return listPost;
+	}
+	
+	@POST
+	@Path("/like")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response like(LikePost likeParam) {
+		
+		String invalidFields = null;
+		Object[] fields = null;
+		String[] labels = null;
+		
+		fields = new Object[]{likeParam.getIdUser(), likeParam.getIdPost()};
+		labels = new String[]{Labels.ID_USER, Labels.ID_POST};
+		
+		invalidFields = Util.validateParametersRequired(fields, labels);
+		
+		if(Util.isEmptyOrNull(invalidFields)) {
+			PostDAO postDAO = new PostDAO();
+			likeParam = postDAO.like(likeParam);
+			
+		} else {
+			likeParam.setStatusCode(Messages.PARAMETERS_REQUIRED.getStatusCode());
+			likeParam.setStatusText(Messages.PARAMETERS_REQUIRED.getStatusText() + ViewConstants.COLON_SPACE + invalidFields);
+		}
+
+		return Response.status(200).entity(likeParam).build();
 	}
 	
 

@@ -11,7 +11,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.tourismmer.app.constants.Messages;
 import com.tourismmer.app.model.Comment;
-import com.tourismmer.app.model.Like;
+import com.tourismmer.app.model.LikeComment;
 import com.tourismmer.app.model.ListComment;
 import com.tourismmer.app.util.HibernateUtil;
 import com.tourismmer.app.util.Util;
@@ -45,7 +45,7 @@ public class CommentDAO {
 		
 	}
 	
-	public Like like(Like likeParam) {
+	public LikeComment like(LikeComment likeParam) {
 		
 		try {
 			
