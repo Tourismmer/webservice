@@ -64,13 +64,15 @@ public class PostDAO {
 				queryDel.setParameter("idPost", userGoParam.getIdPost());
 				
 				queryDel.executeUpdate();
+				userGoParam.setStatusCode(Messages.SUCCESS_UNDO.getStatusCode());
+				userGoParam.setStatusText(Messages.SUCCESS_UNDO.getStatusText());
 				
 			} else {
 				session.save(userGoParam);
+				userGoParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+				userGoParam.setStatusText(Messages.SUCCESS.getStatusText());
 			}
 		
-			userGoParam.setStatusCode(Messages.SUCCESS.getStatusCode());
-			userGoParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
 			session.close();
@@ -252,12 +254,17 @@ public class PostDAO {
 				
 				queryDel.executeUpdate();
 				
+				likeParam.setStatusCode(Messages.SUCCESS_UNDO.getStatusCode());
+				likeParam.setStatusText(Messages.SUCCESS_UNDO.getStatusText());
+				
 			} else {
 				session.save(likeParam);
+				
+				likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+				likeParam.setStatusText(Messages.SUCCESS.getStatusText());
+				
 			}
 			
-			likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
-			likeParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
 			session.close();

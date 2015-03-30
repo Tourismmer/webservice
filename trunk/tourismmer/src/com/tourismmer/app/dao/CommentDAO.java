@@ -65,12 +65,15 @@ public class CommentDAO {
 				
 				queryDel.executeUpdate();
 				
+				likeParam.setStatusCode(Messages.SUCCESS_UNDO.getStatusCode());
+				likeParam.setStatusText(Messages.SUCCESS_UNDO.getStatusText());
+				
 			} else {
 				session.save(likeParam);
+				likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
+				likeParam.setStatusText(Messages.SUCCESS.getStatusText());
 			}
 		
-			likeParam.setStatusCode(Messages.SUCCESS.getStatusCode());
-			likeParam.setStatusText(Messages.SUCCESS.getStatusText());
 			
 			session.getTransaction().commit();
 			session.close();
