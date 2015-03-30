@@ -9,7 +9,8 @@ public enum Messages {
 	USER_NOT_REGISTERED ("005","User not Registered"),
 	QUERY_NOT_FOUND ("006","Record not Found"),
 	CONSTRAINT_VIOLATION_EXCEPTION ("007","Constraint Violation Exception"),
-	ERROR_SEND_EMAIL ("008","Error Send Email");
+	ERROR_SEND_EMAIL ("008","Error Send Email"),
+	SUCCESS_UNDO ("009","Success undo");
 	
 	private final String statusCode;
 	
